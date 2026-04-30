@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英语词语听写</title>
+    
+    <!-- PWA 支持 -->
+    <meta name="theme-color" content="#4361ee">
+    <meta name="description" content="小学生英语听写和语文词语听写训练工具">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%234361ee' width='100' height='100' rx='20'/><text x='50' y='65' font-size='50' text-anchor='middle' fill='white'>📝</text></svg>">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f5f7fa;
+            color: #2c3e50;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(67, 97, 238, 0.2);
+        }
+
+        .main-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+
+        .main-tab {
+            padding: 10px 24px;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            background: transparent;
+            border: none;
+            color: #6c757d;
+            font-size: 15px;
+        }
+
+        .main-tab:hover {
+            color: #4361ee;
+            background: rgba(67, 97, 238, 0.1);
+        }
+
+        .main-tab.active {
+            background: white;
+            color: #4361ee;
+            border-bottom: 3px solid #4361ee;
+        }
+
+        .mode-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .mode-tab {
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid transparent;
+        }
+
+        .mode-tab:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .mode-tab.active {
+            background: white;
+            color: #4361ee;
+            border-color: #4361ee;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e9ecef;
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #4361ee;
+            color: #2c3e50;
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #495057;
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background: #f8f9fa;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #4361ee;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary {
+            background: #4361ee;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #3a0ca3;
+        }
+
+        .btn-success {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-warning {
+            background: #f39c12;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 13px;
+        }
+        
+        .btn.active {
+            background: #28a745 !important;
+            color: white !important;
+            box-shadow: 0 2px 8px rgba(40, 167, 69, 0.4);
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .word-counter {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-bottom: 12px;
+        }
+
+        .word-list-container {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+
+        .word-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border-bottom: 1px solid #e9ecef;
+            transition: background 0.2s;
+            gap: 12px;
+        }
+
+        .word-item:hover {
+            background: #e3f2fd;
+        }
+
+        .word-item.has-errors {
+            background: #fff3cd;
+        }
+
+        .word-item:last-child {
+            border-bottom: none;
+        }
+
+        .word-checkbox {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .word-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .word-text {
+            font-weight: 600;
+            font-size: 1rem;
+            color: #2c3e50;
+            margin-bottom: 4px;
+        }
+
+        .word-details {
+            font-size: 0.85rem;
+            color: #6c757d;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .word-group-tag {
+            font-size: 0.75rem;
+            color: #9b59b6;
+            background: #f3e5f5;
+            padding: 2px 8px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 4px;
+        }
+
+        .word-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dictation-area {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .dictation-display {
+            background: white;
+            border-radius: 12px;
+            padding: 40px 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .current-word {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #4361ee;
+            margin-bottom: 15px;
+        }
+
+        .word-hint {
+            font-size: 1.2rem;
+            color: #6c757d;
+            margin-bottom: 20px;
+        }
+
+        .dictation-input {
+            width: 100%;
+            max-width: 400px;
+            padding: 15px;
+            font-size: 1.5rem;
+            text-align: center;
+            border: 2px solid #4361ee;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #4361ee;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+
+        .error-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .error-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 12px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .error-item:last-child {
+            border-bottom: none;
+        }
+
+        .error-count {
+            background: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4361ee, #3a0ca3);
+            transition: width 0.5s;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 16px 24px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: translateX(400px);
+            transition: transform 0.3s;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: #2ecc71;
+        }
+
+        .notification.error {
+            background: #e74c3c;
+        }
+
+        .notification.info {
+            background: #4361ee;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        .radio-group input[type="radio"] {
+            width: auto;
+            margin-right: 6px;
+        }
+
+        /* 分组管理样式 */
+        .group-list {
+            max-height: 250px;
+            overflow-y: auto;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+
+        .group-item {
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .group-item:last-child {
+            border-bottom: none;
+        }
+
+        .group-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .group-header:hover {
+            background: #e3f2fd;
+        }
+
+        .group-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .group-name {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .group-count {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+
+        .group-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .group-words {
+            padding: 10px 16px 10px 40px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .group-word-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            font-size: 0.9rem;
+        }
+
+        /* 自然拼读法样式 */
+        .phonics-section {
+            margin-top: 20px;
+        }
+
+        .phonics-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .phonics-header h3 {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .phonics-intro {
+            color: #6c757d;
+            font-size: 0.95rem;
+        }
+
+        .phonics-search {
+            margin-bottom: 20px;
+        }
+
+        .phonics-search input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .phonics-tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .phonics-tab {
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            background: #f8f9fa;
+            border: 2px solid transparent;
+            color: #6c757d;
+        }
+
+        .phonics-tab:hover {
+            background: #e3f2fd;
+        }
+
+        .phonics-tab.active {
+            background: var(--tab-color, #4361ee);
+            color: white;
+        }
+
+        .phonics-rules-container {
+            display: grid;
+            gap: 15px;
+        }
+
+        .phonics-rule-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid #4361ee;
+        }
+
+        .phonics-rule-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .phonics-pattern {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .phonics-category-tag {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            background: #e3f2fd;
+            color: #4361ee;
+            border-radius: 10px;
+        }
+
+        .phonics-description {
+            color: #6c757d;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        .phonics-sounds {
+            display: grid;
+            gap: 12px;
+        }
+
+        .phonics-sound-item {
+            background: white;
+            padding: 12px 15px;
+            border-radius: 8px;
+        }
+
+        .phonics-sound-label {
+            font-size: 0.9rem;
+            color: #495057;
+            margin-bottom: 8px;
+        }
+
+        .phonics-sound-label strong {
+            color: #e74c3c;
+            font-size: 1.1rem;
+        }
+
+        .phonics-examples {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .phonics-example {
+            background: #e3f2fd;
+            color: #4361ee;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .phonics-example:hover {
+            background: #4361ee;
+            color: white;
+        }
+
+        .phonics-actions {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        /* 拼读练习样式 */
+        .phonics-practice {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .phonics-practice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .phonics-practice-header h4 {
+            font-size: 1.2rem;
+            color: #2c3e50;
+        }
+
+        .phonics-exercise-card {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .phonics-progress {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-bottom: 20px;
+        }
+
+        .phonics-exercise-word {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #4361ee;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+
+        .play-hint {
+            display: block;
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+
+        .phonics-hint {
+            color: #6c757d;
+            margin-bottom: 10px;
+        }
+
+        .phonics-sound-question {
+            font-size: 1.1rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .phonics-sound-options {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .phonics-option {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: 2px solid #4361ee;
+            border-radius: 10px;
+            background: white;
+            color: #4361ee;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .phonics-option:hover {
+            background: #4361ee;
+            color: white;
+        }
+
+        .phonics-result {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .phonics-result h4 {
+            font-size: 1.8rem;
+            color: #2ecc71;
+            margin-bottom: 15px;
+        }
+
+        .phonics-result p {
+            font-size: 1.1rem;
+            color: #6c757d;
+            margin-bottom: 10px;
+        }
+
+        .phonics-result-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        /* 导出选项样式 */
+        .export-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .current-word {
+                font-size: 2rem;
+            }
+            
+            .phonics-tabs {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                padding-bottom: 15px;
+            }
+            
+            .phonics-tab {
+                white-space: nowrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="main-tabs">
+                <button class="main-tab active" data-tab="dictation" onclick="switchMainTab('dictation')">📝 听写训练</button>
+                <button class="main-tab" data-tab="phonics" onclick="switchMainTab('phonics')">🔤 自然拼读</button>
+            </div>
+            
+            <div class="mode-tabs" id="modeTabsContainer">
+                <button class="mode-tab active" data-mode="english" onclick="switchMode('english')">🇬🇧 英语听写</button>
+                <button class="mode-tab" data-mode="chinese" onclick="switchMode('chinese')">🇨🇳 语文听写</button>
+            </div>
+            <h1 class="app-title">🎓 英语词语听写</h1>
+            <p class="app-subtitle">英语词语听写训练系统</p>
+        </div>
+
+        <!-- 听写训练主界面 -->
+        <div id="dictationSection">
+            <div class="main-grid">
+                <!-- 左侧：主要内容 -->
+                <div>
+                    <!-- 词库管理 -->
+                    <div class="card">
+                        <h2>📚 词库管理</h2>
+                        
+                        <div class="form-group">
+                            <label>添加新单词</label>
+                            <div style="display: flex; gap: 10px; align-items: flex-start;">
+                                <textarea id="bulkImport" class="form-control" rows="3" placeholder="输入英文单词，每行一个（如：&#10;apple&#10;book&#10;cat）" style="flex: 1;"></textarea>
+                                <button class="btn btn-primary" onclick="bulkImportWords()" style="margin-top: 0; border-radius: 4px; width: 44px; height: 44px; padding: 0; display: flex; align-items: center; justify-content: center;">导入</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group" id="englishPresets">
+                            <label>快速导入</label>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
+                                <button class="btn btn-small btn-primary" onclick="importPreset('unit1')">📖 第一单元</button>
+                                <button class="btn btn-small btn-primary" onclick="importPreset('unit2')">📖 第二单元</button>
+                                <button class="btn btn-small btn-primary" onclick="importPreset('unit3')">📖 第三单元</button>
+                                <button class="btn btn-small btn-primary" onclick="importPreset('unit4')">📖 第四单元</button>
+                                <button class="btn btn-small btn-primary" onclick="importPreset('unit5')">📖 第五单元</button>
+                            </div>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
+                                <button class="btn btn-small btn-success" onclick="importPreset('months')">📅 月份词汇</button>
+                                <button class="btn btn-small btn-success" onclick="importPreset('seasons')">🌸 季节词汇</button>
+                                <button class="btn btn-small btn-success" onclick="importPreset('weeks')">📅 星期词汇</button>
+                            </div>
+                            <div id="customWordBooks" style="display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px;"></div>
+                        </div>
+
+                        <!-- 语文模式小词库区域 -->
+                        <div class="form-group" id="chinesePresets" style="display: none;">
+                            <label>快速导入</label>
+                            <div id="chineseCustomWordBooks" style="display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px;"></div>
+                        </div>
+
+                        
+
+                        <div class="word-counter" style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+                            <span>词库单词数：<strong id="totalWordCount">0</strong></span>
+                            <span>|</span>
+                            <span>已选择：<strong id="selectedCount">0</strong></span>
+                            <input type="text" id="wordSearchInput" class="form-control" placeholder="🔍 搜索..." oninput="handleWordSearch(this.value)" style="max-width: 160px; padding: 6px 12px; font-size: 14px;">
+                        </div>
+
+                        <div style="margin-bottom: 15px;">
+                            <button class="btn btn-small btn-secondary" id="selectAllBtn" onclick="toggleWordSelectAll()">☑️ 全选</button>
+                            <button class="btn btn-small btn-secondary" id="sortWordsBtn" onclick="toggleWordSort()">🔤 按字母排序</button>
+                            <button class="btn btn-small btn-info" onclick="promptSaveCustomBook()">📚 另存为小词库</button>
+                            <button class="btn btn-small btn-danger" onclick="clearSelectedWords()" style="float: right;">清理词库</button>
+                        </div>
+
+                        <div class="word-list-container" id="wordList">
+                            <!-- 单词列表 -->
+                        </div>
+                    </div>
+
+                    
+
+                    <!-- 听写区域 -->
+                    <div class="card" id="dictationCard">
+                        <h2>🎯 听写练习</h2>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-value" id="currentNumber">0</div>
+                                <div class="stat-label">当前序号</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value" id="totalNumber">0</div>
+                                <div class="stat-label">总计</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value" id="correctNumber">0</div>
+                                <div class="stat-label">正确</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value" id="accuracyRate">0%</div>
+                                <div class="stat-label">正确率</div>
+                            </div>
+                        </div>
+
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                        </div>
+
+                        <div class="dictation-area">
+                            <div class="dictation-display">
+                                <div class="current-word" id="displayWord">准备开始</div>
+                                <div class="word-hint" id="displayHint"></div>
+                            </div>
+                            
+                            <input type="text" id="answerInput" class="dictation-input" placeholder="输入听到的单词" onkeypress="handleEnter(event)">
+                            
+                            <div style="margin-top: 20px;">
+                                <button class="btn btn-primary" onclick="previousWord()" id="prevBtn" disabled>⏮️ 上一个</button>
+                                <button class="btn btn-success" onclick="togglePlayPause()" id="playPauseBtn" disabled>▶️ 播放</button>
+                                <button class="btn btn-primary" onclick="nextWord()" id="nextBtn" disabled>⏭️ 下一个</button>
+                                <button class="btn btn-secondary" onclick="replayWord()" id="repeatBtn" disabled>🔊 复读</button>
+                                <button class="btn btn-warning" onclick="toggleShowWord()" id="showWordBtn">👁️ 显示</button>
+                            </div>
+                        </div>
+
+                        <div style="text-align: center; margin-top: 20px;">
+                            <button class="btn btn-success" id="startDictationBtn" onclick="startDictation()">开始听写</button>
+                            <button class="btn btn-danger hidden" id="stopDictationBtn" onclick="stopDictation()">结束听写</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右侧：设置和错题本 -->
+                <div>
+                    <!-- 听写设置 -->
+                    <div class="card">
+                        <h2>⚙️ 听写设置</h2>
+                        
+                        <div class="form-group">
+                            <label>听写范围</label>
+                            <div class="radio-group">
+                                <label><input type="radio" name="range" value="all" checked> 全部单词</label>
+                                <label><input type="radio" name="range" value="selected"> 选中单词</label>
+                                <label><input type="radio" name="range" value="errors"> 错词本</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>播放顺序</label>
+                            <div class="radio-group">
+                                <label><input type="radio" name="order" value="random"> 随机</label>
+                                <label><input type="radio" name="order" value="sequential" checked> 顺序</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>播放次数</label>
+                            <select id="playCount" class="form-control">
+                                <option value="0">不朗读</option>
+                                <option value="1">1次</option>
+                                <option value="2" selected>2次</option>
+                                <option value="3">3次</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>播放间隔（秒）</label>
+                            <select id="intervalTime" class="form-control">
+                                <option value="0">不自动播放</option>
+                                <option value="5" selected>5秒</option>
+                                <option value="10">10秒</option>
+                                <option value="15">15秒</option>
+                                <option value="20">20秒</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>朗读速度</label>
+                            <select id="speechRate" class="form-control">
+                                <option value="0.4">极慢</option>
+                                <option value="0.6">慢速</option>
+                                <option value="0.8" selected>正常</option>
+                                <option value="1">快速</option>
+                                <option value="1.2">极快</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>显示选项</label>
+                            <div style="display: flex; flex-direction: column; gap: 8px;">
+                                <label><input type="checkbox" id="showMeaning"> 显示释义</label>
+                                <label><input type="checkbox" id="showWord"> 显示单词</label>
+                                <label><input type="checkbox" id="showExamples"> 显示例句</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>输入模式</label>
+                            <div class="radio-group">
+                                <label><input type="radio" name="inputMode" value="in-app"> 应用内输入</label>
+                                <label><input type="radio" name="inputMode" value="offline" checked> 线下听写</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 错词本 -->
+                    <div class="card">
+                        <h2>❌ 错词本</h2>
+                        <div class="error-list" id="errorList">
+                            <p style="text-align: center; color: #6c757d; padding: 20px;">暂无错词</p>
+                        </div>
+                        <div style="margin-top: 15px;">
+                            <button class="btn btn-small btn-secondary" id="sortErrorsBtn" onclick="toggleErrorSort()">🔤 按字母排序</button>
+                            <button class="btn btn-small btn-danger" onclick="clearErrors()">清空错词本</button>
+                        </div>
+                    </div>
+
+                    <!-- 数据管理 -->
+                    <div class="card">
+                        <h2>💾 数据管理</h2>
+                        <p style="color: #6c757d; font-size: 0.9rem; margin-bottom: 15px;">
+                            支持多种格式导出，方便打印复习
+                        </p>
+                        <div class="export-buttons">
+                            <button class="btn btn-small btn-primary" onclick="exportWordList()">📄 导出词库</button>
+                            <button class="btn btn-small btn-warning" onclick="exportErrorBook()">📋 导出错词本</button>
+                            <button class="btn btn-small btn-success" onclick="exportDictationRecord()">📝 导出听写记录</button>
+                        </div>
+                        <p style="color: #9b59b6; font-size: 0.85rem; margin-top: 10px;">
+                            💡 提示：导出时可选择TXT、CSV或JSON格式
+                        </p>
+                        <div style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed #dee2e6;">
+                            <p style="color: #6c757d; font-size: 0.9rem; margin-bottom: 10px;">数据备份与恢复</p>
+                            <div class="export-buttons">
+                                <button class="btn btn-small btn-info" onclick="showBackupModal()">💾 备份数据</button>
+                                <button class="btn btn-small btn-secondary" onclick="importBackupFromFile()">📂 恢复数据</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 自然拼读法界面 -->
+        <div id="phonicsSection" class="hidden">
+            <div class="card">
+                <div id="phonicsContent">
+                    <!-- 自然拼读法内容将由JS渲染 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 通知 -->
+    <div class="notification hidden" id="notification"></div>
+
+    <!-- 备份导出弹窗 -->
+    <div class="modal hidden" id="backupModal">
+        <div class="modal-content" style="display: none; background: white; padding: 25px; border-radius: 10px; max-width: 450px; margin: 100px auto; box-shadow: 0 5px 20px rgba(0,0,0,0.3);">
+            <h3 style="margin-top: 0; color: #2c3e50;">💾 备份数据</h3>
+            <p style="color: #666; font-size: 0.9rem;">选择要包含在备份中的数据类型：</p>
+            <div style="margin: 15px 0; line-height: 1.8;">
+                <label style="display: block;"><input type="checkbox" id="bk_englishWords"> 英语词库</label>
+                <label style="display: block;"><input type="checkbox" id="bk_englishErrors"> 英语错词本</label>
+                <label style="display: block;"><input type="checkbox" id="bk_englishCustomBooks"> 英语小词库</label>
+                <hr style="margin: 10px 0; border: none; border-top: 1px solid #eee;">
+                <label style="display: block;"><input type="checkbox" id="bk_chineseWords"> 语文词库</label>
+                <label style="display: block;"><input type="checkbox" id="bk_chineseErrors"> 语文错词本</label>
+                <label style="display: block;"><input type="checkbox" id="bk_chineseCustomBooks"> 语文小词库</label>
+            </div>
+            <div style="text-align: right; margin-top: 20px;">
+                <button class="btn btn-small btn-secondary" onclick="closeBackupModal()">取消</button>
+                <button class="btn btn-small btn-primary" onclick="doBackupExport()">导出</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 导入预览弹窗 -->
+    <div class="modal hidden" id="importPreviewModal">
+        <div class="modal-content" style="display: none; background: white; padding: 25px; border-radius: 10px; max-width: 500px; margin: 100px auto; box-shadow: 0 5px 20px rgba(0,0,0,0.3);">
+            <h3 style="margin-top: 0; color: #2c3e50;">📂 导入数据</h3>
+            <div class="backup-info" style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 15px 0; font-size: 0.9rem;"></div>
+            <p style="color: #666; font-size: 0.9rem;">选择要导入的数据类型：</p>
+            <div style="margin: 10px 0; line-height: 1.8;">
+                <label style="display: block;"><input type="checkbox" id="imp_englishWords" checked> 英语词库</label>
+                <label style="display: block;"><input type="checkbox" id="imp_englishErrors" checked> 英语错词本</label>
+                <label style="display: block;"><input type="checkbox" id="imp_englishCustomBooks" checked> 英语小词库</label>
+                <hr style="margin: 10px 0; border: none; border-top: 1px solid #eee;">
+                <label style="display: block;"><input type="checkbox" id="imp_chineseWords" checked> 语文词库</label>
+                <label style="display: block;"><input type="checkbox" id="imp_chineseErrors" checked> 语文错词本</label>
+                <label style="display: block;"><input type="checkbox" id="imp_chineseCustomBooks" checked> 语文小词库</label>
+            </div>
+            <div style="background: #fff3cd; padding: 10px; border-radius: 5px; margin: 10px 0; font-size: 0.85rem; color: #856404;">
+                <strong>合并模式：</strong>新数据与现有数据合并（相同数据不会覆盖）
+            </div>
+            <div style="text-align: right; margin-top: 20px;">
+                <button class="btn btn-small btn-secondary" onclick="closeImportPreviewModal()">取消</button>
+                <button class="btn btn-small btn-warning" onclick="doImportReplace()">替换全部</button>
+                <button class="btn btn-small btn-primary" onclick="doImportMerge()">合并导入</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 脚本引入顺序很重要 -->
+    <script src="presets.js"></script>
+    <script src="data.js"></script>
+    <script src="audio.js"></script>
+    <script src="ui.js"></script>
+    <script src="phonics.js"></script>
+    <script src="app.js"></script>
+    
+    <script>
+        // 主Tab切换
+        function switchMainTab(tab) {
+            document.querySelectorAll('.main-tab').forEach(t => {
+                t.classList.toggle('active', t.dataset.tab === tab);
+            });
+            
+            const dictationSection = document.getElementById('dictationSection');
+            const phonicsSection = document.getElementById('phonicsSection');
+            const modeTabsContainer = document.getElementById('modeTabsContainer');
+            
+            if (tab === 'dictation') {
+                dictationSection.classList.remove('hidden');
+                phonicsSection.classList.add('hidden');
+                modeTabsContainer.classList.remove('hidden');
+            } else {
+                dictationSection.classList.add('hidden');
+                phonicsSection.classList.remove('hidden');
+                modeTabsContainer.classList.add('hidden');
+                renderPhonicsLearn();
+            }
+        }
+        
+        // 添加到分组弹窗
+        function showAddToGroupDialog() {
+            const selectedIds = Array.from(App.selectedWords);
+            if (selectedIds.length === 0) {
+                showNotification('请先选择要添加的单词', 'error');
+                return;
+            }
+            
+            const groups = App.currentMode === 'english' ? App.englishGroups : App.chineseGroups;
+            const groupKeys = Object.keys(groups);
+            
+            if (groupKeys.length === 0) {
+                showNotification('请先创建一个分组', 'info');
+                return;
+            }
+            
+            let options = groupKeys.map(key => `<option value="${key}">${groups[key].name}</option>`).join('');
+            const groupId = prompt(`选择分组:\n${groupKeys.map((key, i) => `${i + 1}. ${groups[key].name}`).join('\n')}\n\n请输入分组名称:`);
+            
+            if (!groupId || !groups[groupId]) {
+                showNotification('未选择有效分组', 'error');
+                return;
+            }
+            
+            selectedIds.forEach(id => addWordToGroup(id, groupId));
+            showNotification(`已将 ${selectedIds.length} 个单词添加到分组`, 'success');
+        }
+    </script>
+</body>
+</html>
