@@ -24,6 +24,11 @@
             color: #2c3e50;
             line-height: 1.6;
             min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        html {
+            overflow-x: hidden;
         }
 
         .container {
@@ -216,6 +221,11 @@
         }
 
         .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-info {
             background: #6c757d;
             color: white;
         }
@@ -819,31 +829,591 @@
             margin-top: 15px;
         }
 
+        /* 移动端专属元素 - 桌面端默认隐藏 */
+        .word-meaning-inline,
+        .word-error-badge,
+        .word-expand-hint {
+            display: none;
+        }
+
+        /* 快速导入折叠面板 - 基础样式 */
+        .presets-toggle-label {
+            font-weight: 500;
+            color: #495057;
+            font-size: 0.95rem;
+        }
+
+        .presets-arrow {
+            font-size: 0.7rem;
+            color: #6c757d;
+            transition: transform 0.2s;
+        }
+
+        .presets-arrow.open {
+            transform: rotate(180deg);
+        }
+
+        .presets-collapsible {
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .presets-collapsible.open {
+            max-height: 500px;
+            margin-top: 8px;
+        }
+
+        /* 卡片折叠面板 - 基础样式 */
+        .card-toggle {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            user-select: none;
+        }
+
+        .card-arrow {
+            font-size: 0.7rem;
+            color: #6c757d;
+            transition: transform 0.2s;
+            display: none; /* 电脑端默认隐藏箭头 */
+        }
+
+        .card-arrow.open {
+            transform: rotate(180deg);
+        }
+
+        .card-collapsible {
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .card-collapsible.open {
+            max-height: 2000px;
+        }
+
         @media (max-width: 768px) {
+            /* ===== 根级防溢出 ===== */
+            html, body {
+                max-width: 100vw;
+                width: 100%;
+                overflow-x: hidden;
+            }
+
+            /* 手机端默认折叠快速导入 */
+            .presets-collapsible {
+                max-height: 0;
+            }
+
+            .presets-collapsible.open {
+                max-height: 500px;
+                margin-top: 8px;
+            }
+
+            /* 手机端卡片折叠 - 默认折叠 */
+            .card-collapsible {
+                max-height: 0;
+            }
+
+            .card-collapsible.open {
+                max-height: 2000px;
+            }
+
+            /* 手机端显示折叠箭头 */
+            .card-arrow {
+                display: inline;
+            }
+
+            /* ===== 通用 ===== */
+            .container {
+                padding: 10px;
+                max-width: 100%;
+                width: 100%;
+                overflow-x: hidden;
+            }
+
+            /* 防止所有子元素超出屏幕 - 全面覆盖 */
+            .header, .main-grid, .card, .form-group, .radio-group, .word-counter,
+            .dictation-area, .dictation-display, .settings-grid,
+            .export-buttons, .error-list, .word-list-container,
+            .stats-grid, .stat-card, .dictation-controls, .word-toolbar,
+            .word-item, .error-item, .progress-bar,
+            .phonics-section, .phonics-rule-card, .phonics-rules-container {
+                max-width: 100%;
+                overflow-x: hidden;
+            }
+
+            /* form-group 内的div容器也防溢出（覆盖内联flex） */
+            .form-group > div {
+                max-width: 100%;
+                overflow-x: hidden;
+            }
+
+            /* 所有表单控件防溢出 */
+            .form-control, input[type="text"], input[type="search"],
+            textarea, select {
+                max-width: 100%;
+            }
+
+            /* 文本防溢出 */
+            .word-text, .word-details, .word-meaning-inline,
+            h1, h2, h3, p, label, span {
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+
+            .header {
+                padding: 15px;
+                margin-bottom: 15px;
+                border-radius: 8px;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .header p {
+                font-size: 0.9rem;
+            }
+
+            /* 主Tab和模式Tab允许换行 */
+            .main-tabs {
+                margin-bottom: 10px;
+                gap: 6px;
+                flex-wrap: wrap;
+            }
+
+            .main-tab {
+                padding: 8px 14px;
+                font-size: 13px;
+            }
+
+            .mode-tabs {
+                margin-bottom: 10px;
+                gap: 6px;
+                flex-wrap: wrap;
+            }
+
+            .mode-tab {
+                padding: 6px 14px;
+                font-size: 13px;
+            }
+
             .main-grid {
                 grid-template-columns: 1fr;
+                gap: 15px;
+                max-width: 100%;
+                overflow-x: hidden;
             }
-            
+
+            .main-grid > div {
+                max-width: 100%;
+                min-width: 0;
+                overflow-x: hidden;
+            }
+
+            .card {
+                padding: 15px;
+                border-radius: 8px;
+                margin-bottom: 12px;
+            }
+
+            .card h2 {
+                font-size: 1.1rem;
+                margin-bottom: 12px;
+                padding-bottom: 8px;
+            }
+
+            .card h3 {
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+
+            .form-group {
+                margin-bottom: 12px;
+            }
+
+            .form-group label {
+                font-size: 0.9rem;
+                margin-bottom: 6px;
+            }
+
+            .form-control {
+                padding: 10px 12px;
+                font-size: 15px; /* 防止iOS自动缩放 */
+            }
+
+            .btn {
+                padding: 10px 16px;
+                font-size: 14px;
+            }
+
+            .btn-small {
+                padding: 5px 10px;
+                font-size: 12px;
+            }
+
             .settings-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
             }
-            
+
+            .stat-card {
+                padding: 12px;
+            }
+
+            .stat-value {
+                font-size: 1.4rem;
+            }
+
+            .stat-label {
+                font-size: 0.75rem;
+            }
+
+            /* ===== 词库单词条目 - 紧凑布局 ===== */
+            .word-item {
+                padding: 6px 8px;
+                gap: 4px;
+                cursor: pointer;
+                flex-wrap: nowrap; /* 不换行，按钮紧跟单词 */
+                align-items: center;
+            }
+
+            .word-info {
+                flex: 1;
+                min-width: 0;
+                overflow: hidden;
+            }
+
+            /* 按钮行不换行，紧跟右侧 */
+            .word-actions {
+                flex-shrink: 0;
+                gap: 4px;
+            }
+
+            .word-actions .btn-small {
+                padding: 3px 8px;
+                font-size: 12px;
+            }
+
+            /* 手机端显示行内释义、徽章、展开箭头 */
+            .word-meaning-inline {
+                display: inline;
+                font-weight: 400;
+                font-size: 0.85rem;
+                color: #6c757d;
+                margin-left: 6px;
+            }
+
+            .word-error-badge {
+                display: inline-block;
+                background: #e74c3c;
+                color: white;
+                font-size: 0.65rem;
+                padding: 0px 4px;
+                border-radius: 8px;
+                margin-left: 4px;
+                vertical-align: middle;
+            }
+
+            .word-expand-hint {
+                display: inline-flex;
+                color: #adb5bd;
+                font-size: 1rem;
+                font-weight: bold;
+                transition: transform 0.2s;
+                flex-shrink: 0;
+                align-items: center;
+            }
+
+            .word-checkbox {
+                width: 18px;
+                height: 18px;
+            }
+
+            .word-text {
+                font-size: 0.95rem;
+                margin-bottom: 0;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            /* 展开后：词语区占满宽度，按钮换到下一行 */
+            .word-item.expanded {
+                flex-wrap: wrap;
+            }
+
+            .word-item.expanded .word-info {
+                min-width: 100%;
+            }
+
+            .word-item.expanded .word-actions {
+                width: 100%;
+                justify-content: flex-end;
+                padding-top: 4px;
+                border-top: 1px solid #f0f0f0;
+                margin-top: 2px;
+            }
+
+            /* 展开后允许完整显示 */
+            .word-item.expanded .word-text {
+                white-space: normal;
+                overflow: visible;
+                margin-bottom: 4px;
+            }
+
+            /* 手机端隐藏详情行（词性、完整释义、例句） */
+            .word-detail-extra {
+                display: none;
+            }
+
+            /* 展开后显示详情 - 紧凑布局 */
+            .word-item.expanded .word-detail-extra {
+                display: block;
+                margin-top: 2px;
+                font-size: 0.8rem;
+            }
+
+            .word-item.expanded .word-expand-hint {
+                transform: rotate(90deg);
+            }
+
+            /* ===== 搜索框和小词库按钮 ===== */
+            .word-counter {
+                flex-wrap: wrap;
+                gap: 8px !important;
+            }
+
+            .word-counter #wordSearchInput {
+                max-width: none;
+                width: 100%;
+                order: 10;
+                margin-top: 4px;
+            }
+
+            .word-counter .btn-save-book {
+                width: 100%;
+                text-align: center;
+            }
+
+            /* 词库操作按钮行 */
+            .word-toolbar {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+
+            .word-toolbar .btn-small {
+                flex: 1;
+                min-width: 0;
+                text-align: center;
+                font-size: 11px;
+                padding: 5px 6px;
+            }
+
+            /* ===== 听写区域 ===== */
+            .dictation-area {
+                padding: 15px;
+                margin: 12px 0;
+                border-radius: 8px;
+            }
+
+            .dictation-display {
+                padding: 20px 15px;
+                margin-bottom: 15px;
+                border-radius: 8px;
+                min-height: 120px;
+            }
+
             .current-word {
                 font-size: 2rem;
             }
-            
+
+            .word-hint {
+                font-size: 1rem;
+            }
+
+            .dictation-input {
+                font-size: 1.2rem;
+                padding: 12px;
+                max-width: 100%;
+            }
+
+            /* 听写控制按钮 - 手机端网格布局 */
+            .dictation-controls {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+                margin-top: 15px !important;
+            }
+
+            .dictation-controls .btn {
+                width: 100%;
+                justify-content: center;
+                padding: 8px 4px;
+                font-size: 12px;
+            }
+
+            /* "显示"按钮独占一行 */
+            .dictation-controls .btn-warning {
+                grid-column: 1 / -1;
+            }
+
+            /* ===== 错词本 ===== */
+            .error-item {
+                padding: 8px 10px;
+                gap: 8px;
+            }
+
+            .error-item .btn-small {
+                padding: 5px 10px;
+                font-size: 12px;
+            }
+
+            .error-item .btn-danger {
+                padding: 5px 10px;
+                font-size: 12px;
+            }
+
+            /* ===== 模态框 ===== */
+            .modal-content {
+                max-width: 95% !important;
+                margin: 50px auto !important;
+                padding: 18px !important;
+            }
+
+            /* ===== 通知 ===== */
+            .notification {
+                top: 10px;
+                right: 10px;
+                left: 10px;
+                padding: 12px 16px;
+                font-size: 14px;
+            }
+
+            /* ===== 自然拼读 ===== */
             .phonics-tabs {
                 overflow-x: auto;
                 flex-wrap: nowrap;
                 padding-bottom: 15px;
+                -webkit-overflow-scrolling: touch;
             }
-            
+
             .phonics-tab {
                 white-space: nowrap;
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+
+            .phonics-rule-card {
+                padding: 12px;
+            }
+
+            .phonics-pattern {
+                font-size: 1.1rem;
+            }
+
+            .phonics-sound-item {
+                padding: 8px 10px;
+            }
+
+            .phonics-exercise-word {
+                font-size: 2rem;
+            }
+
+            .phonics-option {
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+
+            /* ===== 导出按钮 ===== */
+            .export-buttons {
+                gap: 6px;
+            }
+
+            .export-buttons .btn-small {
+                flex: 1;
+                min-width: 0;
+                text-align: center;
+                font-size: 11px;
+                padding: 5px 6px;
+            }
+
+            /* ===== 单词列表容器 ===== */
+            .word-list-container {
+                max-height: 350px;
+            }
+
+            /* ===== 添加新单词区域 ===== */
+            #bulkImport {
+                font-size: 15px; /* 防止iOS缩放 */
+            }
+        }
+
+        /* ===== 小屏手机断点（iPhone SE等） ===== */
+        @media (max-width: 480px) {
+            .container {
+                padding: 8px;
+            }
+
+            .header {
+                padding: 12px;
+            }
+
+            .header h1 {
+                font-size: 1.3rem;
+            }
+
+            .card {
+                padding: 12px;
+            }
+
+            .card h2 {
+                font-size: 1rem;
+            }
+
+            .btn-small {
+                padding: 4px 8px;
+                font-size: 11px;
+            }
+
+            .word-item {
+                padding: 4px 6px;
+                gap: 3px;
+            }
+
+            .word-text {
+                font-size: 0.9rem;
+            }
+
+            .word-meaning-inline {
+                font-size: 0.8rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 6px;
+            }
+
+            .stat-card {
+                padding: 8px;
+            }
+
+            .stat-value {
+                font-size: 1.2rem;
+            }
+
+            .current-word {
+                font-size: 1.6rem;
+            }
+
+            .dictation-input {
+                font-size: 1rem;
             }
         }
     </style>
@@ -871,38 +1441,49 @@
                 <!-- 左侧：主要内容 -->
                 <div>
                     <!-- 词库管理 -->
-                    <div class="card">
-                        <h2>📚 词库管理</h2>
+                    <div class="card" data-card="wordLib">
+                        <h2 class="card-toggle" onclick="toggleCard('wordLib')">📚 词库管理 <span class="card-arrow open">▼</span></h2>
+                        <div class="card-collapsible open" id="cardContent_wordLib">
                         
                         <div class="form-group">
                             <label>添加新单词</label>
-                            <div style="display: flex; gap: 10px; align-items: flex-start;">
-                                <textarea id="bulkImport" class="form-control" rows="3" placeholder="输入英文单词，每行一个（如：&#10;apple&#10;book&#10;cat）" style="flex: 1;"></textarea>
+                            <div style="display: flex; gap: 10px; align-items: flex-start; min-width: 0;">
+                                <textarea id="bulkImport" class="form-control" rows="3" placeholder="输入英文单词，每行一个（如：&#10;apple&#10;book&#10;cat）" style="flex: 1; min-width: 0;"></textarea>
                                 <button class="btn btn-primary" onclick="bulkImportWords()" style="margin-top: 0; border-radius: 4px; width: 44px; height: 44px; padding: 0; display: flex; align-items: center; justify-content: center;">导入</button>
                             </div>
                         </div>
 
                         <div class="form-group" id="englishPresets">
-                            <label>快速导入</label>
-                            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
-                                <button class="btn btn-small btn-primary" onclick="importPreset('unit1')">📖 第一单元</button>
-                                <button class="btn btn-small btn-primary" onclick="importPreset('unit2')">📖 第二单元</button>
-                                <button class="btn btn-small btn-primary" onclick="importPreset('unit3')">📖 第三单元</button>
-                                <button class="btn btn-small btn-primary" onclick="importPreset('unit4')">📖 第四单元</button>
-                                <button class="btn btn-small btn-primary" onclick="importPreset('unit5')">📖 第五单元</button>
+                            <label class="presets-toggle-label" onclick="togglePresets('englishPresetsContent')" style="cursor: pointer; display: flex; align-items: center; justify-content: space-between;">
+                                <span>快速导入</span>
+                                <span class="presets-arrow" id="englishPresetsArrow">▼</span>
+                            </label>
+                            <div id="englishPresetsContent" class="presets-collapsible">
+                                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
+                                    <button class="btn btn-small btn-primary" onclick="importPreset('unit1')">📖 第一单元</button>
+                                    <button class="btn btn-small btn-primary" onclick="importPreset('unit2')">📖 第二单元</button>
+                                    <button class="btn btn-small btn-primary" onclick="importPreset('unit3')">📖 第三单元</button>
+                                    <button class="btn btn-small btn-primary" onclick="importPreset('unit4')">📖 第四单元</button>
+                                    <button class="btn btn-small btn-primary" onclick="importPreset('unit5')">📖 第五单元</button>
+                                </div>
+                                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
+                                    <button class="btn btn-small btn-success" onclick="importPreset('months')">📅 月份词汇</button>
+                                    <button class="btn btn-small btn-success" onclick="importPreset('seasons')">🌸 季节词汇</button>
+                                    <button class="btn btn-small btn-success" onclick="importPreset('weeks')">📅 星期词汇</button>
+                                </div>
+                                <div id="customWordBooks" style="display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px;"></div>
                             </div>
-                            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
-                                <button class="btn btn-small btn-success" onclick="importPreset('months')">📅 月份词汇</button>
-                                <button class="btn btn-small btn-success" onclick="importPreset('seasons')">🌸 季节词汇</button>
-                                <button class="btn btn-small btn-success" onclick="importPreset('weeks')">📅 星期词汇</button>
-                            </div>
-                            <div id="customWordBooks" style="display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px;"></div>
                         </div>
 
                         <!-- 语文模式小词库区域 -->
                         <div class="form-group" id="chinesePresets" style="display: none;">
-                            <label>快速导入</label>
-                            <div id="chineseCustomWordBooks" style="display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px;"></div>
+                            <label class="presets-toggle-label" onclick="togglePresets('chinesePresetsContent')" style="cursor: pointer; display: flex; align-items: center; justify-content: space-between;">
+                                <span>快速导入</span>
+                                <span class="presets-arrow" id="chinesePresetsArrow">▼</span>
+                            </label>
+                            <div id="chinesePresetsContent" class="presets-collapsible">
+                                <div id="chineseCustomWordBooks" style="display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px;"></div>
+                            </div>
                         </div>
 
                         
@@ -911,26 +1492,28 @@
                             <span>词库单词数：<strong id="totalWordCount">0</strong></span>
                             <span>|</span>
                             <span>已选择：<strong id="selectedCount">0</strong></span>
-                            <input type="text" id="wordSearchInput" class="form-control" placeholder="🔍 搜索..." oninput="handleWordSearch(this.value)" style="max-width: 160px; padding: 6px 12px; font-size: 14px;">
+                            <input type="text" id="wordSearchInput" class="form-control" placeholder="🔍 搜索..." oninput="handleWordSearch(this.value)" style="max-width: 160px; padding: 6px 12px; font-size: 14px; min-width: 0;">
                         </div>
 
-                        <div style="margin-bottom: 15px;">
+                        <div class="word-toolbar" style="margin-bottom: 15px;">
                             <button class="btn btn-small btn-secondary" id="selectAllBtn" onclick="toggleWordSelectAll()">☑️ 全选</button>
-                            <button class="btn btn-small btn-secondary" id="sortWordsBtn" onclick="toggleWordSort()">🔤 按字母排序</button>
-                            <button class="btn btn-small btn-info" onclick="promptSaveCustomBook()">📚 另存为小词库</button>
-                            <button class="btn btn-small btn-danger" onclick="clearSelectedWords()" style="float: right;">清理词库</button>
+                            <button class="btn btn-small btn-secondary" id="sortWordsBtn" onclick="toggleWordSort()">🔤 排序</button>
+                            <button class="btn btn-small btn-info" onclick="promptSaveCustomBook()">📚 小词库</button>
+                            <button class="btn btn-small btn-danger" onclick="clearSelectedWords()">🗑️ 清理</button>
                         </div>
 
                         <div class="word-list-container" id="wordList">
                             <!-- 单词列表 -->
                         </div>
+                        </div><!-- end card-collapsible -->
                     </div>
 
-                    
+
 
                     <!-- 听写区域 -->
-                    <div class="card" id="dictationCard">
-                        <h2>🎯 听写练习</h2>
+                    <div class="card" id="dictationCard" data-card="dictation">
+                        <h2 class="card-toggle" onclick="toggleCard('dictation')">🎯 听写练习 <span class="card-arrow open">▼</span></h2>
+                        <div class="card-collapsible open" id="cardContent_dictation">
                         
                         <div class="stats-grid">
                             <div class="stat-card">
@@ -963,7 +1546,7 @@
                             
                             <input type="text" id="answerInput" class="dictation-input" placeholder="输入听到的单词" onkeypress="handleEnter(event)">
                             
-                            <div style="margin-top: 20px;">
+                            <div class="dictation-controls" style="margin-top: 20px;">
                                 <button class="btn btn-primary" onclick="previousWord()" id="prevBtn" disabled>⏮️ 上一个</button>
                                 <button class="btn btn-success" onclick="togglePlayPause()" id="playPauseBtn" disabled>▶️ 播放</button>
                                 <button class="btn btn-primary" onclick="nextWord()" id="nextBtn" disabled>⏭️ 下一个</button>
@@ -976,14 +1559,16 @@
                             <button class="btn btn-success" id="startDictationBtn" onclick="startDictation()">开始听写</button>
                             <button class="btn btn-danger hidden" id="stopDictationBtn" onclick="stopDictation()">结束听写</button>
                         </div>
+                        </div><!-- end card-collapsible -->
                     </div>
                 </div>
 
                 <!-- 右侧：设置和错题本 -->
                 <div>
                     <!-- 听写设置 -->
-                    <div class="card">
-                        <h2>⚙️ 听写设置</h2>
+                    <div class="card" data-card="settings">
+                        <h2 class="card-toggle" onclick="toggleCard('settings')">⚙️ 听写设置 <span class="card-arrow">▼</span></h2>
+                        <div class="card-collapsible" id="cardContent_settings">
                         
                         <div class="form-group">
                             <label>听写范围</label>
@@ -1050,11 +1635,13 @@
                                 <label><input type="radio" name="inputMode" value="offline" checked> 线下听写</label>
                             </div>
                         </div>
+                        </div><!-- end card-collapsible -->
                     </div>
 
                     <!-- 错词本 -->
-                    <div class="card">
-                        <h2>❌ 错词本</h2>
+                    <div class="card" data-card="errorBook">
+                        <h2 class="card-toggle" onclick="toggleCard('errorBook')">❌ 错词本 <span class="card-arrow">▼</span></h2>
+                        <div class="card-collapsible" id="cardContent_errorBook">
                         <div class="error-list" id="errorList">
                             <p style="text-align: center; color: #6c757d; padding: 20px;">暂无错词</p>
                         </div>
@@ -1062,11 +1649,13 @@
                             <button class="btn btn-small btn-secondary" id="sortErrorsBtn" onclick="toggleErrorSort()">🔤 按字母排序</button>
                             <button class="btn btn-small btn-danger" onclick="clearErrors()">清空错词本</button>
                         </div>
+                        </div><!-- end card-collapsible -->
                     </div>
 
                     <!-- 数据管理 -->
-                    <div class="card">
-                        <h2>💾 数据管理</h2>
+                    <div class="card" data-card="dataManage">
+                        <h2 class="card-toggle" onclick="toggleCard('dataManage')">💾 数据管理 <span class="card-arrow">▼</span></h2>
+                        <div class="card-collapsible" id="cardContent_dataManage">
                         <p style="color: #6c757d; font-size: 0.9rem; margin-bottom: 15px;">
                             支持多种格式导出，方便打印复习
                         </p>
@@ -1085,6 +1674,7 @@
                                 <button class="btn btn-small btn-secondary" onclick="importBackupFromFile()">📂 恢复数据</button>
                             </div>
                         </div>
+                        </div><!-- end card-collapsible -->
                     </div>
                 </div>
             </div>
@@ -1159,6 +1749,23 @@
     <script src="app.js"></script>
     
     <script>
+        // 快速导入折叠面板
+        function togglePresets(contentId) {
+            const content = document.getElementById(contentId);
+            const arrow = content.previousElementSibling.querySelector('.presets-arrow');
+            content.classList.toggle('open');
+            if (arrow) arrow.classList.toggle('open');
+        }
+
+        // 卡片模块折叠面板
+        function toggleCard(cardName) {
+            const content = document.getElementById('cardContent_' + cardName);
+            const card = document.querySelector('[data-card="' + cardName + '"]');
+            const arrow = card ? card.querySelector('.card-arrow') : null;
+            if (content) content.classList.toggle('open');
+            if (arrow) arrow.classList.toggle('open');
+        }
+
         // 主Tab切换
         function switchMainTab(tab) {
             document.querySelectorAll('.main-tab').forEach(t => {

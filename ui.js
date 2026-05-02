@@ -127,30 +127,32 @@ function renderWordList(words, selectedWords, errors, currentMode) {
             : '';
 
         return `
-        <div class="word-item ${hasErrors ? 'has-errors' : ''}">
+        <div class="word-item ${hasErrors ? 'has-errors' : ''}" onclick="toggleWordDetail(this, event)">
             <input type="checkbox" class="word-checkbox"
                    ${selectedWords.has(word.id) ? 'checked' : ''}
                    onchange="toggleWordSelection(${word.id})">
             <div class="word-info">
-                <div class="word-text">${word.word}</div>
-                <div class="word-details">
+                <div class="word-text">${word.word} <span class="word-meaning-inline">${word.meaning || ''}</span></div>
+                <div class="word-details word-detail-extra">
                     ${word.partOfSpeech || ''}
                     <span class="meaning-edit" style="color: #2c3e50; font-weight: 500; cursor: pointer;" onclick="startEditMeaning(${word.id}, this)" title="点击编辑释义">释义: ${word.meaning || '(无)'}</span>
                     ${hasErrors ? `<span style="color: #e74c3c;"> (错${errors[word.word]}次)</span>` : ''}
                 </div>
-                ${word.groupId ? `<div class="word-group-tag">分组: ${word.groupId}</div>` : ''}
-                <div class="word-example-row" id="exampleRow_${word.id}">
+                ${word.groupId ? `<div class="word-group-tag word-detail-extra">分组: ${word.groupId}</div>` : ''}
+                <div class="word-example-row word-detail-extra" id="exampleRow_${word.id}">
                     <span class="example-display" style="color: #666; font-size: 0.85rem; cursor: pointer;" onclick="startEditExamples(${word.id})" title="点击编辑例句">
                         📝 例句: ${exampleCount > 0 ? examplePreview : '(无)'}
                         ${exampleCount > 0 ? `<span style="color: #007bff;">(${exampleCount}句)</span>` : ''}
                     </span>
                 </div>
+                ${hasErrors ? `<span class="word-error-badge">错${errors[word.word]}次</span>` : ''}
             </div>
             <div class="word-actions">
                 <button class="btn btn-small btn-secondary" onclick="playWord('${escapedWord}')">🔊</button>
                 <button class="btn btn-small btn-warning" onclick="addToErrorBook('${escapedWord}')">错词</button>
-                <button class="btn btn-small btn-danger" onclick="deleteWord(${word.id})">删除</button>
+                <button class="btn btn-small btn-danger btn-delete-word" onclick="deleteWord(${word.id})">✕</button>
             </div>
+            <span class="word-expand-hint">›</span>
         </div>
     `;
     }).join('');
@@ -759,6 +761,18 @@ function doImportWithMode(merge) {
 
     closeImportPreviewModal();
     showNotification('数据导入成功', 'success');
+}
+
+// 手机端点击展开/收起单词详情
+function toggleWordDetail(item, event) {
+    // 不处理复选框、按钮、输入框的点击
+    const tag = event.target.tagName;
+    if (tag === 'INPUT' || tag === 'BUTTON' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+    if (event.target.closest('.word-actions')) return;
+    if (event.target.classList.contains('meaning-edit')) return;
+    if (event.target.classList.contains('example-display')) return;
+    
+    item.classList.toggle('expanded');
 }
 
 // 导出UI模块
