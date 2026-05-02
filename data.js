@@ -567,6 +567,18 @@ const DataManager = {
     },
 
     load() {
+        const defaultSettings = {
+            range: 'all',
+            order: 'sequential',
+            playCount: 2,
+            intervalTime: 5,
+            speechRate: 0.8,
+            showMeaning: false,
+            showWord: false,
+            showExamples: false,
+            inputMode: 'offline'
+        };
+        const savedSettings = JSON.parse(localStorage.getItem('dictation_settings') || '{}');
         return {
             englishWords: JSON.parse(localStorage.getItem('dictation_english_words') || '[]'),
             englishErrors: JSON.parse(localStorage.getItem('dictation_english_errors') || '{}'),
@@ -574,7 +586,7 @@ const DataManager = {
             chineseWords: JSON.parse(localStorage.getItem('dictation_chinese_words') || '[]'),
             chineseErrors: JSON.parse(localStorage.getItem('dictation_chinese_errors') || '{}'),
             chineseGroups: JSON.parse(localStorage.getItem('dictation_chinese_groups') || '{}'),
-            settings: JSON.parse(localStorage.getItem('dictation_settings') || '{}'),
+            settings: { ...defaultSettings, ...savedSettings },
             mode: localStorage.getItem('dictation_mode') || 'english',
             englishCustomBooks: JSON.parse(localStorage.getItem('dictation_english_custom_books') || '{}'),
             chineseCustomBooks: JSON.parse(localStorage.getItem('dictation_chinese_custom_books') || '{}')

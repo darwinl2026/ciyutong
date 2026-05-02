@@ -39,7 +39,7 @@ function renderCustomWordBooks() {
                 const book = englishBooks[bookId];
                 return `
                     <div class="custom-book-item" style="display: inline-block; margin: 3px;">
-                        <button class="btn btn-small btn-info" onclick="importCustomWordBook('${bookId}')" title="导入到词库">
+                        <button class="btn btn-small btn-secondary" onclick="importCustomWordBook('${bookId}')" title="导入到词库">
                             📚 ${book.name} (${book.words.length})
                         </button>
                         <button class="btn btn-small btn-danger" onclick="deleteCustomWordBook('${bookId}')" title="删除小词库" style="padding: 2px 6px;">×</button>
@@ -62,7 +62,7 @@ function renderCustomWordBooks() {
                 const book = chineseBooks[bookId];
                 return `
                     <div class="custom-book-item" style="display: inline-block; margin: 3px;">
-                        <button class="btn btn-small btn-info" onclick="importCustomWordBook('${bookId}')" title="导入到词库">
+                        <button class="btn btn-small btn-secondary" onclick="importCustomWordBook('${bookId}')" title="导入到词库">
                             📚 ${book.name} (${book.words.length})
                         </button>
                         <button class="btn btn-small btn-danger" onclick="deleteCustomWordBook('${bookId}')" title="删除小词库" style="padding: 2px 6px;">×</button>
@@ -132,11 +132,12 @@ function renderWordList(words, selectedWords, errors, currentMode) {
                    ${selectedWords.has(word.id) ? 'checked' : ''}
                    onchange="toggleWordSelection(${word.id})">
             <div class="word-info">
-                <div class="word-text">${word.word} <span class="word-meaning-inline">${word.meaning || ''}</span></div>
+                <div class="word-text">${word.word} <span class="word-meaning-inline">${word.meaning || ''}</span>${hasErrors ? `<span class="word-error-badge">错${errors[word.word]}次</span>` : ''}</div>
                 <div class="word-details word-detail-extra">
                     ${word.partOfSpeech || ''}
-                    <span class="meaning-edit" style="color: #2c3e50; font-weight: 500; cursor: pointer;" onclick="startEditMeaning(${word.id}, this)" title="点击编辑释义">释义: ${word.meaning || '(无)'}</span>
-                    ${hasErrors ? `<span style="color: #e74c3c;"> (错${errors[word.word]}次)</span>` : ''}
+                    <div class="meaning-row" id="meaningRow_${word.id}" style="margin-top: 4px;">
+                        <span class="meaning-edit" style="color: #2c3e50; font-weight: 500; cursor: pointer; font-size: 0.85rem;" onclick="startEditMeaning(${word.id})" title="点击编辑释义">释义: ${word.meaning || '(无)'}</span>
+                    </div>
                 </div>
                 ${word.groupId ? `<div class="word-group-tag word-detail-extra">分组: ${word.groupId}</div>` : ''}
                 <div class="word-example-row word-detail-extra" id="exampleRow_${word.id}">
@@ -145,10 +146,9 @@ function renderWordList(words, selectedWords, errors, currentMode) {
                         ${exampleCount > 0 ? `<span style="color: #007bff;">(${exampleCount}句)</span>` : ''}
                     </span>
                 </div>
-                ${hasErrors ? `<span class="word-error-badge">错${errors[word.word]}次</span>` : ''}
             </div>
             <div class="word-actions">
-                <button class="btn btn-small btn-secondary" onclick="playWord('${escapedWord}')">🔊</button>
+                <button class="btn btn-small btn-success" onclick="playWord('${escapedWord}')">🔈</button>
                 <button class="btn btn-small btn-warning" onclick="addToErrorBook('${escapedWord}')">错词</button>
                 <button class="btn btn-small btn-danger btn-delete-word" onclick="deleteWord(${word.id})">✕</button>
             </div>
@@ -158,20 +158,40 @@ function renderWordList(words, selectedWords, errors, currentMode) {
     }).join('');
 }
 
-// 点击释义开始编辑
-function startEditMeaning(wordId, spanElement) {
+// 点击释义开始编辑（与例句编辑一致的UI）
+function startEditMeaning(wordId) {
     const currentMeaning = App.words.find(w => w.id === wordId)?.meaning || '';
     const escapedMeaning = currentMeaning.replace(/"/g, '&quot;');
 
-    spanElement.innerHTML = `<input type="text" class="meaning-input" value="${escapedMeaning}" onblur="finishEditMeaning(${wordId}, this)" onkeydown="if(event.key==='Enter')this.blur()}" style="padding: 2px 4px; border: 1px solid #007bff; border-radius: 3px; width: 200px;">`;
-    const input = spanElement.querySelector('input');
-    input.focus();
-    input.select();
+    const meaningRow = document.getElementById(`meaningRow_${wordId}`);
+    if (!meaningRow) return;
+
+    meaningRow.innerHTML = `
+        <div style="margin-top: 4px;">
+            <textarea class="meaning-input" rows="2" style="width: 100%; padding: 5px; border: 1px solid #007bff; border-radius: 4px; resize: vertical; font-size: 0.85rem;" placeholder="输入释义">${escapedMeaning}</textarea>
+            <div style="margin-top: 5px; text-align: right;">
+                <button class="btn btn-small btn-secondary" onclick="cancelEditMeaning(${wordId})">取消</button>
+                <button class="btn btn-small btn-primary" onclick="finishEditMeaning(${wordId})">保存</button>
+            </div>
+        </div>
+    `;
+    meaningRow.querySelector('textarea').focus();
 }
 
-// 编辑释义完成（失焦或按Enter时触发）
-function finishEditMeaning(wordId, inputElement) {
-    const newMeaning = inputElement.value.trim();
+// 取消编辑释义
+function cancelEditMeaning(wordId) {
+    renderWordList(App.words, App.selectedWords, App.errors, App.currentMode);
+}
+
+// 编辑释义完成
+function finishEditMeaning(wordId) {
+    const meaningRow = document.getElementById(`meaningRow_${wordId}`);
+    if (!meaningRow) return;
+
+    const textarea = meaningRow.querySelector('textarea');
+    if (!textarea) return;
+
+    const newMeaning = textarea.value.trim();
     editWordMeaning(wordId, newMeaning);
 }
 
@@ -265,34 +285,20 @@ function renderErrorList(errors, selectedErrorWords, words) {
         return;
     }
     
-    const allSelected = errorWords.length > 0 && errorWords.every(([word]) => selectedErrorWords.has(word));
-    
     container.innerHTML = `
-        <div style="margin-bottom: 15px; padding: 10px; background: #f8f9fa; border-radius: 5px;">
-            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                <input type="checkbox" ${allSelected ? 'checked' : ''} onchange="selectAllErrors()">
-                <span>全选 (${errorWords.length}个错词)</span>
-            </label>
-        </div>
-        <div class="error-list-items">
-            ${errorWords.map(([word, count]) => `
-                <div class="error-item" style="display: flex; align-items: center; justify-content: space-between; padding: 8px; border-bottom: 1px solid #eee;">
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <input type="checkbox" ${selectedErrorWords.has(word) ? 'checked' : ''} onchange="toggleErrorSelection('${word.replace(/'/g, "\\'")}')">
-                        <span style="font-weight: 500;">${word}</span>
-                    </div>
-                    <div style="display: flex; gap: 8px; align-items: center;">
-                        <button class="btn btn-small btn-secondary" onclick="playWord('${word.replace(/'/g, "\\'")}')">🔊</button>
-                        <button class="btn btn-small btn-warning" onclick="editErrorCount('${word.replace(/'/g, "\\'")}')">${count}</button>
-                        <button class="btn btn-small btn-danger" onclick="{ App.errors['${word.replace(/'/g, "\\'")}'] = 0; delete App.errors['${word.replace(/'/g, "\\'")}']; App.selectedErrorWords.delete('${word.replace(/'/g, "\\'")}'); saveData(); renderErrorList(); }">删除</button>
-                    </div>
+        ${errorWords.map(([word, count]) => `
+            <div class="error-item" style="display: flex; align-items: center; justify-content: space-between; padding: 8px; border-bottom: 1px solid #eee;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <input type="checkbox" ${selectedErrorWords.has(word) ? 'checked' : ''} onchange="toggleErrorSelection('${word.replace(/'/g, "\\'")}')">
+                    <span style="font-weight: 500;">${word}</span>
                 </div>
-            `).join('')}
-        </div>
-        <div style="margin-top: 15px; padding-top: 15px; border-top: 2px solid #eee; display: flex; gap: 10px; justify-content: center;">
-            <button class="btn btn-small btn-danger" onclick="deleteSelectedErrors()">删除选中</button>
-            <button class="btn btn-small btn-secondary" onclick="clearErrors()">清空全部</button>
-        </div>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                    <button class="btn btn-small btn-success" onclick="playWord('${word.replace(/'/g, "\\'")}')">🔈</button>
+                    <button class="btn btn-small btn-warning" onclick="editErrorCount('${word.replace(/'/g, "\\'")}')">${count}</button>
+                    <button class="btn btn-small btn-danger btn-delete-word" onclick="{ App.errors['${word.replace(/'/g, "\\'")}'] = 0; delete App.errors['${word.replace(/'/g, "\\'")}']; App.selectedErrorWords.delete('${word.replace(/'/g, "\\'")}'); saveData(); renderErrorList(); }">✕</button>
+                </div>
+            </div>
+        `).join('')}
     `;
 }
 
@@ -370,12 +376,6 @@ function updateModeUI(currentMode, settings) {
         chinesePresets.style.display = isEnglish ? 'none' : 'block';
     }
     
-    // 更新分组区域
-    const groupSection = document.getElementById('groupSection');
-    if (groupSection) {
-        groupSection.classList.toggle('hidden', !isEnglish);
-    }
-
     // 同步听写范围radio button状态
     document.querySelectorAll('input[name="range"]').forEach(radio => {
         radio.checked = radio.value === App.settings.range;
@@ -504,6 +504,7 @@ function setupEventListeners(settings) {
                 input.style.display = 'none';
             } else {
                 input.style.display = 'block';
+                input.style.margin = '0 auto';
             }
             DataManager.save(
                 App.englishWords, App.englishErrors, App.englishGroups,
@@ -573,6 +574,15 @@ function setupEventListeners(settings) {
             App.englishCustomBooks, App.chineseCustomBooks
         );
     });
+
+    // 初始化输入框显示状态（根据保存的inputMode设置）
+    const input = document.getElementById('answerInput');
+    if (App.settings.inputMode === 'offline') {
+        input.style.display = 'none';
+    } else {
+        input.style.display = 'block';
+        input.style.margin = '0 auto';
+    }
 }
 
 
@@ -779,17 +789,10 @@ function toggleWordDetail(item, event) {
 window.UIManager = {
     showNotification,
     renderWordList,
-    renderGroupList,
     renderErrorList,
     updateStats,
     updateCounts,
     updateModeUI,
     updateControlButtons,
-    setupEventListeners,
-    showCreateGroupDialog,
-    addWordToGroup,
-    removeWordFromGroup,
-    deleteGroup,
-    toggleGroupExpand,
-    practiceGroup
+    setupEventListeners
 };

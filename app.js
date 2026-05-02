@@ -32,7 +32,6 @@ const App = {
     correctCount: 0,
     isDictating: false,
     autoPlayTimer: null,
-    translationCache: {},
     
     // 单词ID递增计数器，确保ID唯一
     nextId: 1,
@@ -45,6 +44,9 @@ const App = {
 
     // 错题本排序状态（true=按字母，false=按默认）
     isErrorSortedByAlpha: false,
+
+    // 错题本全选切换状态
+    isErrorAllSelected: false,
 
     // 临时显示单词状态（true=强制显示完整单词，false=按设置显示）
     isTempShowingWord: false,
@@ -838,6 +840,32 @@ function selectAllErrors() {
         errorWords.forEach(([word]) => App.selectedErrorWords.add(word));
     }
     renderErrorList(App.errors, App.selectedErrorWords, App.words);
+}
+
+// ==================== 错题本全选切换 ====================
+
+function toggleErrorSelectAll() {
+    App.isErrorAllSelected = !App.isErrorAllSelected;
+
+    const errorWords = Object.keys(App.errors).filter(word => App.errors[word] > 0);
+
+    if (App.isErrorAllSelected) {
+        // 全选：选中所有错词
+        errorWords.forEach(word => App.selectedErrorWords.add(word));
+        showNotification('已全选', 'info');
+    } else {
+        // 清空：取消所有选中
+        App.selectedErrorWords.clear();
+        showNotification('已取消全选', 'info');
+    }
+
+    renderErrorList(App.errors, App.selectedErrorWords, App.words);
+
+    // 更新按钮状态
+    const selectAllBtn = document.getElementById('selectAllErrorsBtn');
+    if (selectAllBtn) {
+        selectAllBtn.classList.toggle('active', App.isErrorAllSelected);
+    }
 }
 
 // ==================== 错题本排序 ====================
