@@ -139,7 +139,6 @@ function renderWordList(words, selectedWords, errors, currentMode) {
                         <span class="meaning-edit" style="color: #2c3e50; font-weight: 500; cursor: pointer; font-size: 0.85rem;" onclick="startEditMeaning(${word.id})" title="点击编辑释义">释义: ${word.meaning || '(无)'}</span>
                     </div>
                 </div>
-                ${word.groupId ? `<div class="word-group-tag word-detail-extra">分组: ${word.groupId}</div>` : ''}
                 <div class="word-example-row word-detail-extra" id="exampleRow_${word.id}">
                     <span class="example-display" style="color: #666; font-size: 0.85rem; cursor: pointer;" onclick="startEditExamples(${word.id})" title="点击编辑例句">
                         📝 例句: ${exampleCount > 0 ? examplePreview : '(无)'}
@@ -282,24 +281,26 @@ function renderErrorList(errors, selectedErrorWords, words) {
     
     if (errorWords.length === 0) {
         container.innerHTML = '<p style="text-align: center; color: #6c757d; padding: 20px;">暂无错词</p>';
+        updateErrorCounts();
         return;
     }
     
     container.innerHTML = `
         ${errorWords.map(([word, count]) => `
-            <div class="error-item" style="display: flex; align-items: center; justify-content: space-between; padding: 8px; border-bottom: 1px solid #eee;">
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <input type="checkbox" ${selectedErrorWords.has(word) ? 'checked' : ''} onchange="toggleErrorSelection('${word.replace(/'/g, "\\'")}')">
-                    <span style="font-weight: 500;">${word}</span>
-                </div>
-                <div style="display: flex; gap: 8px; align-items: center;">
+            <div class="error-item">
+                <input type="checkbox" class="error-checkbox" ${selectedErrorWords.has(word) ? 'checked' : ''} onchange="toggleErrorSelection('${word.replace(/'/g, "\\'")}')">
+                <span class="error-word">${word}</span>
+                <div class="error-actions">
                     <button class="btn btn-small btn-success" onclick="playWord('${word.replace(/'/g, "\\'")}')">🔈</button>
                     <button class="btn btn-small btn-warning" onclick="editErrorCount('${word.replace(/'/g, "\\'")}')">${count}</button>
-                    <button class="btn btn-small btn-danger btn-delete-word" onclick="{ App.errors['${word.replace(/'/g, "\\'")}'] = 0; delete App.errors['${word.replace(/'/g, "\\'")}']; App.selectedErrorWords.delete('${word.replace(/'/g, "\\'")}'); saveData(); renderErrorList(); }">✕</button>
+                    <button class="btn btn-small btn-danger btn-delete-word" onclick="{ App.errors['${word.replace(/'/g, "\\'")}'] = 0; delete App.errors['${word.replace(/'/g, "\\'")}']; App.selectedErrorWords.delete('${word.replace(/'/g, "\\'")}'); saveData(); renderErrorList(App.errors, App.selectedErrorWords, App.words); updateErrorCounts(); }">✕</button>
                 </div>
             </div>
         `).join('')}
     `;
+
+    // 更新错词本统计
+    updateErrorCounts();
 }
 
 /**
@@ -323,6 +324,19 @@ function updateStats(currentIndex, total, correctCount) {
 function updateCounts(words, selectedWords) {
     document.getElementById('totalWordCount').textContent = words ? words.length : 0;
     document.getElementById('selectedCount').textContent = selectedWords ? selectedWords.size : 0;
+}
+
+/**
+ * 更新错词本计数显示
+ */
+function updateErrorCounts() {
+    const errors = App.errors;
+    const selectedErrorWords = App.selectedErrorWords;
+
+    // 计算错词总数（错误次数 > 0 的单词）
+    const totalErrors = Object.values(errors).filter(count => count > 0).length;
+    document.getElementById('totalErrorCount').textContent = totalErrors;
+    document.getElementById('selectedErrorCount').textContent = selectedErrorWords ? selectedErrorWords.size : 0;
 }
 
 /**
@@ -402,8 +416,8 @@ function updateModeUI(currentMode, settings) {
         playCountEl.value = playCountOptions[0];
         App.settings.playCount = parseInt(playCountOptions[0]);
         DataManager.save(
-            App.englishWords, App.englishErrors, App.englishGroups,
-            App.chineseWords, App.chineseErrors, App.chineseGroups,
+            App.englishWords, App.englishErrors,
+            App.chineseWords, App.chineseErrors,
             App.settings, App.currentMode
         );
     }
@@ -417,8 +431,8 @@ function updateModeUI(currentMode, settings) {
         intervalTimeEl.value = intervalOptions[0];
         App.settings.intervalTime = parseInt(intervalOptions[0]);
         DataManager.save(
-            App.englishWords, App.englishErrors, App.englishGroups,
-            App.chineseWords, App.chineseErrors, App.chineseGroups,
+            App.englishWords, App.englishErrors,
+            App.chineseWords, App.chineseErrors,
             App.settings, App.currentMode
         );
     }
@@ -433,8 +447,8 @@ function updateModeUI(currentMode, settings) {
         speechRateEl.value = speechRateOptions[0];
         App.settings.speechRate = parseFloat(speechRateOptions[0]);
         DataManager.save(
-            App.englishWords, App.englishErrors, App.englishGroups,
-            App.chineseWords, App.chineseErrors, App.chineseGroups,
+            App.englishWords, App.englishErrors,
+            App.chineseWords, App.chineseErrors,
             App.settings, App.currentMode
         );
     }
@@ -476,8 +490,8 @@ function setupEventListeners(settings) {
         radio.addEventListener('change', (e) => {
             App.settings.range = e.target.value;
             DataManager.save(
-                App.englishWords, App.englishErrors, App.englishGroups,
-                App.chineseWords, App.chineseErrors, App.chineseGroups,
+                App.englishWords, App.englishErrors,
+                App.chineseWords, App.chineseErrors,
                 App.settings, App.currentMode,
                 App.englishCustomBooks, App.chineseCustomBooks
             );
@@ -488,8 +502,8 @@ function setupEventListeners(settings) {
         radio.addEventListener('change', (e) => {
             App.settings.order = e.target.value;
             DataManager.save(
-                App.englishWords, App.englishErrors, App.englishGroups,
-                App.chineseWords, App.chineseErrors, App.chineseGroups,
+                App.englishWords, App.englishErrors,
+                App.chineseWords, App.chineseErrors,
                 App.settings, App.currentMode,
                 App.englishCustomBooks, App.chineseCustomBooks
             );
@@ -507,8 +521,8 @@ function setupEventListeners(settings) {
                 input.style.margin = '0 auto';
             }
             DataManager.save(
-                App.englishWords, App.englishErrors, App.englishGroups,
-                App.chineseWords, App.chineseErrors, App.chineseGroups,
+                App.englishWords, App.englishErrors,
+                App.chineseWords, App.chineseErrors,
                 App.settings, App.currentMode,
                 App.englishCustomBooks, App.chineseCustomBooks
             );
@@ -518,8 +532,8 @@ function setupEventListeners(settings) {
     document.getElementById('playCount').addEventListener('change', (e) => {
         App.settings.playCount = parseInt(e.target.value);
         DataManager.save(
-            App.englishWords, App.englishErrors, App.englishGroups,
-            App.chineseWords, App.chineseErrors, App.chineseGroups,
+            App.englishWords, App.englishErrors,
+            App.chineseWords, App.chineseErrors,
             App.settings, App.currentMode,
             App.englishCustomBooks, App.chineseCustomBooks
         );
@@ -528,8 +542,8 @@ function setupEventListeners(settings) {
     document.getElementById('intervalTime').addEventListener('change', (e) => {
         App.settings.intervalTime = parseInt(e.target.value);
         DataManager.save(
-            App.englishWords, App.englishErrors, App.englishGroups,
-            App.chineseWords, App.chineseErrors, App.chineseGroups,
+            App.englishWords, App.englishErrors,
+            App.chineseWords, App.chineseErrors,
             App.settings, App.currentMode,
             App.englishCustomBooks, App.chineseCustomBooks
         );
@@ -538,8 +552,8 @@ function setupEventListeners(settings) {
     document.getElementById('speechRate').addEventListener('change', (e) => {
         App.settings.speechRate = parseFloat(e.target.value);
         DataManager.save(
-            App.englishWords, App.englishErrors, App.englishGroups,
-            App.chineseWords, App.chineseErrors, App.chineseGroups,
+            App.englishWords, App.englishErrors,
+            App.chineseWords, App.chineseErrors,
             App.settings, App.currentMode,
             App.englishCustomBooks, App.chineseCustomBooks
         );
@@ -548,8 +562,8 @@ function setupEventListeners(settings) {
     document.getElementById('showMeaning').addEventListener('change', (e) => {
         App.settings.showMeaning = e.target.checked;
         DataManager.save(
-            App.englishWords, App.englishErrors, App.englishGroups,
-            App.chineseWords, App.chineseErrors, App.chineseGroups,
+            App.englishWords, App.englishErrors,
+            App.chineseWords, App.chineseErrors,
             App.settings, App.currentMode,
             App.englishCustomBooks, App.chineseCustomBooks
         );
@@ -558,8 +572,8 @@ function setupEventListeners(settings) {
     document.getElementById('showWord').addEventListener('change', (e) => {
         App.settings.showWord = e.target.checked;
         DataManager.save(
-            App.englishWords, App.englishErrors, App.englishGroups,
-            App.chineseWords, App.chineseErrors, App.chineseGroups,
+            App.englishWords, App.englishErrors,
+            App.chineseWords, App.chineseErrors,
             App.settings, App.currentMode,
             App.englishCustomBooks, App.chineseCustomBooks
         );
@@ -568,8 +582,8 @@ function setupEventListeners(settings) {
     document.getElementById('showExamples').addEventListener('change', (e) => {
         App.settings.showExamples = e.target.checked;
         DataManager.save(
-            App.englishWords, App.englishErrors, App.englishGroups,
-            App.chineseWords, App.chineseErrors, App.chineseGroups,
+            App.englishWords, App.englishErrors,
+            App.chineseWords, App.chineseErrors,
             App.settings, App.currentMode,
             App.englishCustomBooks, App.chineseCustomBooks
         );
@@ -588,6 +602,28 @@ function setupEventListeners(settings) {
 
 
 
+
+// 悬浮导航按钮状态：true=在顶部，false=在底部
+let isAtTop = true;
+
+// 悬浮导航按钮点击
+function toggleFloatNav() {
+    const btn = document.getElementById('floatNavBtn');
+    const icon = btn.querySelector('.float-nav-icon');
+    const line = btn.querySelector('.float-nav-line');
+    if (isAtTop) {
+        // 滚动到底部
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        icon.textContent = '▲';
+        line.textContent = '─';
+    } else {
+        // 滚动到顶部
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        icon.textContent = '▼';
+        line.textContent = '─';
+    }
+    isAtTop = !isAtTop;
+}
 
 // 显示备份选项弹窗
 function showBackupModal() {

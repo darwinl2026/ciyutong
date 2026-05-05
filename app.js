@@ -11,14 +11,12 @@ const App = {
     // 英语词库
     englishWords: [],
     englishErrors: {},
-    englishGroups: {},
     englishSelectedWords: new Set(),
     englishSelectedErrorWords: new Set(),
     
     // 语文词库
     chineseWords: [],
     chineseErrors: {},
-    chineseGroups: {},
     chineseSelectedWords: new Set(),
     chineseSelectedErrorWords: new Set(),
 
@@ -100,8 +98,8 @@ Object.defineProperty(App, 'selectedErrorWords', {
 
 function saveData() {
     DataManager.save(
-        App.englishWords, App.englishErrors, App.englishGroups,
-        App.chineseWords, App.chineseErrors, App.chineseGroups,
+        App.englishWords, App.englishErrors,
+        App.chineseWords, App.chineseErrors,
         App.settings, App.currentMode,
         App.englishCustomBooks, App.chineseCustomBooks
     );
@@ -112,10 +110,8 @@ function loadData() {
 
     App.englishWords = data.englishWords;
     App.englishErrors = data.englishErrors;
-    App.englishGroups = data.englishGroups;
     App.chineseWords = data.chineseWords;
     App.chineseErrors = data.chineseErrors;
-    App.chineseGroups = data.chineseGroups;
     App.englishCustomBooks = data.englishCustomBooks || {};
     App.chineseCustomBooks = data.chineseCustomBooks || {};
     App.settings = { ...App.settings, ...data.settings };
@@ -141,6 +137,7 @@ function initApp() {
 
     renderErrorList(App.errors, App.selectedErrorWords, App.words);
     updateCounts(App.words, App.selectedWords);
+    updateErrorCounts();
     
     // 设置事件监听
     setupEventListeners(App.settings);
@@ -225,6 +222,7 @@ function switchMode(mode) {
     // renderGroupList 已移除（分组功能已删除）
     renderErrorList(App.errors, App.selectedErrorWords, App.words);
     updateCounts(App.words, App.selectedWords);
+    updateErrorCounts();
 
     // 重置排序按钮状态
     const sortWordsBtn = document.getElementById('sortWordsBtn');
@@ -484,6 +482,10 @@ function startDictation() {
     const speechRateSelect = document.getElementById('speechRate');
     const speechRate = parseFloat(speechRateSelect ? speechRateSelect.value : '1');
 
+    // 直接从DOM读取抽词数量
+    const wordPickCountInput = document.getElementById('wordPickCount');
+    const wordPickCount = parseInt(wordPickCountInput ? wordPickCountInput.value : '0');
+
     // 直接从DOM读取显示选项
     const showMeaning = document.getElementById('showMeaning').checked;
     const showWord = document.getElementById('showWord').checked;
@@ -538,7 +540,14 @@ function startDictation() {
         return;
     }
 
-    // 使用直接从DOM读取的设置
+    // 抽词数量：先从范围内随机抽取指定数量的单词
+    // 播放顺序：决定最终听写的排列顺序
+    if (wordPickCount > 0 && wordPickCount < wordsToDictate.length) {
+        // 无论播放顺序如何，抽词本身都是随机的
+        wordsToDictate = shuffleArray(wordsToDictate).slice(0, wordPickCount);
+    }
+
+    // 根据播放顺序决定最终排列
     App.currentSession = order === 'random'
         ? shuffleArray(wordsToDictate)
         : wordsToDictate;
@@ -827,6 +836,7 @@ function toggleErrorSelection(word) {
         App.selectedErrorWords.add(word);
     }
     renderErrorList(App.errors, App.selectedErrorWords, App.words);
+    updateErrorCounts();
 }
 
 function selectAllErrors() {
@@ -860,6 +870,7 @@ function toggleErrorSelectAll() {
     }
 
     renderErrorList(App.errors, App.selectedErrorWords, App.words);
+    updateErrorCounts();
 
     // 更新按钮状态
     const selectAllBtn = document.getElementById('selectAllErrorsBtn');
@@ -911,6 +922,7 @@ function editErrorCount(word) {
     
     saveData();
     renderErrorList(App.errors, App.selectedErrorWords, App.words);
+    updateErrorCounts();
     showNotification(`已更新 "${word}" 的错误次数`, 'success');
 }
 
@@ -931,6 +943,7 @@ function deleteSelectedErrors() {
     
     saveData();
     renderErrorList(App.errors, App.selectedErrorWords, App.words);
+    updateErrorCounts();
     showNotification(`已删除 ${wordsToDelete.length} 个错词`, 'success');
 }
 

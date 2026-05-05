@@ -40,84 +40,107 @@
         .header {
             background: #4285F4;
             color: white;
-            padding: 20px 25px;
-            border-radius: 8px;
+            padding: 18px 24px 20px;
+            border-radius: 16px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(66, 133, 244, 0.3);
+            box-shadow: 0 4px 16px rgba(66, 133, 244, 0.35);
+            font-family: 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        }
+
+        /* 顶部导航区：主Tab + 模式Tab在同一行 */
+        .header-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
         }
 
         .main-tabs {
             display: flex;
             gap: 8px;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #e9ecef;
-            padding-bottom: 8px;
         }
 
         .main-tab {
-            padding: 8px 18px;
-            border-radius: 8px 8px 0 0;
+            padding: 10px 22px;
+            border-radius: 22px;
             cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s;
-            background: transparent;
-            border: none;
-            color: #6c757d;
-            font-size: 14px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.25s ease;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.35);
+            color: rgba(255, 255, 255, 0.9);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-align: center;
+            white-space: nowrap;
         }
 
         .main-tab:hover {
-            color: #4361ee;
-            background: rgba(67, 97, 238, 0.1);
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            color: white;
         }
 
         .main-tab.active {
             background: white;
-            color: #4361ee;
-            border-bottom: 3px solid #4361ee;
+            color: #4285F4;
+            border-color: white;
+            font-weight: 700;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
         }
 
+        /* 模式Tab：简洁文字标签风格，与主Tab明显区分 */
         .mode-tabs {
             display: flex;
-            gap: 8px;
-            margin-bottom: 12px;
+            gap: 2px;
         }
 
         .mode-tab {
-            padding: 6px 16px;
-            border-radius: 20px;
+            padding: 5px 10px;
+            border-radius: 6px;
             cursor: pointer;
             font-weight: 500;
-            transition: all 0.3s;
-            background: rgba(255, 255, 255, 0.2);
-            border: 2px solid transparent;
-            font-size: 13px;
+            font-size: 12px;
+            transition: all 0.2s ease;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            letter-spacing: 0.3px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
         }
 
         .mode-tab:hover {
-            background: rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .mode-tab.active {
-            background: white;
-            color: #4361ee;
-            border-color: #4361ee;
+            background: rgba(255, 255, 255, 0.18);
+            color: white;
+            font-weight: 600;
         }
 
         .header h1 {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 4px;
+            margin: 0;
+            letter-spacing: 0.5px;
+            opacity: 0.95;
         }
 
         .header p {
-            font-size: 0.95rem;
-            opacity: 0.9;
+            display: none;  /* 副标题简化处理 */
         }
 
         .main-grid {
             display: grid;
-            grid-template-columns: 1fr 340px;
+            grid-template-columns: 1fr 360px;
             gap: 20px;
         }
 
@@ -131,10 +154,10 @@
         }
 
         .card h2 {
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-weight: 600;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
             border-bottom: 2px solid #4361ee;
             color: #2c3e50;
         }
@@ -176,10 +199,10 @@
         }
 
         .btn {
-            padding: 12px 20px;
+            padding: 10px 18px;
             border: none;
             border-radius: 8px;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s;
@@ -295,14 +318,21 @@
             flex-shrink: 0;
         }
 
+        .error-checkbox {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
         .word-info {
             flex: 1;
             min-width: 0;
         }
 
         .word-text {
-            font-weight: 600;
-            font-size: 1rem;
+            font-weight: 500;
+            font-size: 14px;
             color: #2c3e50;
             margin-bottom: 4px;
         }
@@ -313,16 +343,6 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-        }
-
-        .word-group-tag {
-            font-size: 0.75rem;
-            color: #9b59b6;
-            background: #f3e5f5;
-            padding: 2px 8px;
-            border-radius: 10px;
-            display: inline-block;
-            margin-top: 4px;
         }
 
         .word-actions {
@@ -409,14 +429,20 @@
 
         .error-item {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 10px 12px;
+            padding: 6px 10px;
             border-bottom: 1px solid #e9ecef;
+            gap: 8px;
         }
 
         .error-item:last-child {
             border-bottom: none;
+        }
+
+        .error-actions {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
         }
 
         .error-count {
@@ -430,6 +456,17 @@
             justify-content: center;
             font-size: 0.8rem;
             font-weight: 600;
+        }
+
+        .error-word {
+            font-weight: 500;
+            font-size: 14px;
+            color: #2c3e50;
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .progress-bar {
@@ -491,10 +528,15 @@
             display: none !important;
         }
 
+        /* 悬浮导航按钮 - 桌面端默认隐藏 */
+        .float-nav-btn {
+            display: none;
+        }
+
         .radio-group {
             display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
+            gap: 12px;
+            flex-wrap: nowrap;
         }
 
         .radio-group label {
@@ -509,72 +551,92 @@
             margin-right: 6px;
         }
 
-        /* 分组管理样式 */
-        .group-list {
-            max-height: 200px;
-            overflow-y: auto;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            background: #f8f9fa;
+        /* 紧凑设置布局 */
+        .settings-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+            padding-bottom: 14px;
+            border-bottom: 1px dashed #e9ecef;
         }
 
-        .group-item {
-            border-bottom: 1px solid #e9ecef;
-        }
-
-        .group-item:last-child {
+        .settings-row:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
             border-bottom: none;
         }
 
-        .group-header {
+        .settings-item {
+            flex: 1;
+            min-width: 80px;
+        }
+
+        /* 设置面板中的选择框统一样式 */
+        .settings-item select.form-control {
+            width: 100%;
+            min-width: 0;
+            max-width: 110px;
+            height: 32px;
+            font-size: 13px;
+            padding: 4px 6px;
+        }
+
+        /* 播放次数、播放间隔、朗读速度三个选择框并排 */
+        .settings-row-selects {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .settings-row-selects .settings-item {
+            flex: none;
+            min-width: 0;
+        }
+
+        .settings-row-selects .settings-item select.form-control {
+            max-width: 100%;
+            height: 32px;
+            font-size: 13px;
+        }
+
+        .settings-item label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: #495057;
+            font-size: 13px;
+        }
+
+        .checkbox-group {
             display: flex;
-            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: nowrap;
+        }
+
+        .checkbox-group label {
+            display: flex;
             align-items: center;
-            padding: 12px 16px;
+            font-weight: normal;
             cursor: pointer;
-            transition: background 0.2s;
+            font-size: 13px;
         }
 
-        .group-header:hover {
-            background: #e3f2fd;
+        /* 播放顺序和抽词数量容器：确保label顶部对齐 */
+        .settings-row > div[style*="display: flex"] {
+            align-items: stretch;
         }
 
-        .group-info {
+        .settings-row > div[style*="display: flex"] .settings-item {
             display: flex;
-            align-items: center;
-            gap: 8px;
+            flex-direction: column;
         }
 
-        .group-name {
-            font-weight: 600;
-            color: #2c3e50;
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-right: 4px;
         }
 
-        .group-count {
-            font-size: 0.85rem;
-            color: #6c757d;
-        }
-
-        .group-actions {
-            display: flex;
-            gap: 6px;
-        }
-
-        .group-words {
-            padding: 10px 16px 10px 40px;
-            background: #f8f9fa;
-            border-top: 1px solid #e9ecef;
-        }
-
-        .group-word-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 6px 0;
-            font-size: 0.9rem;
-        }
-
-        /* 自然拼读法样式 */
         .phonics-section {
             margin-top: 15px;
         }
@@ -831,8 +893,14 @@
         .export-buttons {
             display: flex;
             gap: 10px;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
             margin-top: 15px;
+        }
+
+        .export-buttons .btn-small {
+            flex: 1;
+            min-width: 0;
+            text-align: center;
         }
 
         /* 移动端专属元素 - 桌面端默认隐藏 */
@@ -869,6 +937,7 @@
         }
 
         .presets-collapsible {
+            max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease;
         }
@@ -913,16 +982,6 @@
                 max-width: 100vw;
                 width: 100%;
                 overflow-x: hidden;
-            }
-
-            /* 手机端默认折叠快速导入 */
-            .presets-collapsible {
-                max-height: 0;
-            }
-
-            .presets-collapsible.open {
-                max-height: 500px;
-                margin-top: 8px;
             }
 
             /* 手机端卡片折叠 - 默认折叠 */
@@ -1150,6 +1209,11 @@
                 height: 18px;
             }
 
+            .error-checkbox {
+                width: 18px;
+                height: 18px;
+            }
+
             .word-text {
                 font-size: 0.95rem;
                 margin-bottom: 0;
@@ -1209,11 +1273,6 @@
                 width: 100%;
                 order: 10;
                 margin-top: 4px;
-            }
-
-            .word-counter .btn-save-book {
-                width: 100%;
-                text-align: center;
             }
 
             /* 词库操作按钮行 */
@@ -1299,12 +1358,12 @@
                 gap: 8px;
             }
 
-            .error-item .btn-small {
+            .error-actions .btn-small {
                 padding: 5px 10px;
                 font-size: 12px;
             }
 
-            .error-item .btn-danger {
+            .error-actions .btn-danger {
                 padding: 5px 10px;
                 font-size: 12px;
             }
@@ -1381,6 +1440,51 @@
             /* ===== 添加新单词区域 ===== */
             #bulkImport {
                 font-size: 15px; /* 防止iOS缩放 */
+            }
+
+            /* ===== 悬浮导航按钮 ===== */
+            .float-nav-btn {
+                display: flex !important;
+                position: fixed;
+                bottom: 15px;
+                right: 12px;
+                width: 40px;
+                height: 40px;
+                border-radius: 10px;
+                background: rgba(234, 67, 53, 0.7);
+                color: white;
+                border: 1px solid rgba(255, 255, 255, 0.4);
+                cursor: pointer;
+                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+                z-index: 999;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 1px;
+                transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+            }
+
+            .float-nav-btn:hover {
+                background: rgba(234, 67, 53, 0.85);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            }
+
+            .float-nav-btn:active {
+                transform: translateY(0) scale(0.95);
+            }
+
+            .float-nav-icon {
+                font-size: 0.85rem;
+                line-height: 1;
+                color: white;
+            }
+
+            .float-nav-line {
+                font-size: 0.75rem;
+                line-height: 1;
+                color: white;
+                font-weight: 300;
             }
         }
 
@@ -1604,6 +1708,29 @@
                 max-height: 200px;
             }
 
+            .error-item {
+                padding: 5px 8px;
+                gap: 6px;
+            }
+
+            .error-word {
+                font-size: 0.9rem;
+                flex: 1;
+                min-width: 0;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .error-actions {
+                gap: 4px;
+            }
+
+            .error-actions .btn-small {
+                padding: 3px 8px;
+                font-size: 12px;
+            }
+
             /* 8. 按钮层次优化 - 保持Google蓝色 */
             .btn-primary {
                 background: #4285F4;
@@ -1615,17 +1742,18 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <div class="main-tabs">
-                <button class="main-tab active" data-tab="dictation" onclick="switchMainTab('dictation')">📝 听写训练</button>
-                <button class="main-tab" data-tab="phonics" onclick="switchMainTab('phonics')">🔤 自然拼读</button>
-            </div>
-            
-            <div class="mode-tabs" id="modeTabsContainer">
-                <button class="mode-tab active" data-mode="english" onclick="switchMode('english')">🇬🇧 英语听写</button>
-                <button class="mode-tab" data-mode="chinese" onclick="switchMode('chinese')">🇨🇳 语文听写</button>
+            <div class="header-nav">
+                <div class="main-tabs">
+                    <button class="main-tab active" data-tab="dictation" onclick="switchMainTab('dictation')">📝 听写训练</button>
+                    <button class="main-tab" data-tab="phonics" onclick="switchMainTab('phonics')">🔤 自然拼读</button>
+                </div>
+                
+                <div class="mode-tabs" id="modeTabsContainer">
+                    <button class="mode-tab active" data-mode="english" onclick="switchMode('english')">🇬🇧 英语</button>
+                    <button class="mode-tab" data-mode="chinese" onclick="switchMode('chinese')">🇨🇳 语文</button>
+                </div>
             </div>
             <h1 class="app-title">🎓 英语词语听写</h1>
-            <p class="app-subtitle">英语词语听写训练系统</p>
         </div>
 
         <!-- 听写训练主界面 -->
@@ -1640,9 +1768,9 @@
                         
                         <div class="form-group">
                             <label>添加新单词</label>
-                            <div style="display: flex; gap: 10px; align-items: flex-start; min-width: 0;">
+                            <div style="display: flex; gap: 10px; align-items: stretch; min-width: 0;">
                                 <textarea id="bulkImport" class="form-control" rows="3" placeholder="输入英文单词，每行一个（如：&#10;apple&#10;book&#10;cat）" style="flex: 1; min-width: 0;"></textarea>
-                                <button class="btn btn-primary" onclick="bulkImportWords()" style="margin-top: 0; border-radius: 4px; width: 44px; height: 44px; padding: 0; display: flex; align-items: center; justify-content: center;">导入</button>
+                                <button class="btn btn-primary" onclick="bulkImportWords()" style="border-radius: 4px; width: 44px; padding: 6px 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; line-height: 1.2;">点击<br>添加</button>
                             </div>
                         </div>
 
@@ -1763,69 +1891,78 @@
                         <h2 class="card-toggle" onclick="toggleCard('settings')">⚙️ 听写设置 <span class="card-arrow">▼</span></h2>
                         <div class="card-collapsible" id="cardContent_settings">
                         
-                        <div class="form-group">
-                            <label>听写范围</label>
-                            <div class="radio-group">
-                                <label><input type="radio" name="range" value="all" checked> 全部单词</label>
-                                <label><input type="radio" name="range" value="selected"> 选中单词</label>
-                                <label><input type="radio" name="range" value="errors"> 错词本</label>
+                        <div class="settings-row" style="flex-direction: column; gap: 12px;">
+                            <div class="settings-item" style="flex: none;">
+                                <label>听写范围</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="range" value="all" checked> 全部</label>
+                                    <label><input type="radio" name="range" value="selected"> 选中</label>
+                                    <label><input type="radio" name="range" value="errors"> 错词</label>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 30px; align-items: flex-start; flex-wrap: wrap;">
+                                <div class="settings-item" style="flex: none;">
+                                    <label>播放顺序</label>
+                                    <div class="radio-group">
+                                        <label><input type="radio" name="order" value="random" checked> 随机</label>
+                                        <label><input type="radio" name="order" value="sequential"> 顺序</label>
+                                    </div>
+                                </div>
+                                <div class="settings-item" style="flex: none;">
+                                    <label>抽词数量</label>
+                                    <input type="number" id="wordPickCount" class="form-control" placeholder="空=全部" min="1" style="width: 100px; height: 30px; padding: 4px 8px; font-size: 14px; border-radius: 4px;">
+                                </div>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label>播放顺序</label>
-                            <div class="radio-group">
-                                <label><input type="radio" name="order" value="random"> 随机</label>
-                                <label><input type="radio" name="order" value="sequential" checked> 顺序</label>
+                        <div class="settings-row settings-row-selects" style="gap: 8px;">
+                            <div class="settings-item">
+                                <label>播放次数</label>
+                                <select id="playCount" class="form-control">
+                                    <option value="0">不朗读</option>
+                                    <option value="1">1次</option>
+                                    <option value="2" selected>2次</option>
+                                    <option value="3">3次</option>
+                                </select>
+                            </div>
+                            <div class="settings-item">
+                                <label>播放间隔</label>
+                                <select id="intervalTime" class="form-control">
+                                    <option value="0">不自动</option>
+                                    <option value="5" selected>5秒</option>
+                                    <option value="10">10秒</option>
+                                    <option value="15">15秒</option>
+                                </select>
+                            </div>
+                            <div class="settings-item">
+                                <label>朗读速度</label>
+                                <select id="speechRate" class="form-control">
+                                    <option value="0.4">极慢</option>
+                                    <option value="0.6">慢速</option>
+                                    <option value="0.8" selected>正常</option>
+                                    <option value="1">快速</option>
+                                </select>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label>播放次数</label>
-                            <select id="playCount" class="form-control">
-                                <option value="0">不朗读</option>
-                                <option value="1">1次</option>
-                                <option value="2" selected>2次</option>
-                                <option value="3">3次</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>播放间隔（秒）</label>
-                            <select id="intervalTime" class="form-control">
-                                <option value="0">不自动播放</option>
-                                <option value="5" selected>5秒</option>
-                                <option value="10">10秒</option>
-                                <option value="15">15秒</option>
-                                <option value="20">20秒</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>朗读速度</label>
-                            <select id="speechRate" class="form-control">
-                                <option value="0.4">极慢</option>
-                                <option value="0.6">慢速</option>
-                                <option value="0.8" selected>正常</option>
-                                <option value="1">快速</option>
-                                <option value="1.2">极快</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>显示选项</label>
-                            <div style="display: flex; flex-direction: column; gap: 8px;">
-                                <label><input type="checkbox" id="showMeaning"> 显示释义</label>
-                                <label><input type="checkbox" id="showWord"> 显示单词</label>
-                                <label><input type="checkbox" id="showExamples"> 显示例句</label>
+                        <div class="settings-row">
+                            <div class="settings-item" style="flex: none;">
+                                <label>显示选项</label>
+                                <div class="checkbox-group">
+                                    <label><input type="checkbox" id="showMeaning"> 释义</label>
+                                    <label><input type="checkbox" id="showWord"> 单词</label>
+                                    <label><input type="checkbox" id="showExamples"> 例句</label>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label>输入模式</label>
-                            <div class="radio-group">
-                                <label><input type="radio" name="inputMode" value="in-app"> 应用内输入</label>
-                                <label><input type="radio" name="inputMode" value="offline" checked> 线下听写</label>
+                        <div class="settings-row">
+                            <div class="settings-item" style="flex: none;">
+                                <label>听写模式</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="inputMode" value="in-app"> 线上</label>
+                                    <label><input type="radio" name="inputMode" value="offline" checked> 线下</label>
+                                </div>
                             </div>
                         </div>
                         </div><!-- end card-collapsible -->
@@ -1835,6 +1972,9 @@
                     <div class="card" data-card="errorBook">
                         <h2 class="card-toggle" onclick="toggleCard('errorBook')">❌ 错词本 <span class="card-arrow">▼</span></h2>
                         <div class="card-collapsible" id="cardContent_errorBook">
+                        <div class="error-toolbar" style="margin-bottom: 15px;">
+                            <span style="font-size: 13px; color: #6c757d;">错词数：<strong id="totalErrorCount">0</strong> | 已选择：<strong id="selectedErrorCount">0</strong></span>
+                        </div>
                         <div class="error-toolbar" style="margin-bottom: 15px;">
                             <button class="btn btn-small btn-secondary" id="selectAllErrorsBtn" onclick="toggleErrorSelectAll()">☑️ 全选</button>
                             <button class="btn btn-small btn-secondary" id="sortErrorsBtn" onclick="toggleErrorSort()">🔤 排序</button>
@@ -1850,16 +1990,16 @@
                     <div class="card" data-card="dataManage">
                         <h2 class="card-toggle" onclick="toggleCard('dataManage')">💾 数据管理 <span class="card-arrow">▼</span></h2>
                         <div class="card-collapsible" id="cardContent_dataManage">
-                        <p style="color: #6c757d; font-size: 0.9rem; margin-bottom: 15px;">
-                            支持多种格式导出，方便打印复习
+                        <p style="color: #6c757d; font-size: 0.9rem; margin-bottom: 12px;">
+                            数据导出
                         </p>
                         <div class="export-buttons">
-                            <button class="btn btn-small btn-primary" onclick="exportWordList()">📄 导出词库</button>
-                            <button class="btn btn-small btn-warning" onclick="exportErrorBook()">📋 导出错词本</button>
-                            <button class="btn btn-small btn-success" onclick="exportDictationRecord()">📝 导出听写记录</button>
+                            <button class="btn btn-small btn-primary" onclick="exportWordList()">📄 词库</button>
+                            <button class="btn btn-small btn-warning" onclick="exportErrorBook()">📋 错词</button>
+                            <button class="btn btn-small btn-success" onclick="exportDictationRecord()">📝 听写记录</button>
                         </div>
-                        <p style="color: #9b59b6; font-size: 0.85rem; margin-top: 10px;">
-                            💡 提示：导出时可选择TXT、CSV或JSON格式
+                        <p style="color: #4285F4; font-size: 0.75rem; margin-top: 8px;">
+                            支持 TXT / CSV / JSON 格式
                         </p>
                         <div style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed #dee2e6;">
                             <p style="color: #6c757d; font-size: 0.9rem; margin-bottom: 10px;">数据备份与恢复</p>
@@ -1934,6 +2074,12 @@
         </div>
     </div>
 
+    <!-- 悬浮导航按钮（手机端） -->
+    <button class="float-nav-btn" id="floatNavBtn" onclick="toggleFloatNav()">
+        <span class="float-nav-icon">▼</span>
+        <span class="float-nav-line">─</span>
+    </button>
+
     <!-- 脚本引入顺序很重要 -->
     <script src="presets.js"></script>
     <script src="data.js"></script>
@@ -1946,7 +2092,8 @@
         // 快速导入折叠面板
         function togglePresets(contentId) {
             const content = document.getElementById(contentId);
-            const arrow = content.previousElementSibling.querySelector('.presets-arrow');
+            const arrowId = contentId.replace('Content', 'Arrow');
+            const arrow = document.getElementById(arrowId);
             content.classList.toggle('open');
             if (arrow) arrow.classList.toggle('open');
         }
@@ -1980,34 +2127,6 @@
                 modeTabsContainer.classList.add('hidden');
                 renderPhonicsLearn();
             }
-        }
-        
-        // 添加到分组弹窗
-        function showAddToGroupDialog() {
-            const selectedIds = Array.from(App.selectedWords);
-            if (selectedIds.length === 0) {
-                showNotification('请先选择要添加的单词', 'error');
-                return;
-            }
-            
-            const groups = App.currentMode === 'english' ? App.englishGroups : App.chineseGroups;
-            const groupKeys = Object.keys(groups);
-            
-            if (groupKeys.length === 0) {
-                showNotification('请先创建一个分组', 'info');
-                return;
-            }
-            
-            let options = groupKeys.map(key => `<option value="${key}">${groups[key].name}</option>`).join('');
-            const groupId = prompt(`选择分组:\n${groupKeys.map((key, i) => `${i + 1}. ${groups[key].name}`).join('\n')}\n\n请输入分组名称:`);
-            
-            if (!groupId || !groups[groupId]) {
-                showNotification('未选择有效分组', 'error');
-                return;
-            }
-            
-            selectedIds.forEach(id => addWordToGroup(id, groupId));
-            showNotification(`已将 ${selectedIds.length} 个单词添加到分组`, 'success');
         }
     </script>
 </body>

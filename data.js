@@ -536,10 +536,8 @@ const DataManager = {
         currentMode: 'english',
         englishWords: [],
         englishErrors: {},
-        englishGroups: {},
         chineseWords: [],
         chineseErrors: {},
-        chineseGroups: {},
         settings: {
             range: 'all',
             order: 'sequential',
@@ -553,13 +551,11 @@ const DataManager = {
         }
     },
     
-    save(englishWords, englishErrors, englishGroups, chineseWords, chineseErrors, chineseGroups, settings, mode, englishCustomBooks, chineseCustomBooks) {
+    save(englishWords, englishErrors, chineseWords, chineseErrors, settings, mode, englishCustomBooks, chineseCustomBooks) {
         localStorage.setItem('dictation_english_words', JSON.stringify(englishWords));
         localStorage.setItem('dictation_english_errors', JSON.stringify(englishErrors));
-        localStorage.setItem('dictation_english_groups', JSON.stringify(englishGroups));
         localStorage.setItem('dictation_chinese_words', JSON.stringify(chineseWords));
         localStorage.setItem('dictation_chinese_errors', JSON.stringify(chineseErrors));
-        localStorage.setItem('dictation_chinese_groups', JSON.stringify(chineseGroups));
         localStorage.setItem('dictation_settings', JSON.stringify(settings));
         localStorage.setItem('dictation_mode', mode);
         localStorage.setItem('dictation_english_custom_books', JSON.stringify(englishCustomBooks || {}));
@@ -582,10 +578,8 @@ const DataManager = {
         return {
             englishWords: JSON.parse(localStorage.getItem('dictation_english_words') || '[]'),
             englishErrors: JSON.parse(localStorage.getItem('dictation_english_errors') || '{}'),
-            englishGroups: JSON.parse(localStorage.getItem('dictation_english_groups') || '{}'),
             chineseWords: JSON.parse(localStorage.getItem('dictation_chinese_words') || '[]'),
             chineseErrors: JSON.parse(localStorage.getItem('dictation_chinese_errors') || '{}'),
-            chineseGroups: JSON.parse(localStorage.getItem('dictation_chinese_groups') || '{}'),
             settings: { ...defaultSettings, ...savedSettings },
             mode: localStorage.getItem('dictation_mode') || 'english',
             englishCustomBooks: JSON.parse(localStorage.getItem('dictation_english_custom_books') || '{}'),
