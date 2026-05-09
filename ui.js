@@ -23,54 +23,149 @@ function showNotification(message, type = 'info', duration = 3000) {
 }
 
 /**
- * 渲染自定义小词库列表
+ * 渲染树形词库列表
  */
 function renderCustomWordBooks() {
     // 渲染英语小词库
     const englishContainer = document.getElementById('customWordBooks');
     if (englishContainer) {
-        const englishBooks = App.englishCustomBooks || {};
-        const bookIds = Object.keys(englishBooks);
-
-        if (bookIds.length === 0) {
-            englishContainer.innerHTML = '';
-        } else {
-            englishContainer.innerHTML = bookIds.map(bookId => {
-                const book = englishBooks[bookId];
-                return `
-                    <div class="custom-book-item" style="display: inline-block; margin: 3px;">
-                        <button class="btn btn-small btn-secondary" onclick="importCustomWordBook('${bookId}')" title="导入到词库">
-                            📚 ${book.name} (${book.words.length})
-                        </button>
-                        <button class="btn btn-small btn-danger" onclick="deleteCustomWordBook('${bookId}')" title="删除小词库" style="padding: 2px 6px;">×</button>
-                    </div>
-                `;
-            }).join('');
-        }
+        const tree = App.englishCustomBooks || {};
+        const expanded = App.expandedFolders?.english || new Set();
+        englishContainer.innerHTML = renderTreeNode('root', tree, expanded, 'english');
     }
 
     // 渲染语文小词库
     const chineseContainer = document.getElementById('chineseCustomWordBooks');
     if (chineseContainer) {
-        const chineseBooks = App.chineseCustomBooks || {};
-        const bookIds = Object.keys(chineseBooks);
-
-        if (bookIds.length === 0) {
-            chineseContainer.innerHTML = '';
-        } else {
-            chineseContainer.innerHTML = bookIds.map(bookId => {
-                const book = chineseBooks[bookId];
-                return `
-                    <div class="custom-book-item" style="display: inline-block; margin: 3px;">
-                        <button class="btn btn-small btn-secondary" onclick="importCustomWordBook('${bookId}')" title="导入到词库">
-                            📚 ${book.name} (${book.words.length})
-                        </button>
-                        <button class="btn btn-small btn-danger" onclick="deleteCustomWordBook('${bookId}')" title="删除小词库" style="padding: 2px 6px;">×</button>
-                    </div>
-                `;
-            }).join('');
-        }
+        const tree = App.chineseCustomBooks || {};
+        const expanded = App.expandedFolders?.chinese || new Set();
+        chineseContainer.innerHTML = renderTreeNode('root', tree, expanded, 'chinese');
     }
+}
+
+/**
+ * 递归渲染树形节点
+ */
+function renderTreeNode(nodeId, tree, expanded, mode) {
+    const node = tree[nodeId];
+    if (!node) return '';
+
+    const isExpanded = expanded.has(nodeId);
+    
+    // 递归渲染子节点
+    let childrenHtml = '';
+    if (node.children && node.children.length > 0) {
+        childrenHtml = node.children.map(childId => {
+            const child = tree[childId];
+            if (!child) return '';
+            
+            if (child.type === 'folder') {
+                return renderTreeNode(childId, tree, expanded, mode);
+            } else if (child.type === 'book') {
+                return renderBookItem(childId, tree, mode);
+            }
+            return '';
+        }).join('');
+    }
+
+    // 根节点特殊处理
+    if (nodeId === 'root') {
+        return `<div class="tree-root">${childrenHtml}</div>`;
+    }
+
+    // 文件夹节点
+    if (node.type === 'folder') {
+        const folderPath = getItemPath(nodeId);
+        const pathDisplay = folderPath ? ` <span style="color:#888;font-size:0.8em;">(${folderPath})</span>` : '';
+
+        return `
+            <div class="tree-folder" style="margin: 4px 0;">
+                <div class="tree-folder-header" style="display:flex;align-items:center;gap:4px;">
+                    <span class="tree-toggle" onclick="toggleFolderExpanded('${nodeId}')" style="cursor:pointer;user-select:none;width:20px;display:inline-block;">
+                        ${isExpanded ? '▼' : '▶'}
+                    </span>
+                    <span style="color:#f59e0b;">📁</span>
+                    <span style="font-size:13px;">${escapeHtml(node.name)}</span>
+                    ${pathDisplay}
+                    <span style="color:#888;font-size:0.8em;">(${node.children.length}项)</span>
+                    <span style="margin-left:auto;display:flex;gap:4px;">
+                        <button class="btn btn-small" onclick="promptCreateFolderAt('${nodeId}')" title="在此创建子文件夹" style="padding:1px 6px;font-size:0.75em;">+文件夹</button>
+                        <button class="btn btn-small" onclick="renameItem('${nodeId}')" title="重命名" style="padding:1px 4px;font-size:0.75em;">✏️</button>
+                        <button class="btn btn-small" onclick="moveItemUp('${nodeId}')" title="上移" style="padding:1px 4px;font-size:0.75em;">↑</button>
+                        <button class="btn btn-small" onclick="moveItemDown('${nodeId}')" title="下移" style="padding:1px 4px;font-size:0.75em;">↓</button>
+                        <button class="btn btn-small" onclick="promptMoveItem('${nodeId}')" title="移动到..." style="padding:1px 4px;font-size:0.75em;">↗</button>
+                        <button class="btn btn-small btn-danger" onclick="deleteFolder('${nodeId}')" title="删除" style="padding:1px 4px;font-size:0.75em;">×</button>
+                    </span>
+                </div>
+                <div class="tree-folder-content" style="margin-left:24px;${isExpanded ? '' : 'display:none;'}">
+                    ${childrenHtml}
+                </div>
+            </div>
+        `;
+    }
+
+    return childrenHtml;
+}
+
+/**
+ * 渲染词库项
+ */
+function renderBookItem(bookId, tree, mode) {
+    const book = tree[bookId];
+    if (!book || book.type !== 'book') return '';
+
+    const wordCount = book.words ? book.words.length : 0;
+    const pathDisplay = getItemPath(bookId);
+    const pathHtml = pathDisplay ? `<span style="color:#888;font-size:0.8em;"> - ${escapeHtml(pathDisplay)}</span>` : '';
+
+    return `
+        <div class="tree-book-item" style="display:flex;align-items:center;gap:6px;margin:3px 0;padding:2px 0;">
+            <span style="color:#10b981;">📖</span>
+            <button class="btn btn-small btn-secondary" onclick="importCustomWordBook('${bookId}')" title="导入到词库">
+                ${escapeHtml(book.name)} (${wordCount})
+            </button>
+            ${pathHtml}
+            <span style="display:flex;gap:4px;margin-left:auto;">
+                <button class="btn btn-small" onclick="renameItem('${bookId}')" title="重命名" style="padding:1px 4px;font-size:0.75em;">✏️</button>
+                <button class="btn btn-small" onclick="moveItemUp('${bookId}')" title="上移" style="padding:1px 4px;font-size:0.75em;">↑</button>
+                <button class="btn btn-small" onclick="moveItemDown('${bookId}')" title="下移" style="padding:1px 4px;font-size:0.75em;">↓</button>
+                <button class="btn btn-small" onclick="promptMoveItem('${bookId}')" title="移动到..." style="padding:1px 4px;font-size:0.75em;">↗</button>
+                <button class="btn btn-small btn-danger" onclick="deleteCustomWordBook('${bookId}')" title="删除" style="padding:1px 4px;font-size:0.75em;">×</button>
+            </span>
+        </div>
+    `;
+}
+
+/**
+ * HTML转义
+ */
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+/**
+ * 弹出在指定位置创建文件夹的对话框
+ */
+function promptCreateFolderAt(parentId) {
+    const customBooks = App.currentMode === 'english' ? App.englishCustomBooks : App.chineseCustomBooks;
+    const parent = customBooks[parentId];
+    
+    if (!parent) return;
+    
+    const parentName = parent.type === 'root' ? '根目录' : parent.name;
+    
+    showCustomPrompt(
+        '新建文件夹',
+        `<p style="margin:5px 0;">保存位置：<strong>${escapeHtml(parentName)}</strong></p>
+        <p style="margin:5px 0 5px;">文件夹名称：</p>
+        <input type="text" id="folderNameInput" placeholder="输入文件夹名称" style="width:100%;padding:8px;">`,
+        function() {
+            const name = document.getElementById('folderNameInput')?.value || '';
+            return createFolder(name, parentId);
+        }
+    );
 }
 
 
@@ -128,30 +223,29 @@ function renderWordList(words, selectedWords, errors, currentMode) {
 
         return `
         <div class="word-item ${hasErrors ? 'has-errors' : ''}" onclick="toggleWordDetail(this, event)">
-            <input type="checkbox" class="word-checkbox"
-                   ${selectedWords.has(word.id) ? 'checked' : ''}
-                   onchange="toggleWordSelection(${word.id})">
-            <div class="word-info">
+            <!-- 第1行：单词 + 释义 + 按钮（始终显示） -->
+            <div class="word-main-row">
+                <input type="checkbox" class="word-checkbox"
+                       ${selectedWords.has(word.id) ? 'checked' : ''}
+                       onchange="toggleWordSelection(${word.id})">
                 <div class="word-text">${word.word} <span class="word-meaning-inline">${word.meaning || ''}</span>${hasErrors ? `<span class="word-error-badge">错${errors[word.word]}次</span>` : ''}</div>
-                <div class="word-details word-detail-extra">
-                    ${word.partOfSpeech || ''}
-                    <div class="meaning-row" id="meaningRow_${word.id}" style="margin-top: 4px;">
-                        <span class="meaning-edit" style="color: #2c3e50; font-weight: 500; cursor: pointer; font-size: 0.85rem;" onclick="startEditMeaning(${word.id})" title="点击编辑释义">释义: ${word.meaning || '(无)'}</span>
-                    </div>
-                </div>
-                <div class="word-example-row word-detail-extra" id="exampleRow_${word.id}">
-                    <span class="example-display" style="color: #666; font-size: 0.85rem; cursor: pointer;" onclick="startEditExamples(${word.id})" title="点击编辑例句">
-                        📝 例句: ${exampleCount > 0 ? examplePreview : '(无)'}
-                        ${exampleCount > 0 ? `<span style="color: #007bff;">(${exampleCount}句)</span>` : ''}
-                    </span>
+                <div class="word-actions">
+                    <button class="btn btn-small btn-icon" onclick="playWord('${escapedWord}')" title="朗读">🔈</button>
+                    <button class="btn btn-small btn-icon" onclick="addToErrorBook('${escapedWord}')" title="加入错题本">📝</button>
+                    <button class="btn btn-small btn-icon btn-delete-word" onclick="deleteWord(${word.id})" title="删除">✕</button>
                 </div>
             </div>
-            <div class="word-actions">
-                <button class="btn btn-small btn-success" onclick="playWord('${escapedWord}')">🔈</button>
-                <button class="btn btn-small btn-warning" onclick="addToErrorBook('${escapedWord}')">错词</button>
-                <button class="btn btn-small btn-danger btn-delete-word" onclick="deleteWord(${word.id})">✕</button>
+            <!-- 第2行：释义（仅展开时显示） -->
+            <div class="word-meaning-row word-detail-extra" id="meaningRow_${word.id}">
+                <span class="meaning-edit" onclick="startEditMeaning(${word.id})" title="点击编辑释义">释义: ${word.meaning || '(无)'}</span>
             </div>
-            <span class="word-expand-hint">›</span>
+            <!-- 第3行：例句（仅展开时显示） -->
+            <div class="word-example-row word-detail-extra" id="exampleRow_${word.id}">
+                <span class="example-display" onclick="startEditExamples(${word.id})" title="点击编辑例句">
+                    📝 例句: ${exampleCount > 0 ? examplePreview : '(无)'}
+                    ${exampleCount > 0 ? `<span style="color: var(--md-primary);">(${exampleCount}句)</span>` : ''}
+                </span>
+            </div>
         </div>
     `;
     }).join('');
@@ -208,8 +302,8 @@ function startEditExamples(wordId) {
 
     exampleRow.innerHTML = `
         <div style="margin-top: 5px;">
-            <textarea class="example-input" rows="3" style="width: 100%; padding: 5px; border: 1px solid #007bff; border-radius: 4px; resize: vertical; font-size: 0.85rem;" placeholder="输入例句（每行一条例句）">${escapedText}</textarea>
-            <div style="margin-top: 5px; text-align: right;">
+            <textarea class="example-input" rows="2" style="width: 100%; padding: 8px; border: 1px solid #007bff; border-radius: 4px; resize: vertical; font-size: 0.9rem; box-sizing: border-box;" placeholder="输入例句（每行一条例句）">${escapedText}</textarea>
+            <div style="margin-top: 8px; text-align: right;">
                 <button class="btn btn-small btn-secondary" onclick="cancelEditExamples(${wordId})">取消</button>
                 <button class="btn btn-small btn-primary" onclick="finishEditExamples(${wordId})">保存</button>
             </div>
@@ -291,9 +385,9 @@ function renderErrorList(errors, selectedErrorWords, words) {
                 <input type="checkbox" class="error-checkbox" ${selectedErrorWords.has(word) ? 'checked' : ''} onchange="toggleErrorSelection('${word.replace(/'/g, "\\'")}')">
                 <span class="error-word">${word}</span>
                 <div class="error-actions">
-                    <button class="btn btn-small btn-success" onclick="playWord('${word.replace(/'/g, "\\'")}')">🔈</button>
-                    <button class="btn btn-small btn-warning" onclick="editErrorCount('${word.replace(/'/g, "\\'")}')">${count}</button>
-                    <button class="btn btn-small btn-danger btn-delete-word" onclick="{ App.errors['${word.replace(/'/g, "\\'")}'] = 0; delete App.errors['${word.replace(/'/g, "\\'")}']; App.selectedErrorWords.delete('${word.replace(/'/g, "\\'")}'); saveData(); renderErrorList(App.errors, App.selectedErrorWords, App.words); updateErrorCounts(); }">✕</button>
+                    <button class="btn btn-small btn-icon" onclick="playWord('${word.replace(/'/g, "\\'")}')" style="width:26px;height:26px;padding:0;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;background:#f5f5f5;color:#666;border:none;">🔈</button>
+                    <button class="btn btn-small btn-icon" onclick="editErrorCount('${word.replace(/'/g, "\\'")}')" style="width:28px;height:28px;padding:0;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:bold;background:#fff;color:#856404;border:2px solid #f39c12;">${count}</button>
+                    <button class="btn btn-small btn-icon btn-delete-word" onclick="{ App.errors['${word.replace(/'/g, "\\'")}'] = 0; delete App.errors['${word.replace(/'/g, "\\'")}']; App.selectedErrorWords.delete('${word.replace(/'/g, "\\'")}'); saveData(); renderErrorList(App.errors, App.selectedErrorWords, App.words); updateErrorCounts(); }" style="width:26px;height:26px;padding:0;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;background:#f5f5f5;color:#666;border:none;">✕</button>
                 </div>
             </div>
         `).join('')}
@@ -415,11 +509,7 @@ function updateModeUI(currentMode, settings) {
         // 保存的值不在HTML选项中，使用第一个选项
         playCountEl.value = playCountOptions[0];
         App.settings.playCount = parseInt(playCountOptions[0]);
-        DataManager.save(
-            App.englishWords, App.englishErrors,
-            App.chineseWords, App.chineseErrors,
-            App.settings, App.currentMode
-        );
+        saveData();
     }
 
     // 同步播放间隔select状态
@@ -430,11 +520,7 @@ function updateModeUI(currentMode, settings) {
     } else if (intervalOptions.length > 0) {
         intervalTimeEl.value = intervalOptions[0];
         App.settings.intervalTime = parseInt(intervalOptions[0]);
-        DataManager.save(
-            App.englishWords, App.englishErrors,
-            App.chineseWords, App.chineseErrors,
-            App.settings, App.currentMode
-        );
+        saveData();
     }
 
     // 同步朗读速度select状态（从HTML读取实际选项，动态验证）
@@ -446,11 +532,7 @@ function updateModeUI(currentMode, settings) {
         // 保存的值不在HTML选项中，使用第一个选项
         speechRateEl.value = speechRateOptions[0];
         App.settings.speechRate = parseFloat(speechRateOptions[0]);
-        DataManager.save(
-            App.englishWords, App.englishErrors,
-            App.chineseWords, App.chineseErrors,
-            App.settings, App.currentMode
-        );
+        saveData();
     }
 
     // 同步显示选项checkbox状态
@@ -489,24 +571,14 @@ function setupEventListeners(settings) {
     document.querySelectorAll('input[name="range"]').forEach(radio => {
         radio.addEventListener('change', (e) => {
             App.settings.range = e.target.value;
-            DataManager.save(
-                App.englishWords, App.englishErrors,
-                App.chineseWords, App.chineseErrors,
-                App.settings, App.currentMode,
-                App.englishCustomBooks, App.chineseCustomBooks
-            );
+            saveData();
         });
     });
     
     document.querySelectorAll('input[name="order"]').forEach(radio => {
         radio.addEventListener('change', (e) => {
             App.settings.order = e.target.value;
-            DataManager.save(
-                App.englishWords, App.englishErrors,
-                App.chineseWords, App.chineseErrors,
-                App.settings, App.currentMode,
-                App.englishCustomBooks, App.chineseCustomBooks
-            );
+            saveData();
         });
     });
     
@@ -520,73 +592,38 @@ function setupEventListeners(settings) {
                 input.style.display = 'block';
                 input.style.margin = '0 auto';
             }
-            DataManager.save(
-                App.englishWords, App.englishErrors,
-                App.chineseWords, App.chineseErrors,
-                App.settings, App.currentMode,
-                App.englishCustomBooks, App.chineseCustomBooks
-            );
+            saveData();
         });
     });
     
     document.getElementById('playCount').addEventListener('change', (e) => {
         App.settings.playCount = parseInt(e.target.value);
-        DataManager.save(
-            App.englishWords, App.englishErrors,
-            App.chineseWords, App.chineseErrors,
-            App.settings, App.currentMode,
-            App.englishCustomBooks, App.chineseCustomBooks
-        );
+        saveData();
     });
     
     document.getElementById('intervalTime').addEventListener('change', (e) => {
         App.settings.intervalTime = parseInt(e.target.value);
-        DataManager.save(
-            App.englishWords, App.englishErrors,
-            App.chineseWords, App.chineseErrors,
-            App.settings, App.currentMode,
-            App.englishCustomBooks, App.chineseCustomBooks
-        );
+        saveData();
     });
     
     document.getElementById('speechRate').addEventListener('change', (e) => {
         App.settings.speechRate = parseFloat(e.target.value);
-        DataManager.save(
-            App.englishWords, App.englishErrors,
-            App.chineseWords, App.chineseErrors,
-            App.settings, App.currentMode,
-            App.englishCustomBooks, App.chineseCustomBooks
-        );
+        saveData();
     });
     
     document.getElementById('showMeaning').addEventListener('change', (e) => {
         App.settings.showMeaning = e.target.checked;
-        DataManager.save(
-            App.englishWords, App.englishErrors,
-            App.chineseWords, App.chineseErrors,
-            App.settings, App.currentMode,
-            App.englishCustomBooks, App.chineseCustomBooks
-        );
+        saveData();
     });
     
     document.getElementById('showWord').addEventListener('change', (e) => {
         App.settings.showWord = e.target.checked;
-        DataManager.save(
-            App.englishWords, App.englishErrors,
-            App.chineseWords, App.chineseErrors,
-            App.settings, App.currentMode,
-            App.englishCustomBooks, App.chineseCustomBooks
-        );
+        saveData();
     });
 
     document.getElementById('showExamples').addEventListener('change', (e) => {
         App.settings.showExamples = e.target.checked;
-        DataManager.save(
-            App.englishWords, App.englishErrors,
-            App.chineseWords, App.chineseErrors,
-            App.settings, App.currentMode,
-            App.englishCustomBooks, App.chineseCustomBooks
-        );
+        saveData();
     });
 
     // 初始化输入框显示状态（根据保存的inputMode设置）
@@ -647,16 +684,6 @@ function closeBackupModal() {
 
 // 执行备份导出
 function doBackupExport() {
-    const checkboxes = document.querySelectorAll('#backupModal input[type="checkbox"]');
-    const options = {
-        englishWords: document.getElementById('bk_englishWords').checked,
-        englishErrors: document.getElementById('bk_englishErrors').checked,
-        englishCustomBooks: document.getElementById('bk_englishCustomBooks').checked,
-        chineseWords: document.getElementById('bk_chineseWords').checked,
-        chineseErrors: document.getElementById('bk_chineseErrors').checked,
-        chineseCustomBooks: document.getElementById('bk_chineseCustomBooks').checked
-    };
-
     const data = {
         englishWords: App.englishWords,
         englishErrors: App.englishErrors,

@@ -355,94 +355,7 @@ const OptimizedMeanings = {
     'can I help you': '我能帮你吗',
     'let\'s go': '我们走吧',
     'see you later': '再见',
-    'see you tomorrow': '明天见',
-    'watch': '看；观看',
-    'read': '读；阅读',
-    'write': '写；书写',
-    'draw': '画；绘画',
-    'sing': '唱；唱歌',
-    'dance': '跳舞',
-    'jump': '跳；跳跃',
-    'run': '跑；跑步',
-    'walk': '走；步行',
-    'swim': '游泳',
-    'climb': '爬；攀登',
-    'ride': '骑；乘',
-    'drive': '驾驶',
-    'cook': '烹饪；做饭',
-    'clean': '清洁；打扫',
-    'wash': '洗；洗涤',
-    'happy': '快乐的；幸福的',
-    'sad': '悲伤的；难过的',
-    'angry': '生气的',
-    'tired': '疲劳的；累的',
-    'hungry': '饥饿的',
-    'thirsty': '口渴的',
-    'full': '满的；饱的',
-    'empty': '空的',
-    'big': '大的',
-    'small': '小的',
-    'tall': '高的',
-    'short': '矮的；短的',
-    'long': '长的',
-    'new': '新的',
-    'old': '旧的；老的',
-    'young': '年轻的',
-    'house': '房子；房屋',
-    'room': '房间',
-    'kitchen': '厨房',
-    'bedroom': '卧室',
-    'bathroom': '浴室',
-    'living room': '客厅',
-    'window': '窗户',
-    'door': '门',
-    'floor': '地板；楼层',
-    'wall': '墙',
-    'table': '桌子',
-    'bed': '床',
-    'sofa': '沙发',
-    'clock': '钟；时钟',
-    'lamp': '灯',
-    'rice': '米饭',
-    'noodle': '面条',
-    'bread': '面包',
-    'cake': '蛋糕',
-    'cookie': '饼干',
-    'chocolate': '巧克力',
-    'ice cream': '冰淇淋',
-    'fruit': '水果',
-    'vegetable': '蔬菜',
-    'meat': '肉',
-    'fish': '鱼',
-    'egg': '鸡蛋',
-    'milk': '牛奶',
-    'water': '水',
-    'juice': '果汁',
-    'tea': '茶',
-    'morning': '早晨；上午',
-    'afternoon': '下午',
-    'evening': '晚上',
-    'night': '夜晚',
-    'today': '今天',
-    'yesterday': '昨天',
-    'tomorrow': '明天',
-    'weekday': '工作日',
-    'weekend': '周末',
-    'holiday': '假期；假日',
-    'how old': '多少岁',
-    'how many': '多少',
-    'how much': '多少钱',
-    'what time': '什么时间',
-    'good morning': '早上好',
-    'good afternoon': '下午好',
-    'good evening': '晚上好',
-    'good night': '晚安',
-    'thank you': '谢谢',
-    'you are welcome': '不客气',
-    'excuse me': '打扰一下；对不起',
-    'sorry': '对不起',
-    'its ok': '没关系',
-    'no problem': '没问题'
+    'see you tomorrow': '明天见'
 };
 
 // 翻译API配置
@@ -725,19 +638,116 @@ const DataManager = {
 
         if (englishCustomBooks) {
             if (merge) {
-                // 合并：按bookId合并，相同id的词库追加单词
+                // 合并树形结构
                 result.englishCustomBooks = result.englishCustomBooks || {};
+                if (!result.englishCustomBooks.root) {
+                    result.englishCustomBooks.root = {
+                        id: 'root',
+                        type: 'root',
+                        name: '我的词库',
+                        children: []
+                    };
+                }
+
                 const backupBooks = backupData.english?.customBooks || {};
-                for (const [bookId, book] of Object.entries(backupBooks)) {
-                    if (result.englishCustomBooks[bookId]) {
-                        // 已有词库，追加新单词（去重）
-                        const existingWords = new Set(result.englishCustomBooks[bookId].words.map(w => w.word.toLowerCase()));
-                        const newWords = (book.words || []).filter(w => !existingWords.has(w.word.toLowerCase()));
-                        result.englishCustomBooks[bookId].words.push(...newWords);
-                    } else {
-                        // 新词库，直接添加
-                        result.englishCustomBooks[bookId] = book;
+
+                // 收集所有备份节点
+                const backupNodes = {};
+                for (const [itemId, item] of Object.entries(backupBooks)) {
+                    if (itemId === 'root') continue;
+                    backupNodes[itemId] = { ...item };
+                    if (!backupNodes[itemId].children) {
+                        backupNodes[itemId].children = [];
                     }
+                }
+
+                // 构建完整的父子关系链（从备份数据中）
+                // 找出每个节点应该出现在哪个父节点的 children 中
+                const childToParentMap = {}; // childId -> parentId
+
+                for (const [itemId, item] of Object.entries(backupNodes)) {
+                    // 这个节点会在其 parent 的 children 中
+                    if (item.parent && item.parent !== 'root') {
+                        childToParentMap[itemId] = item.parent;
+                    }
+                }
+
+                // 第一步：合并已有节点的内容
+                for (const [itemId, item] of Object.entries(backupNodes)) {
+                    if (result.englishCustomBooks[itemId]) {
+                        if (item.type === 'book') {
+                            const existingWords = new Set((result.englishCustomBooks[itemId].words || []).map(w => w.word.toLowerCase()));
+                            const newWords = (item.words || []).filter(w => !existingWords.has(w.word.toLowerCase()));
+                            result.englishCustomBooks[itemId].words = result.englishCustomBooks[itemId].words || [];
+                            result.englishCustomBooks[itemId].words.push(...newWords);
+                        }
+                        if (item.type === 'folder' && item.children) {
+                            result.englishCustomBooks[itemId].children = result.englishCustomBooks[itemId].children || [];
+                            const existingChildren = new Set(result.englishCustomBooks[itemId].children);
+                            item.children.forEach(childId => {
+                                if (!existingChildren.has(childId)) {
+                                    result.englishCustomBooks[itemId].children.push(childId);
+                                }
+                            });
+                        }
+                    }
+                }
+
+                // 第二步：添加新节点
+                // 只有当节点的直接 parent 已存在于结果中时，才添加此节点
+                // 否则跳过（它的 parent 稍后会被添加，然后会连带添加它）
+                const addedNodes = new Set(); // 记录已添加的节点
+
+                // 递归添加节点及其所有后代
+                const addNodeAndChildren = (nodeId) => {
+                    if (addedNodes.has(nodeId)) return;
+                    if (!backupNodes[nodeId]) return;
+
+                    const node = backupNodes[nodeId];
+                    const parentId = node.parent || 'root';
+
+                    // 检查 parent 是否已存在或即将被添加
+                    if (parentId === 'root' || result.englishCustomBooks[parentId] || addedNodes.has(parentId)) {
+                        // parent 已存在，添加这个节点
+                        result.englishCustomBooks[nodeId] = node;
+                        addedNodes.add(nodeId);
+
+                        // 确保添加到 parent 的 children
+                        if (parentId === 'root') {
+                            if (!result.englishCustomBooks.root.children.includes(nodeId)) {
+                                result.englishCustomBooks.root.children.push(nodeId);
+                            }
+                        } else if (result.englishCustomBooks[parentId]) {
+                            if (!result.englishCustomBooks[parentId].children.includes(nodeId)) {
+                                result.englishCustomBooks[parentId].children.push(nodeId);
+                            }
+                        }
+
+                        // 递归添加所有子节点
+                        if (node.children) {
+                            node.children.forEach(childId => addNodeAndChildren(childId));
+                        }
+                    }
+                };
+
+                // 按深度排序（父节点在前）后添加
+                const nodesByDepth = {};
+                const getDepth = (nodeId, depth = 0) => {
+                    const node = backupNodes[nodeId];
+                    if (!node) return depth;
+                    if (node.parent === 'root' || !node.parent) return depth;
+                    return getDepth(node.parent, depth + 1) + 1;
+                };
+
+                for (const itemId of Object.keys(backupNodes)) {
+                    const depth = getDepth(itemId);
+                    if (!nodesByDepth[depth]) nodesByDepth[depth] = [];
+                    nodesByDepth[depth].push(itemId);
+                }
+
+                // 按深度从浅到深添加
+                for (const depth of Object.keys(nodesByDepth).sort((a, b) => a - b)) {
+                    nodesByDepth[depth].forEach(itemId => addNodeAndChildren(itemId));
                 }
             } else {
                 result.englishCustomBooks = backupData.english?.customBooks || {};
@@ -768,16 +778,96 @@ const DataManager = {
 
         if (chineseCustomBooks) {
             if (merge) {
+                // 合并树形结构
                 result.chineseCustomBooks = result.chineseCustomBooks || {};
+                if (!result.chineseCustomBooks.root) {
+                    result.chineseCustomBooks.root = {
+                        id: 'root',
+                        type: 'root',
+                        name: '我的词库',
+                        children: []
+                    };
+                }
+
                 const backupBooks = backupData.chinese?.customBooks || {};
-                for (const [bookId, book] of Object.entries(backupBooks)) {
-                    if (result.chineseCustomBooks[bookId]) {
-                        const existingWords = new Set(result.chineseCustomBooks[bookId].words.map(w => w.word.toLowerCase()));
-                        const newWords = (book.words || []).filter(w => !existingWords.has(w.word.toLowerCase()));
-                        result.chineseCustomBooks[bookId].words.push(...newWords);
-                    } else {
-                        result.chineseCustomBooks[bookId] = book;
+
+                // 收集所有备份节点
+                const backupNodes = {};
+                for (const [itemId, item] of Object.entries(backupBooks)) {
+                    if (itemId === 'root') continue;
+                    backupNodes[itemId] = { ...item };
+                    if (!backupNodes[itemId].children) {
+                        backupNodes[itemId].children = [];
                     }
+                }
+
+                // 第一步：合并已有节点的内容
+                for (const [itemId, item] of Object.entries(backupNodes)) {
+                    if (result.chineseCustomBooks[itemId]) {
+                        if (item.type === 'book') {
+                            const existingWords = new Set((result.chineseCustomBooks[itemId].words || []).map(w => w.word.toLowerCase()));
+                            const newWords = (item.words || []).filter(w => !existingWords.has(w.word.toLowerCase()));
+                            result.chineseCustomBooks[itemId].words = result.chineseCustomBooks[itemId].words || [];
+                            result.chineseCustomBooks[itemId].words.push(...newWords);
+                        }
+                        if (item.type === 'folder' && item.children) {
+                            result.chineseCustomBooks[itemId].children = result.chineseCustomBooks[itemId].children || [];
+                            const existingChildren = new Set(result.chineseCustomBooks[itemId].children);
+                            item.children.forEach(childId => {
+                                if (!existingChildren.has(childId)) {
+                                    result.chineseCustomBooks[itemId].children.push(childId);
+                                }
+                            });
+                        }
+                    }
+                }
+
+                // 第二步：添加新节点
+                const addedNodes = new Set();
+
+                const addNodeAndChildren = (nodeId) => {
+                    if (addedNodes.has(nodeId)) return;
+                    if (!backupNodes[nodeId]) return;
+
+                    const node = backupNodes[nodeId];
+                    const parentId = node.parent || 'root';
+
+                    if (parentId === 'root' || result.chineseCustomBooks[parentId] || addedNodes.has(parentId)) {
+                        result.chineseCustomBooks[nodeId] = node;
+                        addedNodes.add(nodeId);
+
+                        if (parentId === 'root') {
+                            if (!result.chineseCustomBooks.root.children.includes(nodeId)) {
+                                result.chineseCustomBooks.root.children.push(nodeId);
+                            }
+                        } else if (result.chineseCustomBooks[parentId]) {
+                            if (!result.chineseCustomBooks[parentId].children.includes(nodeId)) {
+                                result.chineseCustomBooks[parentId].children.push(nodeId);
+                            }
+                        }
+
+                        if (node.children) {
+                            node.children.forEach(childId => addNodeAndChildren(childId));
+                        }
+                    }
+                };
+
+                const nodesByDepth = {};
+                const getDepth = (nodeId, depth = 0) => {
+                    const node = backupNodes[nodeId];
+                    if (!node) return depth;
+                    if (node.parent === 'root' || !node.parent) return depth;
+                    return getDepth(node.parent, depth + 1) + 1;
+                };
+
+                for (const itemId of Object.keys(backupNodes)) {
+                    const depth = getDepth(itemId);
+                    if (!nodesByDepth[depth]) nodesByDepth[depth] = [];
+                    nodesByDepth[depth].push(itemId);
+                }
+
+                for (const depth of Object.keys(nodesByDepth).sort((a, b) => a - b)) {
+                    nodesByDepth[depth].forEach(itemId => addNodeAndChildren(itemId));
                 }
             } else {
                 result.chineseCustomBooks = backupData.chinese?.customBooks || {};

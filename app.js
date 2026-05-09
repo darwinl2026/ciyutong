@@ -20,9 +20,15 @@ const App = {
     chineseSelectedWords: new Set(),
     chineseSelectedErrorWords: new Set(),
 
-    // 自定义小词库
+    // 自定义词库（树形结构）
     englishCustomBooks: {},
     chineseCustomBooks: {},
+    
+    // 展开状态（用于树形UI）
+    expandedFolders: {
+        english: new Set(),
+        chinese: new Set()
+    },
 
     // 通用状态
     currentSession: [],
@@ -112,13 +118,21 @@ function loadData() {
     App.englishErrors = data.englishErrors;
     App.chineseWords = data.chineseWords;
     App.chineseErrors = data.chineseErrors;
-    App.englishCustomBooks = data.englishCustomBooks || {};
-    App.chineseCustomBooks = data.chineseCustomBooks || {};
     App.settings = { ...App.settings, ...data.settings };
 
     if (data.mode === 'english' || data.mode === 'chinese') {
         App.currentMode = data.mode;
     }
+    
+    // 加载自定义词库（自动迁移旧数据到树形结构）
+    App.englishCustomBooks = migrateToTreeStructure(data.englishCustomBooks || {});
+    App.chineseCustomBooks = migrateToTreeStructure(data.chineseCustomBooks || {});
+    
+    // 初始化展开状态（根目录默认展开）
+    if (!App.expandedFolders) {
+        App.expandedFolders = { english: new Set(), chinese: new Set() };
+    }
+    App.expandedFolders[App.currentMode].add('root');
 }
 
 // ==================== 初始化 ====================
@@ -133,7 +147,9 @@ function initApp() {
     updateModeUI(App.currentMode, App.settings);
     renderWordList(App.words, App.selectedWords, App.errors, App.currentMode);
     renderCustomWordBooks();
-    // renderGroupList 已移除（分组功能已删除）
+    
+    // 初始化预设词库折叠状态（默认折叠）
+    initPresetSectionCollapse();
 
     renderErrorList(App.errors, App.selectedErrorWords, App.words);
     updateCounts(App.words, App.selectedWords);
@@ -219,7 +235,6 @@ function switchMode(mode) {
     updateModeUI(App.currentMode, App.settings);
     renderWordList(App.words, App.selectedWords, App.errors, App.currentMode);
     renderCustomWordBooks();
-    // renderGroupList 已移除（分组功能已删除）
     renderErrorList(App.errors, App.selectedErrorWords, App.words);
     updateCounts(App.words, App.selectedWords);
     updateErrorCounts();
@@ -632,23 +647,34 @@ function playCurrentWord() {
     const speechRateEl = document.getElementById('speechRate');
     const actualSpeechRate = parseFloat(speechRateEl ? speechRateEl.value : '1');
 
-    // 播放单词 (playCount=0时不朗读，用于线下自测模式)
-    if (actualPlayCount > 0) {
+    document.getElementById('answerInput').value = '';
+
+    // 自动播放下一个：使用轮询检测语音完成 + 兜底定时器
+    if (App.settings.intervalTime > 0 && App.settings.inputMode === 'offline') {
+        if (App.autoPlayTimer) clearTimeout(App.autoPlayTimer);
+
+        // 计算预估播放时长（保守估计：每个单词约2秒 + 间隔）
+        const estimatedPlayTime = actualPlayCount * 2000; // 2秒/次，比实际稍长
+        const totalWaitTime = estimatedPlayTime + App.settings.intervalTime * 1000;
+
+        // 兜底定时器：保守估计播放时长
+        App.autoPlayTimer = setTimeout(() => {
+            nextWord();
+        }, totalWaitTime);
+
+        // 播放单词 (playCount=0时不朗读，用于线下自测模式)
+        if (actualPlayCount > 0) {
+            for (let i = 0; i < actualPlayCount; i++) {
+                setTimeout(() => {
+                    playWord(currentWord.word, App.currentMode, actualSpeechRate);
+                }, i * 1500);
+            }
+        }
+    } else if (actualPlayCount > 0) {
+        // intervalTime=0 时，只播放不自动切换
         for (let i = 0; i < actualPlayCount; i++) {
             setTimeout(() => playWord(currentWord.word, App.currentMode, actualSpeechRate), i * 1500);
         }
-    }
-
-    document.getElementById('answerInput').value = '';
-
-    // 自动播放下一个
-    if (App.settings.intervalTime > 0 && App.settings.inputMode === 'offline') {
-        if (App.autoPlayTimer) clearTimeout(App.autoPlayTimer);
-        // 播音时间：播count次 * 1.5秒/次，如果播0次则为0
-        const playDuration = actualPlayCount * 1500;
-        App.autoPlayTimer = setTimeout(() => {
-            nextWord();
-        }, App.settings.intervalTime * 1000 + playDuration);
     }
 
     updateStats(App.currentIndex, App.currentSession.length, App.correctCount);
@@ -837,19 +863,6 @@ function toggleErrorSelection(word) {
     }
     renderErrorList(App.errors, App.selectedErrorWords, App.words);
     updateErrorCounts();
-}
-
-function selectAllErrors() {
-    const errorWords = Object.entries(App.errors)
-        .filter(([word, count]) => count > 0)
-        .sort((a, b) => b[1] - a[1]);
-
-    if (App.selectedErrorWords.size === errorWords.length) {
-        App.selectedErrorWords.clear();
-    } else {
-        errorWords.forEach(([word]) => App.selectedErrorWords.add(word));
-    }
-    renderErrorList(App.errors, App.selectedErrorWords, App.words);
 }
 
 // ==================== 错题本全选切换 ====================
@@ -1088,9 +1101,9 @@ function downloadFile(content, filename) {
     setTimeout(() => URL.revokeObjectURL(url), 100);
 }
 
-// ==================== 自定义小词库 ====================
+// ==================== 自定义词库 ====================
 
-// 弹出保存自定义小词库对话框
+// 弹出保存自定义词库对话框
 function promptSaveCustomBook() {
     const selectedIds = Array.from(App.selectedWords);
 
@@ -1100,45 +1113,132 @@ function promptSaveCustomBook() {
     }
 
     const customBooks = getCurrentCustomBooks();
-    const bookOptions = Object.keys(customBooks).map(bookId => {
-        const book = customBooks[bookId];
-        return `<option value="${bookId}">追加到"${book.name}"（${book.words.length}个词）</option>`;
-    }).join('');
+    
+    // 构建词库选项（按文件夹分组）
+    const buildBookOptions = (parentId, depth = 0) => {
+        const parent = customBooks[parentId];
+        if (!parent || !parent.children) return '';
+        
+        let options = '';
+        parent.children.forEach(childId => {
+            const item = customBooks[childId];
+            if (!item) return;
+            
+            if (item.type === 'book') {
+                const indent = '　'.repeat(depth);
+                options += `<option value="${childId}">${indent}追加到"${item.name}"（${item.words.length}个）</option>`;
+            } else if (item.type === 'folder') {
+                const indent = '　'.repeat(depth);
+                options += `<optgroup label="${indent}📁 ${item.name}">`;
+                options += buildBookOptions(childId, depth + 1);
+                options += `</optgroup>`;
+            }
+        });
+        return options;
+    };
+    
+    const bookOptions = buildBookOptions('root');
+    
+    // 构建父文件夹选项
+    const buildFolderOptions = (parentId, depth = 0) => {
+        const parent = customBooks[parentId];
+        if (!parent || !parent.children) return '';
+        
+        let options = '';
+        parent.children.forEach(childId => {
+            const item = customBooks[childId];
+            if (!item || item.type !== 'folder') return;
+            
+            const indent = '　'.repeat(depth);
+            options += `<option value="${childId}">${indent}${item.name}</option>`;
+            options += buildFolderOptions(childId, depth + 1);
+        });
+        return options;
+    };
+    
+    const folderOptions = buildFolderOptions('root');
 
-    const bookSelectHtml = bookOptions ? `
-        <p style="margin: 10px 0 5px;">追加到已有小词库：</p>
-        <select id="customBookTarget" style="width: 100%; padding: 5px;">
-            <option value="">-- 新建小词库 --</option>
-            ${bookOptions}
+    const selectHtml = `
+        <p style="margin: 10px 0 5px;">保存位置：</p>
+        <select id="customBookTarget" style="width: 100%; padding: 8px; margin-bottom: 10px;">
+            <option value="">-- 新建词库 --</option>
+            ${bookOptions ? `<optgroup label="追加到已有词库">${bookOptions}</optgroup>` : ''}
         </select>
-        <p style="margin: 10px 0 5px;">或新建小词库名称：</p>
-    ` : `<p style="margin: 10px 0 5px;">小词库名称：</p>`;
-
+        <p style="margin: 5px 0 5px;">保存到：</p>
+        <select id="customBookParent" style="width: 100%; padding: 8px; margin-bottom: 10px;">
+            <option value="root">根目录</option>
+            ${folderOptions}
+        </select>
+        <p style="margin: 5px 0 5px;">词库名称：</p>
+    `;
+    
     const nameInputId = 'customBookName_' + Date.now();
 
     showCustomPrompt(
         `已选择 ${selectedIds.length} 个单词`,
-        `${bookSelectHtml}
-        <input type="text" id="${nameInputId}" placeholder="输入小词库名称" style="width: 100%; padding: 5px; margin-top: 5px;">`,
+        `${selectHtml}
+        <input type="text" id="${nameInputId}" placeholder="输入词库名称" style="width: 100%; padding: 8px; margin-top: 5px;">`,
         function() {
-            const targetBookId = document.getElementById('customBookTarget')?.value || '';
+            const targetValue = document.getElementById('customBookTarget')?.value || '';
+            const parentId = document.getElementById('customBookParent')?.value || 'root';
             const name = document.getElementById(nameInputId)?.value || '';
 
-            if (!targetBookId && !name) {
-                showNotification('请输入小词库名称', 'error');
-                return false;
-            }
-
-            if (targetBookId) {
-                // 追加到已有小词库
-                createCustomWordBook('', selectedIds, targetBookId);
+            if (targetValue) {
+                // 追加到已有词库
+                appendToCustomWordBook(targetValue, selectedIds);
             } else {
-                // 新建小词库
-                createCustomWordBook(name, selectedIds);
+                // 新建词库
+                createCustomWordBook(name, selectedIds, parentId);
             }
+            
+            // 刷新自定义小词库显示
+            renderCustomWordBooks();
             return true;
         }
     );
+}
+
+// 追加单词到已有词库
+function appendToCustomWordBook(bookId, wordIds) {
+    const customBooks = getCurrentCustomBooks();
+    const book = customBooks[bookId];
+    
+    if (!book) {
+        showNotification('未找到该词库', 'error');
+        return false;
+    }
+    
+    // 获取选中单词的完整数据
+    const wordsToSave = wordIds.map(id => {
+        const word = App.words.find(w => w.id === id);
+        if (!word) return null;
+        return {
+            word: word.word,
+            meaning: word.meaning || '',
+            pronunciation: word.pronunciation || '',
+            partOfSpeech: word.partOfSpeech || '',
+            examples: word.examples || []
+        };
+    }).filter(w => w !== null);
+    
+    if (wordsToSave.length === 0) {
+        showNotification('没有有效的单词可保存', 'error');
+        return false;
+    }
+    
+    // 去重追加
+    const existingWords = new Set(book.words.map(w => w.word.toLowerCase()));
+    const newWords = wordsToSave.filter(w => !existingWords.has(w.word.toLowerCase()));
+    
+    if (newWords.length === 0) {
+        showNotification('选中的单词都已存在于该词库中', 'info');
+        return false;
+    }
+    
+    book.words.push(...newWords);
+    saveData();
+    showNotification(`已追加 ${newWords.length} 个单词到"${book.name}"`, 'success');
+    return true;
 }
 
 // 显示自定义提示框
@@ -1184,13 +1284,8 @@ function closeCustomPrompt() {
     if (modal) modal.remove();
 }
 
-// 获取当前模式的自定义小词库
-function getCurrentCustomBooks() {
-    return App.currentMode === 'english' ? App.englishCustomBooks : App.chineseCustomBooks;
-}
-
 // 创建自定义小词库（从选中的单词创建，或追加到已有小词库）
-function createCustomWordBook(name, wordIds, targetBookId = null) {
+function createCustomWordBook(name, wordIds, parentId = 'root') {
     if (!name || name.trim() === '') {
         showNotification('请输入小词库名称', 'error');
         return false;
@@ -1221,23 +1316,24 @@ function createCustomWordBook(name, wordIds, targetBookId = null) {
         return false;
     }
 
-    if (targetBookId && customBooks[targetBookId]) {
-        // 追加到已有小词库（去重）
-        const existingWords = new Set(customBooks[targetBookId].words.map(w => w.word.toLowerCase()));
-        const newWords = wordsToSave.filter(w => !existingWords.has(w.word.toLowerCase()));
-        customBooks[targetBookId].words.push(...newWords);
-        showNotification(`已追加 ${newWords.length} 个单词到"${customBooks[targetBookId].name}"`, 'success');
-    } else {
-        // 创建新小词库
-        const bookId = 'book_' + Date.now();
-        customBooks[bookId] = {
-            id: bookId,
-            name: name.trim(),
-            words: wordsToSave,
-            createdAt: new Date().toISOString()
-        };
-        showNotification(`小词库"${name.trim()}"已创建，包含 ${wordsToSave.length} 个单词`, 'success');
+    // 创建新小词库
+    const bookId = 'book_' + Date.now();
+    customBooks[bookId] = {
+        id: bookId,
+        type: 'book',
+        name: name.trim(),
+        parent: parentId,
+        children: [],
+        words: wordsToSave,
+        createdAt: new Date().toISOString()
+    };
+    
+    // 添加到父节点的children
+    if (customBooks[parentId]) {
+        customBooks[parentId].children.push(bookId);
     }
+    
+    showNotification(`小词库"${name.trim()}"已创建，包含 ${wordsToSave.length} 个单词`, 'success');
 
     saveData();
     renderCustomWordBooks();
@@ -1284,23 +1380,406 @@ function importCustomWordBook(bookId) {
     showNotification(`已导入 ${newWords.length} 个单词到词库`, 'success');
 }
 
-// 删除自定义小词库
+// ==================== 树形词库管理 ====================
+
+// 迁移旧扁平数据到树形结构
+function migrateToTreeStructure(oldBooks) {
+    // 如果已经包含 root 节点，说明已是新格式
+    if (oldBooks.root && oldBooks.root.type === 'root') {
+        return oldBooks;
+    }
+    
+    // 构建新的树形结构
+    const newBooks = {
+        root: {
+            id: 'root',
+            type: 'root',
+            name: '我的词库',
+            children: []
+        }
+    };
+    
+    // 迁移旧数据
+    Object.entries(oldBooks).forEach(([id, book]) => {
+        if (book && book.id) {
+            book.parent = 'root';
+            book.children = book.children || [];
+            newBooks[id] = book;
+            newBooks.root.children.push(id);
+        }
+    });
+    
+    return newBooks;
+}
+
+// 获取当前模式的自定义词库树形结构
+function getCurrentCustomBooks() {
+    return App.currentMode === 'english' ? App.englishCustomBooks : App.chineseCustomBooks;
+}
+
+// 获取当前模式的展开状态
+function getCurrentExpanded() {
+    return App.expandedFolders[App.currentMode];
+}
+
+// 切换文件夹展开/折叠状态
+function toggleFolderExpanded(folderId) {
+    const expanded = getCurrentExpanded();
+    if (expanded.has(folderId)) {
+        expanded.delete(folderId);
+    } else {
+        expanded.add(folderId);
+    }
+    renderCustomWordBooks();
+}
+
+// 创建文件夹
+function createFolder(name, parentId = 'root') {
+    const customBooks = getCurrentCustomBooks();
+    
+    if (!name || name.trim() === '') {
+        showNotification('请输入文件夹名称', 'error');
+        return false;
+    }
+    
+    // 检查是否已存在同名文件夹
+    const existingNames = Object.values(customBooks)
+        .filter(item => item.parent === parentId && item.type === 'folder')
+        .map(item => item.name);
+    if (existingNames.includes(name.trim())) {
+        showNotification('该位置已存在同名文件夹', 'error');
+        return false;
+    }
+    
+    const folderId = 'folder_' + Date.now();
+    customBooks[folderId] = {
+        id: folderId,
+        type: 'folder',
+        name: name.trim(),
+        parent: parentId,
+        children: []
+    };
+    
+    // 添加到父节点的children
+    if (customBooks[parentId]) {
+        customBooks[parentId].children.push(folderId);
+    }
+    
+    // 默认展开新创建的文件夹
+    getCurrentExpanded().add(folderId);
+    
+    saveData();
+    renderCustomWordBooks();
+    showNotification(`文件夹"${name.trim()}"已创建`, 'success');
+    return true;
+}
+
+// 删除文件夹（递归删除所有子节点）
+function deleteFolder(folderId) {
+    const customBooks = getCurrentCustomBooks();
+    const folder = customBooks[folderId];
+    
+    if (!folder || folder.type !== 'folder') {
+        return false;
+    }
+    
+    // 递归收集所有要删除的节点
+    const toDelete = [];
+    function collectIds(nodeId) {
+        toDelete.push(nodeId);
+        const node = customBooks[nodeId];
+        if (node && node.children) {
+            node.children.forEach(childId => collectIds(childId));
+        }
+    }
+    collectIds(folderId);
+    
+    const confirmMsg = toDelete.length === 1 
+        ? `确定要删除文件夹"${folder.name}"吗？`
+        : `确定要删除文件夹"${folder.name}"及其所有内容（共${toDelete.length}项）吗？`;
+    
+    if (!confirm(confirmMsg)) {
+        return false;
+    }
+    
+    // 从父节点移除
+    if (folder.parent && customBooks[folder.parent]) {
+        const parent = customBooks[folder.parent];
+        parent.children = parent.children.filter(id => id !== folderId);
+    }
+    
+    // 删除所有节点
+    toDelete.forEach(id => {
+        delete customBooks[id];
+        getCurrentExpanded().delete(id);
+    });
+    
+    saveData();
+    renderCustomWordBooks();
+    showNotification('文件夹已删除', 'info');
+    return true;
+}
+
+// 删除词库
 function deleteCustomWordBook(bookId) {
     const customBooks = getCurrentCustomBooks();
     const book = customBooks[bookId];
 
-    if (!book) {
+    if (!book || book.type !== 'book') {
         return;
     }
 
-    if (!confirm(`确定要删除小词库"${book.name}"吗？\n词库中的单词不会被删除。`)) {
+    if (!confirm(`确定要删除词库"${book.name}"吗？\n词库中的单词不会被删除。`)) {
         return;
+    }
+
+    // 从父节点移除
+    if (book.parent && customBooks[book.parent]) {
+        const parent = customBooks[book.parent];
+        parent.children = parent.children.filter(id => id !== bookId);
     }
 
     delete customBooks[bookId];
     saveData();
     renderCustomWordBooks();
-    showNotification('小词库已删除', 'info');
+    showNotification('词库已删除', 'info');
+}
+
+// 弹出创建文件夹对话框
+function promptCreateFolder() {
+    const customBooks = getCurrentCustomBooks();
+    
+    // 构建父文件夹选项（只能选根目录或一级文件夹）
+    const folderOptions = Object.entries(customBooks)
+        .filter(([id, item]) => item.type === 'root' || (item.type === 'folder' && item.parent === 'root'))
+        .map(([id, item]) => `<option value="${id}">${item.name}</option>`)
+        .join('');
+
+    showCustomPrompt(
+        '新建文件夹',
+        `<p style="margin: 5px 0 5px;">保存位置：</p>
+        <select id="folderParent" style="width: 100%; padding: 8px; margin-bottom: 10px;">
+            <option value="root">根目录</option>
+            ${folderOptions.replace('<option value="root">根目录</option>', '')}
+        </select>
+        <p style="margin: 5px 0 5px;">文件夹名称：</p>
+        <input type="text" id="folderNameInput" placeholder="输入文件夹名称" style="width: 100%; padding: 8px;">`,
+        function() {
+            const parentId = document.getElementById('folderParent')?.value || 'root';
+            const name = document.getElementById('folderNameInput')?.value || '';
+            return createFolder(name, parentId);
+        }
+    );
+}
+
+// 移动词库/文件夹到指定位置
+function moveItem(itemId, newParentId) {
+    const customBooks = getCurrentCustomBooks();
+    const item = customBooks[itemId];
+    const newParent = customBooks[newParentId];
+    
+    if (!item || !newParent) {
+        showNotification('无效的操作', 'error');
+        return false;
+    }
+    
+    // 不能移动到自己的子节点下
+    function isDescendant(parentId, targetId) {
+        const node = customBooks[parentId];
+        if (!node || !node.children) return false;
+        if (node.children.includes(targetId)) return true;
+        return node.children.some(function(cid) { return isDescendant(cid, targetId); });
+    }
+    
+    if (isDescendant(itemId, newParentId) || itemId === newParentId) {
+        showNotification('不能移动到自身或子文件夹下', 'error');
+        return false;
+    }
+    
+    // 不能移动到book类型节点下
+    if (newParent.type === 'book') {
+        showNotification('不能移动到词库内', 'error');
+        return false;
+    }
+    
+    // 从原父节点移除
+    if (item.parent && customBooks[item.parent]) {
+        const oldParent = customBooks[item.parent];
+        oldParent.children = oldParent.children.filter(id => id !== itemId);
+    }
+    
+    // 添加到新父节点
+    item.parent = newParentId;
+    newParent.children.push(itemId);
+    
+    saveData();
+    renderCustomWordBooks();
+    showNotification(`已移动到"${newParent.name}"`, 'success');
+    return true;
+}
+
+// 弹出移动位置对话框
+function promptMoveItem(itemId) {
+    const customBooks = getCurrentCustomBooks();
+    const item = customBooks[itemId];
+    
+    if (!item) return;
+    
+    // 构建可选位置（排除自己和子节点）
+    const availableParents = [];
+    function collectParents(nodeId, depth, path) {
+        const node = customBooks[nodeId];
+        if (!node) return;
+        
+        // 排除自己
+        if (nodeId === itemId) return;
+        
+        // 只允许移动到 root 或 folder 类型节点下（不能移动到 book 内）
+        if (node.type === 'root' || node.type === 'folder') {
+            availableParents.push({
+                id: nodeId,
+                name: (depth > 0 ? '  '.repeat(depth - 1) + '└ ' : '') + (node.type === 'root' ? '我的词库' : node.name),
+                type: node.type
+            });
+        }
+        
+        if (node.children) {
+            node.children.forEach(function(childId) { collectParents(childId, depth + 1, path + '/' + node.name); });
+        }
+    }
+    collectParents('root', 0, '');
+    
+    const options = availableParents.map(p => 
+        `<option value="${p.id}">${p.name}</option>`
+    ).join('');
+    
+    const itemType = item.type === 'folder' ? '文件夹' : '词库';
+    
+    showCustomPrompt(
+        `移动${itemType}`,
+        `<p style="margin: 5px 0 5px;">选择新位置：</p>
+        <select id="moveTargetParent" style="width: 100%; padding: 8px;">
+            ${options}
+        </select>`,
+        function() {
+            const newParentId = document.getElementById('moveTargetParent')?.value;
+            if (newParentId) {
+                return moveItem(itemId, newParentId);
+            }
+            return false;
+        }
+    );
+}
+
+// 获取词库所在文件夹路径
+function getItemPath(itemId) {
+    const customBooks = getCurrentCustomBooks();
+    const path = [];
+    let current = customBooks[itemId];
+
+    while (current && current.parent) {
+        if (current.parent !== 'root') {
+            const parent = customBooks[current.parent];
+            if (parent) {
+                path.unshift(parent.name);
+            }
+        }
+        current = customBooks[current.parent];
+    }
+
+    return path.join(' / ');
+}
+
+// 重命名文件夹或词库
+function renameItem(itemId) {
+    const customBooks = getCurrentCustomBooks();
+    const item = customBooks[itemId];
+
+    if (!item || item.type === 'root') {
+        return;
+    }
+
+    const itemType = item.type === 'folder' ? '文件夹' : '词库';
+    const currentName = item.name;
+
+    showCustomPrompt(
+        `重命名${itemType}`,
+        `<p style="margin:5px 0;">当前名称：${escapeHtml(currentName)}</p>
+        <p style="margin:5px 0 5px;">新名称：</p>
+        <input type="text" id="renameItemInput" value="${escapeHtml(currentName)}" style="width:100%;padding:8px;">`,
+        function() {
+            const newName = document.getElementById('renameItemInput')?.value || '';
+            if (!newName.trim()) {
+                showNotification('名称不能为空', 'error');
+                return false;
+            }
+            if (newName.trim() === currentName) {
+                return true; // 没有变化，直接关闭
+            }
+
+            // 检查同名冲突
+            const parent = customBooks[item.parent];
+            if (parent && parent.children) {
+                const siblings = parent.children.filter(id => id !== itemId);
+                const nameConflict = siblings.some(id => {
+                    const sibling = customBooks[id];
+                    return sibling && sibling.name === newName.trim();
+                });
+                if (nameConflict) {
+                    showNotification('该位置已存在同名项', 'error');
+                    return false;
+                }
+            }
+
+            item.name = newName.trim();
+            saveData();
+            renderCustomWordBooks();
+            showNotification(`${itemType}"${newName.trim()}"已重命名`, 'success');
+            return true;
+        }
+    );
+}
+
+// 向上移动项目（在同级列表中）
+function moveItemUp(itemId) {
+    const customBooks = getCurrentCustomBooks();
+    const item = customBooks[itemId];
+
+    if (!item || !item.parent) return;
+
+    const parent = customBooks[item.parent];
+    if (!parent || !parent.children) return;
+
+    const index = parent.children.indexOf(itemId);
+    if (index <= 0) return; // 已在最前面
+
+    // 交换位置
+    parent.children[index] = parent.children[index - 1];
+    parent.children[index - 1] = itemId;
+
+    saveData();
+    renderCustomWordBooks();
+}
+
+// 向下移动项目（在同级列表中）
+function moveItemDown(itemId) {
+    const customBooks = getCurrentCustomBooks();
+    const item = customBooks[itemId];
+
+    if (!item || !item.parent) return;
+
+    const parent = customBooks[item.parent];
+    if (!parent || !parent.children) return;
+
+    const index = parent.children.indexOf(itemId);
+    if (index < 0 || index >= parent.children.length - 1) return; // 已在最后面
+
+    // 交换位置
+    parent.children[index] = parent.children[index + 1];
+    parent.children[index + 1] = itemId;
+
+    saveData();
+    renderCustomWordBooks();
 }
 
 // ==================== 预设词库 ====================
@@ -1356,6 +1835,23 @@ function shuffleArray(array) {
         [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
     return shuffled;
+}
+
+// 预设词库折叠面板
+function togglePresetSection(contentId, arrowId) {
+    const content = document.getElementById(contentId);
+    const arrow = document.getElementById(arrowId);
+    if (content) {
+        content.style.display = content.style.display === 'none' ? '' : 'none';
+    }
+    if (arrow) {
+        arrow.textContent = content.style.display === 'none' ? '▶' : '▼';
+    }
+}
+
+// 初始化预设词库折叠状态（默认折叠）
+function initPresetSectionCollapse() {
+    togglePresetSection('englishPresetBtns', 'englishPresetArrow');
 }
 
 // 初始化应用

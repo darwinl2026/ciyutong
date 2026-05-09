@@ -32,8 +32,9 @@ function initAudio() {
  * @param {string} word - 要播放的单词或词语
  * @param {string} mode - 当前模式 'english' 或 'chinese'
  * @param {number} speechRate - 播放速率
+ * @param {function} onEnd - 播放完成后的回调函数
  */
-function playWord(word, mode = 'english', speechRate = 1) {
+function playWord(word, mode = 'english', speechRate = 1, onEnd = null) {
     if (!('speechSynthesis' in window)) return;
 
     // 不再调用cancel()，避免中断正在排队的语音
@@ -62,31 +63,11 @@ function playWord(word, mode = 'english', speechRate = 1) {
     utterance.pitch = 1;
     utterance.volume = 1;
 
-    speechSynthesis.speak(utterance);
-}
-
-/**
- * 播放提示音
- * @param {string} type - 'success', 'error', 'info'
- */
-function playSound(type = 'info') {
-    if (!('speechSynthesis' in window)) return;
-    
-    const utterance = new SpeechSynthesisUtterance('');
-    utterance.rate = 0;
-    
-    // 使用不同的音调区分类型
-    switch(type) {
-        case 'success':
-            utterance.pitch = 1.5;
-            break;
-        case 'error':
-            utterance.pitch = 0.8;
-            break;
-        default:
-            utterance.pitch = 1;
+    // 添加播放结束回调（部分浏览器可能不支持 onend）
+    if (onEnd) {
+        utterance.onend = onEnd;
     }
-    
+
     speechSynthesis.speak(utterance);
 }
 
@@ -94,6 +75,5 @@ function playSound(type = 'info') {
 window.AudioManager = {
     init: initAudio,
     playWord,
-    playSound,
     getChineseVoice: () => chineseVoice
 };

@@ -12,6 +12,54 @@
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%234361ee' width='100' height='100' rx='20'/><text x='50' y='65' font-size='50' text-anchor='middle' fill='white'>📝</text></svg>">
     
     <style>
+        /* ===== Material Design 3 设计系统变量 ===== */
+        :root {
+            /* M3 圆角系统 */
+            --shape-none: 0px;
+            --shape-small: 4px;
+            --shape-medium: 8px;
+            --shape-large: 12px;
+            --shape-extra-large: 16px;
+            --shape-full: 28px;
+
+            /* M3 颜色系统 */
+            --md-primary: #4285F4;
+            --md-primary-hover: #3367D6;
+            --md-primary-container: #D3E3FD;
+            --md-on-primary-container: #041E49;
+
+            --md-success: #10B981;
+            --md-success-container: #D1FAE5;
+            --md-on-success-container: #064E3B;
+
+            --md-error: #EF4444;
+            --md-error-container: #FEE2E2;
+            --md-on-error-container: #7F1D1D;
+
+            --md-warning: #F59E0B;
+            --md-warning-container: #FEF3C7;
+            --md-on-warning-container: #92400E;
+
+            /* Surface 色彩 */
+            --md-surface: #FAFAFA;
+            --md-surface-container: #F3F4F6;
+            --md-surface-container-high: #E8E9EC;
+            --md-on-surface: #1F2937;
+            --md-on-surface-variant: #6B7280;
+            --md-outline: #C4C7CC;
+            --md-outline-variant: #E5E7EB;
+
+            /* M3 Elevation 阴影 */
+            --elevation-level1: 0 1px 2px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.05);
+            --elevation-level2: 0 2px 4px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.05);
+            --elevation-level3: 0 4px 8px rgba(0,0,0,0.12), 0 8px 16px rgba(0,0,0,0.08);
+
+            /* M3 过渡动画 */
+            --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-medium: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -20,8 +68,8 @@
 
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: #f5f7fa;
-            color: #2c3e50;
+            background: var(--md-surface);
+            color: var(--md-on-surface);
             line-height: 1.6;
             min-height: 100vh;
             overflow-x: hidden;
@@ -37,105 +85,136 @@
             padding: 20px;
         }
 
+        /* ===== 头部优化 - M3 风格 ===== */
         .header {
-            background: #4285F4;
+            background: var(--md-primary);
             color: white;
-            padding: 18px 24px 20px;
-            border-radius: 16px;
+            padding: 20px 24px;
+            border-radius: var(--shape-full);
             margin-bottom: 20px;
-            box-shadow: 0 4px 16px rgba(66, 133, 244, 0.35);
+            box-shadow: 0 2px 8px rgba(66, 133, 244, 0.3);
             font-family: 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* 顶部导航区：主Tab + 模式Tab在同一行 */
+        /* M3 Surface Tint - 顶部渐变效果 */
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(
+                180deg,
+                rgba(255, 255, 255, 0.12) 0%,
+                rgba(255, 255, 255, 0.04) 50%,
+                transparent 100%
+            );
+            pointer-events: none;
+            border-radius: var(--shape-full) var(--shape-full) 0 0;
+        }
+
+        /* 顶部导航区 */
         .header-nav {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 14px;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
         }
 
         .main-tabs {
             display: flex;
-            gap: 8px;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.18);
+            padding: 4px;
+            border-radius: var(--shape-full);
         }
 
         .main-tab {
-            padding: 10px 22px;
-            border-radius: 22px;
+            padding: 10px 24px;
+            border-radius: var(--shape-full);
             cursor: pointer;
-            font-weight: 600;
-            font-size: 15px;
-            transition: all 0.25s ease;
-            background: rgba(255, 255, 255, 0.2);
-            border: 2px solid rgba(255, 255, 255, 0.35);
-            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            font-size: 14px;
+            transition: background-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.85);
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
             text-align: center;
             white-space: nowrap;
+            min-width: 70px;
         }
 
         .main-tab:hover {
-            background: rgba(255, 255, 255, 0.3);
-            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.12);
             color: white;
+            transform: translateY(-1px);
         }
 
         .main-tab.active {
             background: white;
-            color: #4285F4;
-            border-color: white;
-            font-weight: 700;
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+            color: var(--md-primary);
+            font-weight: 600;
+            box-shadow: var(--elevation-level2);
         }
 
-        /* 模式Tab：简洁文字标签风格，与主Tab明显区分 */
+        /* 模式Tab - M3 药丸风格 - 降权处理 */
         .mode-tabs {
             display: flex;
-            gap: 2px;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 3px;
+            border-radius: 18px;
         }
 
         .mode-tab {
-            padding: 5px 10px;
-            border-radius: 6px;
+            padding: 5px 14px;
+            border-radius: 14px;
             cursor: pointer;
             font-weight: 500;
             font-size: 12px;
-            transition: all 0.2s ease;
+            transition: background-color var(--transition-fast), color var(--transition-fast);
             background: transparent;
             border: none;
-            color: rgba(255, 255, 255, 0.6);
-            letter-spacing: 0.3px;
+            color: rgba(255, 255, 255, 0.65);
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 4px;
+            min-width: 50px;
         }
 
         .mode-tab:hover {
-            color: rgba(255, 255, 255, 0.95);
             background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.9);
         }
 
         .mode-tab.active {
-            background: rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.28);
             color: white;
             font-weight: 600;
         }
 
         .header h1 {
-            font-size: 1.5rem;
-            font-weight: 700;
+            font-size: 1.75rem;
+            font-weight: 600;
             margin: 0;
-            letter-spacing: 0.5px;
-            opacity: 0.95;
+            letter-spacing: 0.3px;
+            opacity: 0.97;
+            position: relative;
+            z-index: 1;
         }
 
         .header p {
-            display: none;  /* 副标题简化处理 */
+            display: none;
         }
 
         .main-grid {
@@ -144,29 +223,30 @@
             gap: 20px;
         }
 
+        /* ===== 卡片优化 - M3 Elevation ===== */
         .card {
             background: white;
-            border-radius: 12px;
-            padding: 18px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e9ecef;
+            border-radius: var(--shape-large);
+            padding: 16px;
+            box-shadow: var(--elevation-level1);
+            border: none;
             margin-bottom: 16px;
         }
 
         .card h2 {
-            font-size: 1rem;
+            font-size: 1.125rem;
             font-weight: 600;
             margin-bottom: 12px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #4361ee;
-            color: #2c3e50;
+            color: var(--md-on-surface);
+            padding-bottom: 0;
+            border-bottom: none;
         }
 
         .card h3 {
             font-size: 1rem;
             font-weight: 600;
             margin-bottom: 12px;
-            color: #2c3e50;
+            color: var(--md-on-surface);
         }
 
         .form-group {
@@ -177,97 +257,122 @@
             display: block;
             font-weight: 500;
             margin-bottom: 8px;
-            color: #495057;
-            font-size: 0.95rem;
+            color: var(--md-on-surface-variant);
+            font-size: 0.875rem;
         }
 
+        /* ===== 输入框优化 - M3 风格 ===== */
         .form-control {
             width: 100%;
             padding: 12px 16px;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
+            border: 1px solid var(--md-outline);
+            border-radius: var(--shape-medium);
             font-size: 16px;
-            transition: all 0.3s;
-            background: #f8f9fa;
+            transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
+            background: var(--md-surface-container);
+            color: var(--md-on-surface);
         }
 
         .form-control:focus {
             outline: none;
-            border-color: #4361ee;
+            border-color: var(--md-primary);
             background: white;
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+            box-shadow: 0 0 0 2px var(--md-primary-container);
         }
 
+        .form-control::placeholder {
+            color: var(--md-on-surface-variant);
+        }
+
+        /* ===== 按钮系统 - M3 Filled/Outlined/Text 风格 ===== */
         .btn {
-            padding: 10px 18px;
+            padding: 10px 24px;
             border: none;
-            border-radius: 8px;
+            border-radius: var(--shape-full);
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: background-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
+            text-align: center;
         }
 
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-1px);
         }
 
         .btn:active {
             transform: translateY(0);
         }
 
-        /* Google 极简风格按钮体系 */
+        /* M3 Filled Button - 主要按钮 */
         .btn-primary {
-            background: #4285F4;
+            background: var(--md-primary);
             color: white;
         }
 
         .btn-primary:hover {
-            background: #3367D6;
+            background: var(--md-primary-hover);
+            box-shadow: var(--elevation-level2);
         }
 
+        /* M3 Filled Tonal Button - 成功按钮 */
         .btn-success {
-            background: #34A853;
+            background: var(--md-success);
             color: white;
         }
 
+        .btn-success:hover {
+            background: #0EA472;
+            box-shadow: var(--elevation-level2);
+        }
+
+        /* M3 Filled Button - 危险按钮 */
         .btn-danger {
-            background: #EA4335;
+            background: var(--md-error);
             color: white;
         }
 
-        .btn-warning {
-            background: #FBBC05;
-            color: #3c4043;
+        .btn-danger:hover {
+            background: #DC2626;
+            box-shadow: var(--elevation-level2);
         }
 
-        /* 次要按钮：浅灰背景 + 深灰文字，与白色背景明显区分 */
+        /* M3 Outlined Button - 次要按钮 */
         .btn-secondary {
-            background: #dadce0;
-            color: #3c4043;
-            border: 1px solid #dadce0;
+            background: transparent;
+            color: var(--md-on-surface);
+            border: 1px solid var(--md-outline);
         }
 
         .btn-secondary:hover {
-            background: #c4c7cc;
+            background: var(--md-surface-container);
         }
 
-        /* 信息按钮：同样使用浅灰风格 */
+        /* 警告按钮 - M3 风格 */
+        .btn-warning {
+            background: var(--md-warning);
+            color: #7C3A12;
+        }
 
+        .btn-warning:hover {
+            background: #D97706;
+        }
+
+        /* 小按钮 - M3 风格 */
         .btn-small {
-            padding: 6px 12px;
+            padding: 6px 14px;
             font-size: 13px;
-            border-radius: 4px;
+            border-radius: var(--shape-full);
         }
 
         .btn.active {
-            background: #34A853 !important;
+            background: var(--md-primary) !important;
             color: white !important;
-            box-shadow: 0 2px 8px rgba(52, 168, 83, 0.4);
+            box-shadow: var(--elevation-level2);
         }
 
         .settings-grid {
@@ -277,34 +382,36 @@
         }
 
         .word-counter {
-            font-size: 0.9rem;
-            color: #6c757d;
+            font-size: 0.875rem;
+            color: var(--md-on-surface-variant);
             margin-bottom: 12px;
         }
 
         .word-list-container {
             max-height: 320px;
             overflow-y: auto;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            background: #f8f9fa;
+            border: none;
+            border-radius: var(--shape-medium);
+            background: var(--md-surface-container);
         }
 
         .word-item {
             display: flex;
             align-items: center;
-            padding: 6px 10px;
-            border-bottom: 1px solid #e9ecef;
-            transition: background 0.2s;
-            gap: 8px;
+            height: 40px;
+            min-height: 40px;
+            padding: 0 12px;
+            border-bottom: 1px solid var(--md-outline-variant);
+            transition: background-color var(--transition-fast);
+            gap: 12px;
         }
 
         .word-item:hover {
-            background: #e3f2fd;
+            background: var(--md-primary-container);
         }
 
         .word-item.has-errors {
-            background: #fff3cd;
+            background: var(--md-warning-container);
         }
 
         .word-item:last-child {
@@ -312,34 +419,45 @@
         }
 
         .word-checkbox {
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
             cursor: pointer;
             flex-shrink: 0;
+            accent-color: var(--md-primary);
         }
 
         .error-checkbox {
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
             cursor: pointer;
             flex-shrink: 0;
+            accent-color: var(--md-primary);
         }
 
         .word-info {
             flex: 1;
             min-width: 0;
-        }
-
-        .word-text {
-            font-weight: 500;
-            font-size: 14px;
-            color: #2c3e50;
-            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            overflow: hidden;
         }
 
         .word-details {
-            font-size: 0.85rem;
-            color: #6c757d;
+            font-size: 14px;
+            color: var(--md-on-surface-variant);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-weight: 400;
+            flex: 1;
+        }
+
+        .word-meaning-inline {
+            font-weight: 400;
+            font-size: 14px;
+            color: var(--md-on-surface-variant);
+            margin-left: 0;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -347,12 +465,98 @@
 
         .word-actions {
             display: flex;
-            gap: 6px;
+            gap: 8px;
+            flex-shrink: 0;
         }
 
+        .word-actions button {
+            padding: 4px 8px;
+            font-size: 12px;
+            border-radius: var(--shape-small);
+        }
+
+        /* ===== 单词展开三行布局 ===== */
+        .word-main-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+        }
+
+            .word-text {
+                font-weight: 600;
+                font-size: 15px;
+                color: var(--md-on-surface);
+                flex: 1;
+                min-width: 0;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+        .word-meaning-row {
+            padding: 4px 0 4px 42px;
+            font-size: 0.85rem;
+            color: var(--md-on-surface-variant);
+            text-align: left;
+            display: none;
+        }
+
+        .word-example-row {
+            padding: 4px 0 4px 42px;
+            font-size: 0.85rem;
+            color: var(--md-on-surface-variant);
+            text-align: left;
+            display: none;
+        }
+
+        .meaning-edit {
+            cursor: pointer;
+            color: var(--md-on-surface);
+            font-weight: 500;
+        }
+
+        .meaning-edit:hover {
+            color: var(--md-primary);
+        }
+
+        .example-display {
+            cursor: pointer;
+            color: var(--md-on-surface-variant);
+        }
+
+        .example-display:hover {
+            color: var(--md-primary);
+        }
+
+        /* 展开状态：三行都显示，左对齐 */
+        .word-item.expanded {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            height: auto;
+            min-height: 40px;
+            padding: 0 12px;
+        }
+
+        .word-item.expanded .word-main-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 4px 0;
+        }
+
+        .word-item.expanded .word-meaning-row,
+        .word-item.expanded .word-example-row {
+            display: block;
+            padding: 4px 0 4px 42px;
+            border-top: 1px dashed var(--md-outline-variant);
+        }
+
+        /* ===== 听写区域 - M3 风格 ===== */
         .dictation-area {
-            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-            border-radius: 12px;
+            background: var(--md-primary-container);
+            border-radius: var(--shape-large);
             padding: 20px;
             text-align: center;
             margin: 15px 0;
@@ -360,10 +564,10 @@
 
         .dictation-display {
             background: white;
-            border-radius: 12px;
-            padding: 25px 20px;
+            border-radius: var(--shape-large);
+            padding: 24px 20px;
             margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--elevation-level1);
             min-height: 160px;
             display: flex;
             flex-direction: column;
@@ -374,27 +578,34 @@
         .current-word {
             font-size: 2.2rem;
             font-weight: 700;
-            color: #4361ee;
+            color: var(--md-primary);
             margin-bottom: 10px;
         }
 
         .word-hint {
             font-size: 1rem;
-            color: #6c757d;
+            color: var(--md-on-surface-variant);
             margin-bottom: 15px;
         }
 
         .dictation-input {
             width: 100%;
             max-width: 350px;
-            padding: 12px;
+            padding: 14px;
             font-size: 1.3rem;
             text-align: center;
-            border: 2px solid #4361ee;
-            border-radius: 8px;
+            border: 2px solid var(--md-primary);
+            border-radius: var(--shape-medium);
             margin-bottom: 15px;
+            background: white;
         }
 
+        .dictation-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px var(--md-primary-container);
+        }
+
+        /* ===== 统计卡片 - M3 Elevation ===== */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -405,21 +616,21 @@
         .stat-card {
             background: white;
             padding: 14px;
-            border-radius: 8px;
+            border-radius: var(--shape-medium);
             text-align: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            box-shadow: var(--elevation-level1);
         }
 
         .stat-value {
             font-size: 2rem;
             font-weight: 700;
-            color: #4361ee;
+            color: var(--md-primary);
         }
 
         .stat-label {
-            font-size: 0.85rem;
-            color: #6c757d;
-            margin-top: 5px;
+            font-size: 0.8rem;
+            color: var(--md-on-surface-variant);
+            margin-top: 4px;
         }
 
         .error-list {
@@ -430,9 +641,11 @@
         .error-item {
             display: flex;
             align-items: center;
-            padding: 6px 10px;
-            border-bottom: 1px solid #e9ecef;
-            gap: 8px;
+            height: 40px;
+            min-height: 40px;
+            padding: 0 12px;
+            border-bottom: 1px solid var(--md-outline-variant);
+            gap: 10px;
         }
 
         .error-item:last-child {
@@ -446,7 +659,7 @@
         }
 
         .error-count {
-            background: #e74c3c;
+            background: var(--md-error);
             color: white;
             border-radius: 50%;
             width: 24px;
@@ -454,14 +667,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
         }
 
         .error-word {
             font-weight: 500;
             font-size: 14px;
-            color: #2c3e50;
+            color: var(--md-on-surface);
             flex: 1;
             min-width: 0;
             overflow: hidden;
@@ -469,49 +682,55 @@
             white-space: nowrap;
         }
 
+        /* ===== 进度条 - M3 风格 ===== */
         .progress-bar {
             width: 100%;
-            height: 8px;
-            background: #e9ecef;
-            border-radius: 4px;
+            height: 4px;
+            background: var(--md-surface-container-high);
+            border-radius: 2px;
             overflow: hidden;
             margin: 15px 0;
         }
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #4361ee, #3a0ca3);
-            transition: width 0.5s;
+            background: var(--md-primary);
+            transition: width var(--transition-slow);
+            border-radius: 2px;
         }
 
+        /* ===== 通知提示 - M3 Snackbar 风格 ===== */
         .notification {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 16px 24px;
-            border-radius: 8px;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            padding: 14px 24px;
+            border-radius: var(--shape-medium);
             color: white;
             font-weight: 500;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            transform: translateX(400px);
-            transition: transform 0.3s;
+            font-size: 14px;
+            box-shadow: var(--elevation-level3);
+            transition: transform var(--transition-medium);
             z-index: 1000;
+            min-width: 200px;
+            text-align: center;
         }
 
         .notification.show {
-            transform: translateX(0);
+            transform: translateX(-50%) translateY(0);
         }
 
         .notification.success {
-            background: #2ecc71;
+            background: #323232;
         }
 
         .notification.error {
-            background: #e74c3c;
+            background: #323232;
         }
 
         .notification.info {
-            background: #4361ee;
+            background: #323232;
         }
 
         .modal {
@@ -549,37 +768,6 @@
         .radio-group input[type="radio"] {
             width: auto;
             margin-right: 6px;
-        }
-
-        /* 紧凑设置布局 */
-        .settings-row {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-bottom: 14px;
-            padding-bottom: 14px;
-            border-bottom: 1px dashed #e9ecef;
-        }
-
-        .settings-row:last-child {
-            margin-bottom: 0;
-            padding-bottom: 0;
-            border-bottom: none;
-        }
-
-        .settings-item {
-            flex: 1;
-            min-width: 80px;
-        }
-
-        /* 设置面板中的选择框统一样式 */
-        .settings-item select.form-control {
-            width: 100%;
-            min-width: 0;
-            max-width: 110px;
-            height: 32px;
-            font-size: 13px;
-            padding: 4px 6px;
         }
 
         /* 播放次数、播放间隔、朗读速度三个选择框并排 */
@@ -648,12 +836,12 @@
 
         .phonics-header h3 {
             font-size: 1.5rem;
-            color: #2c3e50;
+            color: var(--md-on-surface);
             margin-bottom: 8px;
         }
 
         .phonics-intro {
-            color: #6c757d;
+            color: var(--md-on-surface-variant);
             font-size: 0.95rem;
         }
 
@@ -664,9 +852,10 @@
         .phonics-search input {
             width: 100%;
             padding: 12px 16px;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
+            border: 1px solid var(--md-outline);
+            border-radius: var(--shape-medium);
             font-size: 15px;
+            background: var(--md-surface-container);
         }
 
         .phonics-tabs {
@@ -674,27 +863,28 @@
             gap: 8px;
             flex-wrap: wrap;
             margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--md-outline-variant);
         }
 
         .phonics-tab {
             padding: 8px 16px;
-            border-radius: 20px;
+            border-radius: var(--shape-full);
             cursor: pointer;
             font-weight: 500;
-            transition: all 0.3s;
-            background: #f8f9fa;
-            border: 2px solid transparent;
-            color: #6c757d;
+            transition: background-color var(--transition-fast), color var(--transition-fast);
+            background: var(--md-surface-container);
+            border: none;
+            color: var(--md-on-surface-variant);
         }
 
         .phonics-tab:hover {
-            background: #e3f2fd;
+            background: var(--md-primary-container);
+            color: var(--md-primary);
         }
 
         .phonics-tab.active {
-            background: var(--tab-color, #4361ee);
+            background: var(--md-primary);
             color: white;
         }
 
@@ -704,10 +894,10 @@
         }
 
         .phonics-rule-card {
-            background: #f8f9fa;
-            border-radius: 12px;
+            background: var(--md-surface-container);
+            border-radius: var(--shape-large);
             padding: 20px;
-            border-left: 4px solid #4361ee;
+            border-left: 4px solid var(--md-primary);
         }
 
         .phonics-rule-header {
@@ -720,19 +910,19 @@
         .phonics-pattern {
             font-size: 1.3rem;
             font-weight: 700;
-            color: #2c3e50;
+            color: var(--md-on-surface);
         }
 
         .phonics-category-tag {
             font-size: 0.75rem;
             padding: 4px 10px;
-            background: #e3f2fd;
-            color: #4361ee;
+            background: var(--md-primary-container);
+            color: var(--md-primary);
             border-radius: 10px;
         }
 
         .phonics-description {
-            color: #6c757d;
+            color: var(--md-on-surface-variant);
             margin-bottom: 15px;
             font-size: 0.95rem;
         }
@@ -745,17 +935,17 @@
         .phonics-sound-item {
             background: white;
             padding: 12px 15px;
-            border-radius: 8px;
+            border-radius: var(--shape-medium);
         }
 
         .phonics-sound-label {
             font-size: 0.9rem;
-            color: #495057;
+            color: var(--md-on-surface-variant);
             margin-bottom: 8px;
         }
 
         .phonics-sound-label strong {
-            color: #e74c3c;
+            color: var(--md-error);
             font-size: 1.1rem;
         }
 
@@ -766,30 +956,30 @@
         }
 
         .phonics-example {
-            background: #e3f2fd;
-            color: #4361ee;
+            background: var(--md-primary-container);
+            color: var(--md-primary);
             padding: 4px 12px;
-            border-radius: 15px;
-            font-size: 0.9rem;
+            border-radius: var(--shape-full);
+            font-size: 0.875rem;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: background-color var(--transition-fast), color var(--transition-fast);
         }
 
         .phonics-example:hover {
-            background: #4361ee;
+            background: var(--md-primary);
             color: white;
         }
 
         .phonics-actions {
             margin-top: 15px;
             padding-top: 15px;
-            border-top: 1px solid #e9ecef;
+            border-top: 1px solid var(--md-outline-variant);
         }
 
-        /* 拼读练习样式 */
+        /* ===== 拼读练习样式 - M3 风格 ===== */
         .phonics-practice {
-            background: #f8f9fa;
-            border-radius: 12px;
+            background: var(--md-surface-container);
+            border-radius: var(--shape-large);
             padding: 25px;
         }
 
@@ -802,7 +992,7 @@
 
         .phonics-practice-header h4 {
             font-size: 1.2rem;
-            color: #2c3e50;
+            color: var(--md-on-surface);
         }
 
         .phonics-exercise-card {
@@ -812,14 +1002,14 @@
 
         .phonics-progress {
             font-size: 0.9rem;
-            color: #6c757d;
+            color: var(--md-on-surface-variant);
             margin-bottom: 20px;
         }
 
         .phonics-exercise-word {
             font-size: 3rem;
             font-weight: 700;
-            color: #4361ee;
+            color: var(--md-primary);
             cursor: pointer;
             margin-bottom: 15px;
         }
@@ -827,18 +1017,18 @@
         .play-hint {
             display: block;
             font-size: 0.9rem;
-            color: #6c757d;
+            color: var(--md-on-surface-variant);
             margin-top: 5px;
         }
 
         .phonics-hint {
-            color: #6c757d;
+            color: var(--md-on-surface-variant);
             margin-bottom: 10px;
         }
 
         .phonics-sound-question {
             font-size: 1.1rem;
-            color: #2c3e50;
+            color: var(--md-on-surface);
             margin-bottom: 20px;
         }
 
@@ -850,18 +1040,18 @@
         }
 
         .phonics-option {
-            padding: 15px 30px;
+            padding: 14px 28px;
             font-size: 1.2rem;
-            border: 2px solid #4361ee;
-            border-radius: 10px;
+            border: 2px solid var(--md-primary);
+            border-radius: var(--shape-large);
             background: white;
-            color: #4361ee;
+            color: var(--md-primary);
             cursor: pointer;
-            transition: all 0.3s;
+            transition: background-color var(--transition-fast), color var(--transition-fast);
         }
 
         .phonics-option:hover {
-            background: #4361ee;
+            background: var(--md-primary);
             color: white;
         }
 
@@ -872,13 +1062,13 @@
 
         .phonics-result h4 {
             font-size: 1.8rem;
-            color: #2ecc71;
+            color: var(--md-success);
             margin-bottom: 15px;
         }
 
         .phonics-result p {
             font-size: 1.1rem;
-            color: #6c757d;
+            color: var(--md-on-surface-variant);
             margin-bottom: 10px;
         }
 
@@ -903,33 +1093,93 @@
             text-align: center;
         }
 
-        /* 移动端专属元素 - 桌面端默认隐藏 */
-        .word-meaning-inline,
-        .word-error-badge,
-        .word-expand-hint {
-            display: none;
+        /* ===== 设置面板样式 - M3 风格 ===== */
+        .settings-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+            padding-bottom: 14px;
+            border-bottom: 1px dashed var(--md-outline-variant);
         }
 
-        /* 桌面端和手机端通用：详情默认隐藏，展开后显示 */
-        .word-detail-extra {
-            display: none;
+        .settings-row:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
         }
 
-        .word-item.expanded .word-detail-extra {
+        .settings-item {
+            flex: 1;
+            min-width: 80px;
+        }
+
+        .settings-item select.form-control {
+            width: 100%;
+            min-width: 0;
+            max-width: 110px;
+            height: 32px;
+            font-size: 13px;
+            padding: 4px 8px;
+        }
+
+        .settings-row-selects {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .settings-row-selects .settings-item {
+            flex: none;
+            min-width: 0;
+        }
+
+        .settings-row-selects .settings-item select.form-control {
+            max-width: 100%;
+            height: 32px;
+            font-size: 13px;
+        }
+
+        .settings-item label {
             display: block;
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: var(--md-on-surface-variant);
+            font-size: 13px;
         }
 
-        /* 快速导入折叠面板 - 基础样式 */
+        .checkbox-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: nowrap;
+        }
+
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            font-weight: normal;
+            cursor: pointer;
+            font-size: 13px;
+            color: var(--md-on-surface);
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-right: 6px;
+            accent-color: var(--md-primary);
+        }
+
+        /* 折叠面板样式 */
         .presets-toggle-label {
             font-weight: 500;
-            color: #495057;
-            font-size: 0.95rem;
+            color: var(--md-on-surface-variant);
+            font-size: 0.875rem;
         }
 
         .presets-arrow {
             font-size: 0.7rem;
-            color: #6c757d;
-            transition: transform 0.2s;
+            color: var(--md-on-surface-variant);
+            transition: transform var(--transition-fast);
         }
 
         .presets-arrow.open {
@@ -939,7 +1189,7 @@
         .presets-collapsible {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease;
+            transition: max-height var(--transition-medium);
         }
 
         .presets-collapsible.open {
@@ -947,7 +1197,7 @@
             margin-top: 8px;
         }
 
-        /* 卡片折叠面板 - 基础样式 */
+        /* 卡片折叠面板 */
         .card-toggle {
             cursor: pointer;
             display: flex;
@@ -958,9 +1208,9 @@
 
         .card-arrow {
             font-size: 0.7rem;
-            color: #6c757d;
-            transition: transform 0.2s;
-            display: none; /* 电脑端默认隐藏箭头 */
+            color: var(--md-on-surface-variant);
+            transition: transform var(--transition-fast);
+            display: none;
         }
 
         .card-arrow.open {
@@ -969,7 +1219,7 @@
 
         .card-collapsible {
             overflow: hidden;
-            transition: max-height 0.3s ease;
+            transition: max-height var(--transition-medium);
         }
 
         .card-collapsible.open {
@@ -977,14 +1227,14 @@
         }
 
         @media (max-width: 768px) {
-            /* ===== 根级防溢出 ===== */
+            /* ===== 移动端样式 ===== */
             html, body {
                 max-width: 100vw;
                 width: 100%;
                 overflow-x: hidden;
             }
 
-            /* 手机端卡片折叠 - 默认折叠 */
+            /* 手机端卡片折叠 */
             .card-collapsible {
                 max-height: 0;
             }
@@ -993,20 +1243,18 @@
                 max-height: 2000px;
             }
 
-            /* 手机端显示折叠箭头 */
             .card-arrow {
                 display: inline;
             }
 
-            /* ===== 通用 ===== */
             .container {
-                padding: 10px;
+                padding: 12px;
                 max-width: 100%;
                 width: 100%;
                 overflow-x: hidden;
             }
 
-            /* 防止所有子元素超出屏幕 - 全面覆盖 */
+            /* 防溢出 */
             .header, .main-grid, .card, .form-group, .radio-group, .word-counter,
             .dictation-area, .dictation-display, .settings-grid,
             .export-buttons, .error-list, .word-list-container,
@@ -1017,65 +1265,76 @@
                 overflow-x: hidden;
             }
 
-            /* form-group 内的div容器也防溢出（覆盖内联flex） */
             .form-group > div {
                 max-width: 100%;
                 overflow-x: hidden;
             }
 
-            /* 所有表单控件防溢出 */
             .form-control, input[type="text"], input[type="search"],
             textarea, select {
                 max-width: 100%;
             }
 
-            /* 文本防溢出 */
+            /* 词库展开后的释义和例句样式在下方合并管理 */
+            .meaning-edit,
+            .example-display {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: inline-block;
+                max-width: 100%;
+            }
+
             .word-text, .word-details, .word-meaning-inline,
-            h1, h2, h3, p, label, span {
+            h1, h2, h3, p, label {
                 word-wrap: break-word;
                 overflow-wrap: break-word;
             }
 
+            /* 头部 - 移动端优化 */
             .header {
-                padding: 15px;
-                margin-bottom: 15px;
-                border-radius: 8px;
+                padding: 16px 16px 18px;
+                margin-bottom: 12px;
+                border-radius: var(--shape-extra-large);
+            }
+
+            .header::before {
+                height: 80px;
             }
 
             .header h1 {
-                font-size: 1.5rem;
+                font-size: 1.25rem;
+                font-weight: 600;
             }
 
-            .header p {
-                font-size: 0.9rem;
-            }
-
-            /* 主Tab和模式Tab允许换行 */
+            /* Tab - 移动端优化 */
             .main-tabs {
-                margin-bottom: 10px;
-                gap: 6px;
+                margin-bottom: 12px;
+                gap: 4px;
                 flex-wrap: wrap;
             }
 
             .main-tab {
-                padding: 8px 14px;
+                padding: 8px 16px;
                 font-size: 13px;
+                min-width: 60px;
             }
 
             .mode-tabs {
                 margin-bottom: 10px;
-                gap: 6px;
+                gap: 4px;
                 flex-wrap: wrap;
             }
 
             .mode-tab {
-                padding: 6px 14px;
-                font-size: 13px;
+                padding: 4px 10px;
+                font-size: 11px;
+                min-width: 44px;
             }
 
             .main-grid {
                 grid-template-columns: 1fr;
-                gap: 15px;
+                gap: 12px;
                 max-width: 100%;
                 overflow-x: hidden;
             }
@@ -1086,20 +1345,20 @@
                 overflow-x: hidden;
             }
 
+            /* 卡片 - 移动端优化 */
             .card {
-                padding: 15px;
-                border-radius: 8px;
+                padding: 14px;
+                border-radius: var(--shape-medium);
                 margin-bottom: 12px;
             }
 
             .card h2 {
-                font-size: 1.1rem;
-                margin-bottom: 12px;
-                padding-bottom: 8px;
+                font-size: 1rem;
+                margin-bottom: 10px;
             }
 
             .card h3 {
-                font-size: 1rem;
+                font-size: 0.95rem;
                 margin-bottom: 10px;
             }
 
@@ -1108,22 +1367,23 @@
             }
 
             .form-group label {
-                font-size: 0.9rem;
+                font-size: 0.875rem;
                 margin-bottom: 6px;
             }
 
             .form-control {
                 padding: 10px 12px;
-                font-size: 15px; /* 防止iOS自动缩放 */
+                font-size: 16px;
             }
 
+            /* 按钮 - 移动端优化 */
             .btn {
-                padding: 10px 16px;
+                padding: 10px 18px;
                 font-size: 14px;
             }
 
             .btn-small {
-                padding: 5px 10px;
+                padding: 6px 12px;
                 font-size: 12px;
             }
 
@@ -1148,58 +1408,66 @@
                 font-size: 0.75rem;
             }
 
-            /* ===== 词库单词条目 - 紧凑布局 ===== */
+            /* 词库单词条目 - 紧凑布局 */
             .word-item {
-                padding: 6px 8px;
-                gap: 4px;
+                height: 40px;
+                min-height: 40px;
+                padding: 0 12px;
+                gap: 12px;
                 cursor: pointer;
-                flex-wrap: nowrap; /* 不换行，按钮紧跟单词 */
+                flex-wrap: nowrap;
                 align-items: center;
             }
 
             .word-info {
                 flex: 1;
                 min-width: 0;
+                display: flex;
+                align-items: center;
+                gap: 12px;
                 overflow: hidden;
             }
 
-            /* 按钮行不换行，紧跟右侧 */
             .word-actions {
                 flex-shrink: 0;
-                gap: 4px;
+                gap: 6px;
             }
 
             .word-actions .btn-small {
-                padding: 3px 8px;
-                font-size: 12px;
+                padding: 4px 8px;
+                font-size: 11px;
+                border-radius: var(--shape-small);
             }
 
-            /* 手机端显示行内释义、徽章、展开箭头 */
             .word-meaning-inline {
                 display: inline;
                 font-weight: 400;
-                font-size: 0.85rem;
-                color: #6c757d;
-                margin-left: 6px;
+                font-size: 14px;
+                color: var(--md-on-surface-variant);
+                margin-left: 0;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
             .word-error-badge {
                 display: inline-block;
-                background: #e74c3c;
+                background: var(--md-error);
                 color: white;
                 font-size: 0.65rem;
                 padding: 0px 4px;
                 border-radius: 8px;
                 margin-left: 4px;
                 vertical-align: middle;
+                flex-shrink: 0;
             }
 
             .word-expand-hint {
                 display: inline-flex;
-                color: #adb5bd;
+                color: var(--md-outline);
                 font-size: 1rem;
                 font-weight: bold;
-                transition: transform 0.2s;
+                transition: transform var(--transition-fast);
                 flex-shrink: 0;
                 align-items: center;
             }
@@ -1214,58 +1482,31 @@
                 height: 18px;
             }
 
-            .word-text {
-                font-size: 0.95rem;
-                margin-bottom: 0;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-
-            /* 展开后：词语区占满宽度，按钮换到下一行 */
+            /* 单词三行布局（手机端） */
             .word-item.expanded {
-                flex-wrap: wrap;
+                flex-wrap: nowrap;
+                flex-direction: column;
+                height: auto;
+                min-height: auto;
+                padding: 8px 12px;
             }
 
-            .word-item.expanded .word-info {
-                min-width: 100%;
-            }
-
-            .word-item.expanded .word-actions {
-                width: 100%;
-                justify-content: flex-end;
-                padding-top: 4px;
-                border-top: 1px solid #f0f0f0;
-                margin-top: 2px;
-            }
-
-            /* 展开后允许完整显示 */
-            .word-item.expanded .word-text {
-                white-space: normal;
-                overflow: visible;
-                margin-bottom: 4px;
-            }
-
-            /* 手机端隐藏详情行（词性、完整释义、例句） */
-            .word-detail-extra {
-                display: none;
-            }
-
-            /* 展开后显示详情 - 紧凑布局 */
-            .word-item.expanded .word-detail-extra {
-                display: block;
-                margin-top: 2px;
-                font-size: 0.8rem;
+            .word-item.expanded .word-main-row {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 4px 0;
             }
 
             .word-item.expanded .word-expand-hint {
                 transform: rotate(90deg);
             }
 
-            /* ===== 搜索框和小词库按钮 ===== */
+            /* 搜索框和小词库按钮 */
             .word-counter {
                 flex-wrap: wrap;
-                gap: 8px !important;
+                gap: 12px !important;
+                margin-bottom: 12px;
             }
 
             .word-counter #wordSearchInput {
@@ -1279,7 +1520,8 @@
             .word-toolbar {
                 display: flex;
                 flex-wrap: wrap;
-                gap: 6px;
+                gap: 8px;
+                margin-bottom: 12px;
             }
 
             .word-toolbar .btn-small {
@@ -1287,20 +1529,91 @@
                 min-width: 0;
                 text-align: center;
                 font-size: 11px;
-                padding: 5px 6px;
+                padding: 6px 8px;
+                border-radius: var(--shape-full);
             }
 
-            /* ===== 听写区域 ===== */
+            .word-text {
+                font-size: 0.9rem;
+                font-weight: 600;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                min-width: 80px;
+                flex-shrink: 0;
+            }
+
+            .word-item.expanded .word-info {
+                flex: 1;
+                min-width: 0;
+                width: auto;
+                overflow: visible;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+            }
+
+            .word-item.expanded .word-main-row {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                width: 100%;
+            }
+
+            .word-item.expanded .word-actions {
+                flex-shrink: 0;
+                width: auto;
+                padding-top: 0;
+                border-top: none;
+                margin-top: 0;
+            }
+
+            .word-item.expanded .word-text {
+                white-space: normal;
+                overflow: visible;
+                margin-bottom: 0;
+                width: auto;
+                max-width: none;
+                flex: 1;
+                min-width: 0;
+            }
+
+            .word-item.expanded .word-meaning-row,
+            .word-item.expanded .word-example-row {
+                display: block;
+                padding: 2px 0 2px 30px;
+                width: 100%;
+                font-size: 0.85rem;
+                text-align: left;
+                border-top: none;
+            }
+
+            .word-detail-extra {
+                display: none;
+            }
+
+            .word-item.expanded .word-detail-extra {
+                display: block;
+                margin-top: 2px;
+                font-size: 0.8rem;
+            }
+
+            .word-item.expanded .word-expand-hint {
+                transform: rotate(90deg);
+            }
+
+            /* 听写区域 */
             .dictation-area {
                 padding: 15px;
                 margin: 12px 0;
-                border-radius: 8px;
+                border-radius: var(--shape-medium);
             }
 
             .dictation-display {
                 padding: 20px 15px;
                 margin-bottom: 15px;
-                border-radius: 8px;
+                border-radius: var(--shape-medium);
                 min-height: 120px;
             }
 
@@ -1318,7 +1631,6 @@
                 max-width: 100%;
             }
 
-            /* 听写控制按钮 - 手机端网格布局 */
             .dictation-controls {
                 display: grid !important;
                 grid-template-columns: 1fr 1fr;
@@ -1329,16 +1641,15 @@
             .dictation-controls .btn {
                 width: 100%;
                 justify-content: center;
-                padding: 8px 4px;
-                font-size: 12px;
+                padding: 10px 4px;
+                font-size: 13px;
             }
 
-            /* "显示"按钮独占一行 */
             .dictation-controls .btn-warning {
                 grid-column: 1 / -1;
             }
 
-            /* ===== 错词本 ===== */
+            /* 错词本 */
             .error-toolbar {
                 display: flex;
                 flex-wrap: wrap;
@@ -1350,7 +1661,7 @@
                 min-width: 0;
                 text-align: center;
                 font-size: 11px;
-                padding: 5px 6px;
+                padding: 4px 6px;
             }
 
             .error-item {
@@ -1358,37 +1669,28 @@
                 gap: 8px;
             }
 
-            .error-actions .btn-small {
-                padding: 5px 10px;
-                font-size: 12px;
-            }
-
-            .error-actions .btn-danger {
-                padding: 5px 10px;
-                font-size: 12px;
-            }
-
-            /* ===== 模态框 ===== */
+            /* 模态框 */
             .modal-content {
                 max-width: 95% !important;
                 margin: 50px auto !important;
                 padding: 18px !important;
             }
 
-            /* ===== 通知 ===== */
+            /* 通知 */
             .notification {
-                top: 10px;
-                right: 10px;
-                left: 10px;
+                bottom: 16px;
+                left: 16px;
+                right: 16px;
+                transform: translateX(-50%) translateY(100px);
                 padding: 12px 16px;
                 font-size: 14px;
             }
 
-            /* ===== 自然拼读 ===== */
+            /* 自然拼读 */
             .phonics-tabs {
                 overflow-x: auto;
                 flex-wrap: nowrap;
-                padding-bottom: 15px;
+                padding-bottom: 12px;
                 -webkit-overflow-scrolling: touch;
             }
 
@@ -1419,7 +1721,7 @@
                 font-size: 1rem;
             }
 
-            /* ===== 导出按钮 ===== */
+            /* 导出按钮 */
             .export-buttons {
                 gap: 6px;
             }
@@ -1432,42 +1734,39 @@
                 padding: 5px 6px;
             }
 
-            /* ===== 单词列表容器 ===== */
             .word-list-container {
                 max-height: 350px;
             }
 
-            /* ===== 添加新单词区域 ===== */
             #bulkImport {
-                font-size: 15px; /* 防止iOS缩放 */
+                font-size: 15px;
             }
 
-            /* ===== 悬浮导航按钮 ===== */
+            /* 悬浮导航按钮 */
             .float-nav-btn {
                 display: flex !important;
                 position: fixed;
-                bottom: 15px;
+                bottom: 16px;
                 right: 12px;
-                width: 40px;
-                height: 40px;
-                border-radius: 10px;
-                background: rgba(234, 67, 53, 0.7);
+                width: 48px;
+                height: 48px;
+                border-radius: var(--shape-medium);
+                background: var(--md-error);
                 color: white;
-                border: 1px solid rgba(255, 255, 255, 0.4);
+                border: none;
                 cursor: pointer;
-                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+                box-shadow: var(--elevation-level3);
                 z-index: 999;
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                gap: 1px;
-                transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+                gap: 2px;
+                transition: background-color var(--transition-fast), transform var(--transition-fast);
             }
 
             .float-nav-btn:hover {
-                background: rgba(234, 67, 53, 0.85);
+                background: #DC2626;
                 transform: translateY(-2px);
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
             }
 
             .float-nav-btn:active {
@@ -1475,16 +1774,15 @@
             }
 
             .float-nav-icon {
-                font-size: 0.85rem;
+                font-size: 1rem;
                 line-height: 1;
                 color: white;
             }
 
             .float-nav-line {
-                font-size: 0.75rem;
+                font-size: 0.7rem;
                 line-height: 1;
                 color: white;
-                font-weight: 300;
             }
         }
 
@@ -1498,8 +1796,13 @@
                 padding: 12px;
             }
 
+            .header::before {
+                height: 60px;
+            }
+
             .header h1 {
-                font-size: 1.3rem;
+                font-size: 1.1rem;
+                font-weight: 600;
             }
 
             .card {
@@ -1507,25 +1810,25 @@
             }
 
             .card h2 {
-                font-size: 1rem;
+                font-size: 0.95rem;
             }
 
             .btn-small {
-                padding: 4px 8px;
+                padding: 5px 10px;
                 font-size: 11px;
             }
 
             .word-item {
                 padding: 4px 6px;
-                gap: 3px;
+                gap: 4px;
             }
 
             .word-text {
-                font-size: 0.9rem;
+                font-size: 0.85rem;
             }
 
             .word-meaning-inline {
-                font-size: 0.8rem;
+                font-size: 0.75rem;
             }
 
             .stats-grid {
@@ -1555,51 +1858,79 @@
             /* 1. 词库列表紧凑化 */
             .word-list-container {
                 max-height: 280px;
+                max-width: 100%;
+                overflow-x: hidden;
             }
 
             .word-item {
-                padding: 5px 8px;
-                gap: 6px;
+                height: 40px;
+                min-height: 40px;
+                padding: 0 12px;
+                gap: 12px;
+                max-width: 100%;
+                overflow: hidden;
             }
 
             .word-text {
-                font-size: 0.9rem;
-                margin-bottom: 1px;
+                font-size: 15px;
+                font-weight: 600;
+                margin-bottom: 0;
+                flex: 1;
+                min-width: 0;
+                white-space: normal;
+                overflow: hidden;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+                word-break: break-all;
             }
 
-            .word-details {
-                font-size: 0.75rem;
+            .word-meaning-inline {
+                font-size: 14px;
+                font-weight: 400;
+                color: var(--md-on-surface-variant);
+                margin-left: 0;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
 
-            /* 桌面端显示行内释义、徽章、展开箭头 */
-            .word-meaning-inline {
-                display: inline;
+            .word-details {
+                font-size: 14px;
+                color: var(--md-on-surface-variant);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
                 font-weight: 400;
-                font-size: 0.85rem;
-                color: #6c757d;
-                margin-left: 6px;
             }
 
+            .word-info {
+                flex: 1;
+                min-width: 0;
+                overflow: hidden;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            /* 桌面端显示行内释义、徽章、展开箭头 */
             .word-error-badge {
                 display: inline-block;
-                background: #e74c3c;
+                background: var(--md-error);
                 color: white;
                 font-size: 0.65rem;
                 padding: 0px 4px;
                 border-radius: 8px;
                 margin-left: 4px;
                 vertical-align: middle;
+                flex-shrink: 0;
             }
 
             .word-expand-hint {
                 display: inline-flex;
-                color: #adb5bd;
+                color: var(--md-outline);
                 font-size: 1rem;
                 font-weight: bold;
-                transition: transform 0.2s;
+                transition: transform var(--transition-fast);
                 flex-shrink: 0;
                 align-items: center;
             }
@@ -1608,29 +1939,28 @@
                 transform: rotate(90deg);
             }
 
-            .word-item.expanded .word-details {
-                white-space: normal;
-                overflow: visible;
-            }
-
-            /* 词库操作按钮行优化 - 更紧凑 */
+            /* 词库操作按钮行优化 */
             .word-toolbar {
-                gap: 5px;
+                display: flex;
+                gap: 8px;
+                margin-bottom: 12px;
             }
 
             .word-toolbar .btn-small {
                 font-size: 12px;
-                padding: 5px 10px;
+                padding: 6px 12px;
+                border-radius: var(--shape-full);
             }
 
             .error-toolbar .btn-small {
                 font-size: 12px;
-                padding: 5px 10px;
+                padding: 6px 12px;
+                border-radius: var(--shape-full);
             }
 
-            /* 2. 听写统计区域突出 */
+            /* 2. 听写统计区域 */
             .stat-card {
-                padding: 12px 10px;
+                padding: 14px 12px;
             }
 
             .stat-value {
@@ -1644,54 +1974,52 @@
             /* 3. 卡片紧凑化 */
             .card {
                 margin-bottom: 12px;
-                padding: 15px;
-                border-radius: 8px;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                border: none;
+                padding: 16px;
+                border-radius: var(--shape-medium);
             }
 
             .card h2 {
                 font-size: 1.1rem;
                 margin-bottom: 12px;
-                padding-bottom: 8px;
             }
 
-            /* 4. 快速导入按钮改为 Google 极简风格 */
+            /* 4. 快速导入按钮 - M3 Outlined 风格 */
             .presets-collapsible .btn-small {
-                padding: 5px 10px;
+                padding: 6px 12px;
                 font-size: 12px;
-                border-radius: 4px;
-                background: #dadce0;
-                color: #3c4043;
-                border: 1px solid #dadce0;
+                border-radius: var(--shape-full);
+                background: transparent;
+                color: var(--md-on-surface);
+                border: 1px solid var(--md-outline);
             }
 
             .presets-collapsible .btn-small:hover {
-                background: #c4c7cc;
+                background: var(--md-surface-container);
             }
 
-            /* 5. 整体视觉层次优化 */
+            /* 5. 整体视觉层次 */
             .card h2 {
-                color: #1a1a1a;
+                color: var(--md-on-surface);
             }
 
             .card h3 {
-                color: #333;
+                color: var(--md-on-surface);
                 font-size: 0.95rem;
             }
 
             .form-group label {
-                color: #444;
+                color: var(--md-on-surface-variant);
             }
 
             .word-details {
-                color: #666;
+                color: var(--md-on-surface-variant);
             }
 
             /* 6. 听写区域优化 */
             .dictation-display {
-                padding: 20px 15px;
+                padding: 20px 16px;
                 min-height: 140px;
+                border-radius: var(--shape-large);
             }
 
             .current-word {
@@ -1709,8 +2037,10 @@
             }
 
             .error-item {
-                padding: 5px 8px;
-                gap: 6px;
+                height: 40px;
+                min-height: 40px;
+                padding: 0 10px;
+                gap: 8px;
             }
 
             .error-word {
@@ -1727,13 +2057,43 @@
             }
 
             .error-actions .btn-small {
-                padding: 3px 8px;
+                padding: 4px 8px;
                 font-size: 12px;
             }
 
-            /* 8. 按钮层次优化 - 保持Google蓝色 */
+            /* 8. 按钮层次 */
             .btn-primary {
-                background: #4285F4;
+                background: var(--md-primary);
+            }
+
+            /* 桌面端错误徽章、展开箭头、释义显示 */
+            .word-meaning-inline,
+            .word-error-badge,
+            .word-expand-hint {
+                display: inline;
+            }
+
+            /* 桌面端：三行布局，释义和例句默认隐藏，展开后显示 */
+            .word-meaning-row,
+            .word-example-row {
+                display: none;
+                text-align: left;
+                border-top: 1px dashed var(--md-outline-variant);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .word-item.expanded .word-meaning-row,
+            .word-item.expanded .word-example-row {
+                display: block;
+                white-space: normal;
+                overflow-wrap: break-word;
+            }
+
+            .word-item.expanded .word-text {
+                white-space: normal;
+                overflow-wrap: break-word;
             }
         }
     </style>
@@ -1768,9 +2128,9 @@
                         
                         <div class="form-group">
                             <label>添加新单词</label>
-                            <div style="display: flex; gap: 10px; align-items: stretch; min-width: 0;">
-                                <textarea id="bulkImport" class="form-control" rows="3" placeholder="输入英文单词，每行一个（如：&#10;apple&#10;book&#10;cat）" style="flex: 1; min-width: 0;"></textarea>
-                                <button class="btn btn-primary" onclick="bulkImportWords()" style="border-radius: 4px; width: 44px; padding: 6px 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; line-height: 1.2;">点击<br>添加</button>
+                            <div style="display: flex; gap: 10px; align-items: center; min-width: 0;">
+                                <textarea id="bulkImport" class="form-control" rows="5" placeholder="输入英文单词，每行一个（如：&#10;apple&#10;book&#10;cat）" style="flex: 1; min-width: 0;"></textarea>
+                                <button class="btn btn-primary" onclick="bulkImportWords()" style="padding: 10px 18px; display: flex; align-items: center; gap: 6px; flex-shrink: 0;"><span style="font-size: 16px; font-weight: bold;">+</span> 添加</button>
                             </div>
                         </div>
 
@@ -1780,19 +2140,31 @@
                                 <span class="presets-arrow" id="englishPresetsArrow">▼</span>
                             </label>
                             <div id="englishPresetsContent" class="presets-collapsible">
-                                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
-                                    <button class="btn btn-small btn-primary" onclick="importPreset('unit1')">📖 第一单元</button>
-                                    <button class="btn btn-small btn-primary" onclick="importPreset('unit2')">📖 第二单元</button>
-                                    <button class="btn btn-small btn-primary" onclick="importPreset('unit3')">📖 第三单元</button>
-                                    <button class="btn btn-small btn-primary" onclick="importPreset('unit4')">📖 第四单元</button>
-                                    <button class="btn btn-small btn-primary" onclick="importPreset('unit5')">📖 第五单元</button>
+                                <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+                                    <span style="font-weight:600;font-size:13px;color:#555;cursor:pointer;" onclick="togglePresetSection('englishPresetBtns', 'englishPresetArrow')">📖 预设词库 <span id="englishPresetArrow">▼</span></span>
                                 </div>
-                                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
-                                    <button class="btn btn-small btn-success" onclick="importPreset('months')">📅 月份词汇</button>
-                                    <button class="btn btn-small btn-success" onclick="importPreset('seasons')">🌸 季节词汇</button>
-                                    <button class="btn btn-small btn-success" onclick="importPreset('weeks')">📅 星期词汇</button>
+                                <div id="englishPresetBtns">
+                                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
+                                        <button class="btn btn-small btn-primary" onclick="importPreset('unit1')">📖 第一单元</button>
+                                        <button class="btn btn-small btn-primary" onclick="importPreset('unit2')">📖 第二单元</button>
+                                        <button class="btn btn-small btn-primary" onclick="importPreset('unit3')">📖 第三单元</button>
+                                        <button class="btn btn-small btn-primary" onclick="importPreset('unit4')">📖 第四单元</button>
+                                        <button class="btn btn-small btn-primary" onclick="importPreset('unit5')">📖 第五单元</button>
+                                    </div>
+                                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
+                                        <button class="btn btn-small btn-success" onclick="importPreset('months')">📅 月份词汇</button>
+                                        <button class="btn btn-small btn-success" onclick="importPreset('seasons')">🌸 季节词汇</button>
+                                        <button class="btn btn-small btn-success" onclick="importPreset('weeks')">📅 星期词汇</button>
+                                    </div>
                                 </div>
-                                <div id="customWordBooks" style="display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px;"></div>
+                                <!-- 自定义词库管理区域 -->
+                                <div style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e0e0e0;">
+                                    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                                        <span style="font-weight: 600; font-size: 13px; color: #555;">📚 我的词库</span>
+                                        <button class="btn btn-small" onclick="promptCreateFolder()" title="新建文件夹" style="padding:2px 8px;font-size:0.75em;">+文件夹</button>
+                                    </div>
+                                    <div id="customWordBooks" style="margin-top: 8px; max-height: 200px; overflow-y: auto;"></div>
+                                </div>
                             </div>
                         </div>
 
@@ -1803,7 +2175,14 @@
                                 <span class="presets-arrow" id="chinesePresetsArrow">▼</span>
                             </label>
                             <div id="chinesePresetsContent" class="presets-collapsible">
-                                <div id="chineseCustomWordBooks" style="display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px;"></div>
+                                <!-- 自定义词库管理区域 -->
+                                <div style="padding-top: 5px;">
+                                    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                                        <span style="font-weight: 600; font-size: 13px; color: #555;">📚 我的词库</span>
+                                        <button class="btn btn-small" onclick="promptCreateFolder()" title="新建文件夹" style="padding:2px 8px;font-size:0.75em;">+文件夹</button>
+                                    </div>
+                                    <div id="chineseCustomWordBooks" style="margin-top: 8px; max-height: 200px; overflow-y: auto;"></div>
+                                </div>
                             </div>
                         </div>
 
@@ -1868,17 +2247,17 @@
                             <input type="text" id="answerInput" class="dictation-input" placeholder="输入听到的单词" onkeypress="handleEnter(event)">
                             
                             <div class="dictation-controls" style="margin-top: 20px;">
-                                <button class="btn btn-primary" onclick="previousWord()" id="prevBtn" disabled>⏮️ 上一个</button>
-                                <button class="btn btn-success" onclick="togglePlayPause()" id="playPauseBtn" disabled>▶️ 播放</button>
-                                <button class="btn btn-primary" onclick="nextWord()" id="nextBtn" disabled>⏭️ 下一个</button>
-                                <button class="btn btn-success" onclick="replayWord()" id="repeatBtn" disabled>🔈 复读</button>
-                                <button class="btn btn-warning" onclick="toggleShowWord()" id="showWordBtn">👁️ 显示</button>
+                                <button class="btn" onclick="previousWord()" id="prevBtn" disabled style="background:#f5f5f5;color:#333;">⏮️ 上一个</button>
+                                <button class="btn btn-primary" onclick="togglePlayPause()" id="playPauseBtn" disabled>▶️ 播放</button>
+                                <button class="btn" onclick="nextWord()" id="nextBtn" disabled style="background:#f5f5f5;color:#333;">⏭️ 下一个</button>
+                                <button class="btn" onclick="replayWord()" id="repeatBtn" disabled style="background:#f5f5f5;color:#333;">🔈 复读</button>
+                                <button class="btn" onclick="toggleShowWord()" id="showWordBtn" style="background:#f5f5f5;color:#333;">👁️ 显示</button>
                             </div>
                         </div>
 
                         <div style="text-align: center; margin-top: 20px;">
-                            <button class="btn btn-success" id="startDictationBtn" onclick="startDictation()">开始听写</button>
-                            <button class="btn btn-danger hidden" id="stopDictationBtn" onclick="stopDictation()">结束听写</button>
+                            <button class="btn btn-primary" id="startDictationBtn" onclick="startDictation()">开始听写</button>
+                            <button class="hidden" id="stopDictationBtn" onclick="stopDictation()" style="padding:10px 24px;background:#fff;color:#666;border:1px solid #ddd;border-radius:6px;font-size:14px;">结束听写</button>
                         </div>
                         </div><!-- end card-collapsible -->
                     </div>
@@ -1929,6 +2308,7 @@
                                 <label>播放间隔</label>
                                 <select id="intervalTime" class="form-control">
                                     <option value="0">不自动</option>
+                                    <option value="2">2秒</option>
                                     <option value="5" selected>5秒</option>
                                     <option value="10">10秒</option>
                                     <option value="15">15秒</option>
