@@ -1603,6 +1603,25 @@
                 transform: rotate(90deg);
             }
 
+            /* 树形词库操作按钮 - 手机端折叠 */
+            .tree-actions .tree-action-btn {
+                display: none;
+            }
+            .tree-actions .tree-actions-sep {
+                display: none !important;
+            }
+            .tree-actions .tree-more-btn {
+                display: inline-flex !important;
+                align-items: center;
+                justify-content: center;
+            }
+            .tree-actions .tree-action-btn.tree-expanded,
+            .tree-actions .tree-actions-sep.tree-expanded {
+                display: inline-flex !important;
+                align-items: center;
+                justify-content: center;
+            }
+
             /* 听写区域 */
             .dictation-area {
                 padding: 15px;
@@ -2095,6 +2114,19 @@
                 white-space: normal;
                 overflow-wrap: break-word;
             }
+
+            /* 树形词库操作按钮 - 桌面端默认展开 */
+            .tree-actions .tree-more-btn {
+                display: none !important;
+            }
+            .tree-actions .tree-action-btn {
+                display: inline-flex !important;
+                align-items: center;
+                justify-content: center;
+            }
+            .tree-actions .tree-actions-sep {
+                display: inline !important;
+            }
         }
     </style>
 </head>
@@ -2161,7 +2193,7 @@
                                 <div style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e0e0e0;">
                                     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
                                         <span style="font-weight: 600; font-size: 13px; color: #555;">📚 我的词库</span>
-                                        <button class="btn btn-small" onclick="promptCreateFolder()" title="新建文件夹" style="padding:2px 8px;font-size:0.75em;">+文件夹</button>
+                                        <button onclick="promptCreateFolder()" title="新建文件夹" style="height:26px;padding:0 8px;border-radius:6px;border:0.5px solid #ccc;background:#fff;color:#555;font-size:12px;cursor:pointer;">+</button>
                                     </div>
                                     <div id="customWordBooks" style="margin-top: 8px; max-height: 200px; overflow-y: auto;"></div>
                                 </div>
@@ -2179,7 +2211,7 @@
                                 <div style="padding-top: 5px;">
                                     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
                                         <span style="font-weight: 600; font-size: 13px; color: #555;">📚 我的词库</span>
-                                        <button class="btn btn-small" onclick="promptCreateFolder()" title="新建文件夹" style="padding:2px 8px;font-size:0.75em;">+文件夹</button>
+                                        <button onclick="promptCreateFolder()" title="新建文件夹" style="height:26px;padding:0 8px;border-radius:6px;border:0.5px solid #ccc;background:#fff;color:#555;font-size:12px;cursor:pointer;">+</button>
                                     </div>
                                     <div id="chineseCustomWordBooks" style="margin-top: 8px; max-height: 200px; overflow-y: auto;"></div>
                                 </div>

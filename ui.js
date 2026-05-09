@@ -88,13 +88,15 @@ function renderTreeNode(nodeId, tree, expanded, mode) {
                     <span style="font-size:13px;">${escapeHtml(node.name)}</span>
                     ${pathDisplay}
                     <span style="color:#888;font-size:0.8em;">(${node.children.length}项)</span>
-                    <span style="margin-left:auto;display:flex;gap:4px;">
-                        <button class="btn btn-small" onclick="promptCreateFolderAt('${nodeId}')" title="在此创建子文件夹" style="padding:1px 6px;font-size:0.75em;">+文件夹</button>
-                        <button class="btn btn-small" onclick="renameItem('${nodeId}')" title="重命名" style="padding:1px 4px;font-size:0.75em;">✏️</button>
-                        <button class="btn btn-small" onclick="moveItemUp('${nodeId}')" title="上移" style="padding:1px 4px;font-size:0.75em;">↑</button>
-                        <button class="btn btn-small" onclick="moveItemDown('${nodeId}')" title="下移" style="padding:1px 4px;font-size:0.75em;">↓</button>
-                        <button class="btn btn-small" onclick="promptMoveItem('${nodeId}')" title="移动到..." style="padding:1px 4px;font-size:0.75em;">↗</button>
-                        <button class="btn btn-small btn-danger" onclick="deleteFolder('${nodeId}')" title="删除" style="padding:1px 4px;font-size:0.75em;">×</button>
+                    <span style="margin-left:auto;display:flex;align-items:center;gap:4px;" class="tree-actions">
+                        <button onclick="renameItem('${nodeId}')" title="重命名" class="tree-action-btn" style="height:26px;width:26px;padding:0;border-radius:6px;border:0.5px solid #ccc;background:#f5f5f5;color:#666;font-size:11px;cursor:pointer;">✏</button>
+                        <button onclick="moveItemUp('${nodeId}')" title="上移" class="tree-action-btn" style="height:26px;width:26px;padding:0;border-radius:6px;border:0.5px solid #ccc;background:#f5f5f5;color:#666;font-size:11px;cursor:pointer;">↑</button>
+                        <button onclick="moveItemDown('${nodeId}')" title="下移" class="tree-action-btn" style="height:26px;width:26px;padding:0;border-radius:6px;border:0.5px solid #ccc;background:#f5f5f5;color:#666;font-size:11px;cursor:pointer;">↓</button>
+                        <button onclick="promptMoveItem('${nodeId}')" title="移动到" class="tree-action-btn" style="height:26px;width:26px;padding:0;border-radius:6px;border:0.5px solid #ccc;background:#f5f5f5;color:#666;font-size:11px;cursor:pointer;">↗</button>
+                        <button onclick="promptCreateFolderAt('${nodeId}')" title="新建子文件夹" class="tree-action-btn" style="height:26px;padding:0 8px;border-radius:6px;border:0.5px solid #ccc;background:#fff;color:#555;font-size:12px;cursor:pointer;">+</button>
+                        <span class="tree-actions-sep" style="width:1px;height:18px;background:#e0e0e0;margin:0 2px;display:none;"></span>
+                        <button onclick="deleteFolder('${nodeId}')" title="删除" class="tree-action-btn" style="height:26px;width:26px;padding:0;border-radius:6px;border:0.5px solid #e8a0a0;background:#fce8e8;color:#c44;font-size:11px;cursor:pointer;">×</button>
+                        <button class="tree-more-btn" onclick="toggleTreeMore(this)" title="更多操作" style="height:26px;width:26px;padding:0;border-radius:6px;border:0.5px solid #ccc;background:#fff;color:#666;font-size:12px;cursor:pointer;">⋮</button>
                     </span>
                 </div>
                 <div class="tree-folder-content" style="margin-left:24px;${isExpanded ? '' : 'display:none;'}">
@@ -125,15 +127,45 @@ function renderBookItem(bookId, tree, mode) {
                 ${escapeHtml(book.name)} (${wordCount})
             </button>
             ${pathHtml}
-            <span style="display:flex;gap:4px;margin-left:auto;">
-                <button class="btn btn-small" onclick="renameItem('${bookId}')" title="重命名" style="padding:1px 4px;font-size:0.75em;">✏️</button>
-                <button class="btn btn-small" onclick="moveItemUp('${bookId}')" title="上移" style="padding:1px 4px;font-size:0.75em;">↑</button>
-                <button class="btn btn-small" onclick="moveItemDown('${bookId}')" title="下移" style="padding:1px 4px;font-size:0.75em;">↓</button>
-                <button class="btn btn-small" onclick="promptMoveItem('${bookId}')" title="移动到..." style="padding:1px 4px;font-size:0.75em;">↗</button>
-                <button class="btn btn-small btn-danger" onclick="deleteCustomWordBook('${bookId}')" title="删除" style="padding:1px 4px;font-size:0.75em;">×</button>
+            <span style="display:flex;gap:4px;margin-left:auto;" class="tree-actions">
+                <button onclick="renameItem('${bookId}')" title="重命名" class="tree-action-btn" style="height:26px;width:26px;padding:0;border-radius:6px;border:0.5px solid #ccc;background:#f5f5f5;color:#666;font-size:11px;cursor:pointer;">✏</button>
+                <button onclick="moveItemUp('${bookId}')" title="上移" class="tree-action-btn" style="height:26px;width:26px;padding:0;border-radius:6px;border:0.5px solid #ccc;background:#f5f5f5;color:#666;font-size:11px;cursor:pointer;">↑</button>
+                <button onclick="moveItemDown('${bookId}')" title="下移" class="tree-action-btn" style="height:26px;width:26px;padding:0;border-radius:6px;border:0.5px solid #ccc;background:#f5f5f5;color:#666;font-size:11px;cursor:pointer;">↓</button>
+                <button onclick="promptMoveItem('${bookId}')" title="移动到" class="tree-action-btn" style="height:26px;width:26px;padding:0;border-radius:6px;border:0.5px solid #ccc;background:#f5f5f5;color:#666;font-size:11px;cursor:pointer;">↗</button>
+                <span class="tree-actions-sep" style="width:1px;height:18px;background:#e0e0e0;margin:0 2px;display:none;"></span>
+                <button onclick="deleteCustomWordBook('${bookId}')" title="删除" class="tree-action-btn" style="height:26px;width:26px;padding:0;border-radius:6px;border:0.5px solid #e8a0a0;background:#fce8e8;color:#c44;font-size:11px;cursor:pointer;">✕</button>
+                <button class="tree-more-btn" onclick="toggleTreeMore(this)" title="更多操作" style="height:26px;width:26px;padding:0;border-radius:6px;border:0.5px solid #ccc;background:#fff;color:#666;font-size:12px;cursor:pointer;">⋮</button>
             </span>
         </div>
     `;
+}
+
+/**
+ * 切换树形节点更多操作菜单
+ */
+function toggleTreeMore(btn) {
+    const actions = btn.closest('.tree-actions');
+    const actionBtns = actions.querySelectorAll('.tree-action-btn');
+    const seps = actions.querySelectorAll('.tree-actions-sep');
+    const isExpanding = !btn.classList.contains('tree-expanded');
+
+    if (isExpanding) {
+        // 展开
+        btn.classList.add('tree-expanded');
+        btn.style.background = '#e6f1fb';
+        btn.style.borderColor = '#4285f4';
+        btn.style.color = '#185fa5';
+        actionBtns.forEach(b => b.classList.add('tree-expanded'));
+        seps.forEach(s => s.classList.add('tree-expanded'));
+    } else {
+        // 折叠
+        btn.classList.remove('tree-expanded');
+        btn.style.background = '#fff';
+        btn.style.borderColor = '#ccc';
+        btn.style.color = '#666';
+        actionBtns.forEach(b => b.classList.remove('tree-expanded'));
+        seps.forEach(s => s.classList.remove('tree-expanded'));
+    }
 }
 
 /**
