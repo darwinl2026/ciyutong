@@ -75,9 +75,6 @@ function renderTreeNode(nodeId, tree, expanded, mode) {
 
     // 文件夹节点
     if (node.type === 'folder') {
-        const folderPath = getItemPath(nodeId);
-        const pathDisplay = folderPath ? ` <span style="color:#888;font-size:0.8em;">(${folderPath})</span>` : '';
-
         return `
             <div class="tree-folder" style="margin: 4px 0;">
                 <div class="tree-folder-header" style="display:flex;align-items:center;gap:4px;">
@@ -86,7 +83,6 @@ function renderTreeNode(nodeId, tree, expanded, mode) {
                     </span>
                     <span style="color:#f59e0b;">📁</span>
                     <span style="font-size:13px;">${escapeHtml(node.name)}</span>
-                    ${pathDisplay}
                     <span style="color:#888;font-size:0.8em;">(${node.children.length}项)</span>
                     <span style="margin-left:auto;display:flex;align-items:center;gap:4px;" class="tree-actions">
                         <button onclick="renameItem('${nodeId}')" title="重命名" class="tree-action-btn" style="height:26px;width:26px;padding:0;border-radius:6px;border:0.5px solid #ccc;background:#f5f5f5;color:#666;font-size:11px;cursor:pointer;">✏</button>
@@ -95,7 +91,7 @@ function renderTreeNode(nodeId, tree, expanded, mode) {
                         <button onclick="promptMoveItem('${nodeId}')" title="移动到" class="tree-action-btn" style="height:26px;width:26px;padding:0;border-radius:6px;border:0.5px solid #ccc;background:#f5f5f5;color:#666;font-size:11px;cursor:pointer;">↗</button>
                         <button onclick="promptCreateFolderAt('${nodeId}')" title="新建子文件夹" class="tree-action-btn" style="height:26px;padding:0 8px;border-radius:6px;border:0.5px solid #ccc;background:#fff;color:#555;font-size:12px;cursor:pointer;">+</button>
                         <span class="tree-actions-sep" style="width:1px;height:18px;background:#e0e0e0;margin:0 2px;display:none;"></span>
-                        <button onclick="deleteFolder('${nodeId}')" title="删除" class="tree-action-btn" style="height:26px;width:26px;padding:0;border-radius:6px;border:0.5px solid #e8a0a0;background:#fce8e8;color:#c44;font-size:11px;cursor:pointer;">×</button>
+                        <button onclick="deleteFolder('${nodeId}')" title="删除" class="tree-action-btn" style="height:26px;width:26px;padding:0;border-radius:6px;border:0.5px solid #e8a0a0;background:#fce8e8;color:#c44;font-size:11px;cursor:pointer;">✕</button>
                         <button class="tree-more-btn" onclick="toggleTreeMore(this)" title="更多操作" style="height:26px;width:26px;padding:0;border-radius:6px;border:0.5px solid #ccc;background:#fff;color:#666;font-size:12px;cursor:pointer;">⋮</button>
                     </span>
                 </div>
@@ -117,16 +113,13 @@ function renderBookItem(bookId, tree, mode) {
     if (!book || book.type !== 'book') return '';
 
     const wordCount = book.words ? book.words.length : 0;
-    const pathDisplay = getItemPath(bookId);
-    const pathHtml = pathDisplay ? `<span style="color:#888;font-size:0.8em;"> - ${escapeHtml(pathDisplay)}</span>` : '';
 
     return `
         <div class="tree-book-item" style="display:flex;align-items:center;gap:6px;margin:3px 0;padding:2px 0;">
             <span style="color:#10b981;">📖</span>
-            <button class="btn btn-small btn-secondary" onclick="importCustomWordBook('${bookId}')" title="导入到词库">
+            <button class="tree-book-name" onclick="importCustomWordBook('${bookId}')" title="导入到词库">
                 ${escapeHtml(book.name)} (${wordCount})
             </button>
-            ${pathHtml}
             <span style="display:flex;gap:4px;margin-left:auto;" class="tree-actions">
                 <button onclick="renameItem('${bookId}')" title="重命名" class="tree-action-btn" style="height:26px;width:26px;padding:0;border-radius:6px;border:0.5px solid #ccc;background:#f5f5f5;color:#666;font-size:11px;cursor:pointer;">✏</button>
                 <button onclick="moveItemUp('${bookId}')" title="上移" class="tree-action-btn" style="height:26px;width:26px;padding:0;border-radius:6px;border:0.5px solid #ccc;background:#f5f5f5;color:#666;font-size:11px;cursor:pointer;">↑</button>

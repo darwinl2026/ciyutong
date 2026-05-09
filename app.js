@@ -1067,6 +1067,7 @@ function deleteSelectedErrors() {
 function clearErrors() {
     if (!confirm('确定清空错词本吗？')) return;
     App.errors = {};
+    App.selectedErrorWords.clear();
     saveData();
     renderErrorList(App.errors, App.selectedErrorWords, App.words);
     showNotification('错词本已清空', 'info');
