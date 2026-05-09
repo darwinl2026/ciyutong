@@ -463,7 +463,7 @@ function updateModeUI(currentMode, settings) {
     const bulkImport = document.getElementById('bulkImport');
     if (bulkImport) {
         bulkImport.placeholder = isEnglish
-            ? '输入英文单词，每行一个（如：\napple\nbook\ncat）'
+            ? '支持自定义英文+释义，每行一个，示例：\napple苹果\nlemon 柠檬\nbanana,香蕉\nGood morning.早上好'
             : '输入词语，每行一个（如：\n春天\n花朵\n可爱）';
     }
 
