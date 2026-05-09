@@ -312,6 +312,74 @@ function toggleWordSelectAll() {
 
 // ==================== 单词管理 ====================
 
+/**
+ * 解析单词输入行
+ * 支持格式：
+ *   英语模式：
+ *   - apple 苹果           （空格分隔）
+ *   - banana,香蕉         （逗号分隔）
+ *   - apple   苹果         （多个空格/Tab分隔）
+ *   - apple苹果            （粘连，自动识别）
+ *   - get up 起床         （英文词组）
+ *   - hello world.        （英文句子，自动识别）
+ *   语文模式：
+ *   - 屋檐               （纯中文，直接导入）
+ * @param {string} line - 输入行
+ * @param {string} mode - 'english' 或 'chinese'
+ * @returns {object|null} - { word, meaning } 或 null（无效行）
+ */
+function parseWordLine(line, mode = 'english') {
+    const trimmed = line.trim();
+    if (!trimmed) return null;
+
+    // 语文模式：直接返回纯中文内容
+    if (mode === 'chinese') {
+        return { word: trimmed, meaning: null };
+    }
+
+    // 英语模式：检测是否包含中文字符
+    const hasChinese = /[\u4e00-\u9fff]/.test(trimmed);
+
+    if (hasChinese) {
+        // 方案：找到最后一个英文字母的位置，在此位置之后第一个汉字作为分界点
+        // 扫描字符串，从后往前找英文字母
+        let lastLetterIndex = -1;
+        for (let i = 0; i < trimmed.length; i++) {
+            const char = trimmed[i];
+            if (/[a-zA-Z]/.test(char)) {
+                lastLetterIndex = i;
+            }
+        }
+        
+        if (lastLetterIndex >= 0) {
+            // 在最后一个英文字母之后，找到第一个汉字的位置
+            let splitIndex = -1;
+            for (let i = lastLetterIndex + 1; i < trimmed.length; i++) {
+                if (/[\u4e00-\u9fff]/.test(trimmed[i])) {
+                    splitIndex = i;
+                    break;
+                }
+            }
+            
+            if (splitIndex > lastLetterIndex) {
+                const englishPart = trimmed.substring(0, splitIndex);
+                const chinesePart = trimmed.substring(splitIndex);
+                
+                // 确保英文部分以字母开头
+                if (/^[a-zA-Z]/i.test(englishPart)) {
+                    return { word: englishPart, meaning: chinesePart };
+                }
+            }
+        }
+
+        // 有中文但无法解析 → 跳过
+        return null;
+    } else {
+        // 情况B: 输入不包含中文（纯英文）
+        return { word: trimmed, meaning: null };
+    }
+}
+
 async function bulkImportWords() {
     const textarea = document.getElementById('bulkImport');
     const text = textarea.value.trim();
@@ -321,35 +389,55 @@ async function bulkImportWords() {
         return;
     }
 
-    const words = [];
+    const parsedLines = [];  // { word, meaning, line }
     const seen = new Set(App.words.map(w => w.word.toLowerCase()));
+    let skippedCount = 0;
+    const skippedLines = [];
 
-    text.split(/\n/).forEach(w => {
-        const word = w.trim();
-        if (word && !seen.has(word.toLowerCase())) {
-            words.push(word);
-            seen.add(word.toLowerCase());
+    text.split(/\n/).forEach((line, lineIndex) => {
+        const result = parseWordLine(line, App.currentMode);
+        
+        if (result === null) {
+            // 无效行（如纯中文、空行等）
+            const trimmed = line.trim();
+            if (trimmed && !seen.has(trimmed.toLowerCase())) {
+                // 记录跳过的行（可能是用户输入错误）
+                skippedLines.push(lineIndex + 1);
+                skippedCount++;
+            }
+            return;
         }
+
+        // 检查是否重复
+        if (seen.has(result.word)) {
+            skippedCount++;
+            return;
+        }
+
+        parsedLines.push(result);
+        seen.add(result.word);
     });
 
-    if (words.length === 0) {
-        showNotification(App.currentMode === 'english' ? '没有新单词可导入' : '没有新词语可导入', 'info');
+    if (parsedLines.length === 0) {
+        const msg = skippedCount > 0 
+            ? `没有新单词可导入（${skippedCount}行格式无效或重复）` 
+            : '没有新单词可导入';
+        showNotification(App.currentMode === 'english' ? msg : '没有新词语可导入', 'info');
         return;
     }
 
     const startTime = Date.now();
     const wordType = App.currentMode === 'english' ? '单词' : '词语';
-    showNotification(`正在导入 ${words.length} 个${wordType}，请稍候...`, 'info');
-
+    showNotification(`正在导入 ${parsedLines.length} 个${wordType}，请稍候...`, 'info');
 
     // 语文模式：直接批量添加
     if (App.currentMode === 'chinese') {
         const idBase = App.nextId;
-        App.nextId += words.length;
-        const results = words.map((word, index) => ({
+        App.nextId += parsedLines.length;
+        const results = parsedLines.map((item, index) => ({
             id: idBase + index,
-            word: word,
-            meaning: '',
+            word: item.word,
+            meaning: item.meaning || '',
             pronunciation: '',
             partOfSpeech: '',
             addedAt: new Date().toISOString()
@@ -362,7 +450,8 @@ async function bulkImportWords() {
         textarea.value = '';
 
         const totalTime = Math.round((Date.now() - startTime) / 1000);
-        showNotification(`导入完成: ${results.length}个${wordType} | 用时: ${totalTime}秒`, 'success', 5000);
+        const skipMsg = skippedCount > 0 ? ` | 跳过${skippedCount}行` : '';
+        showNotification(`导入完成: ${results.length}个${wordType}${skipMsg} | 用时: ${totalTime}秒`, 'success', 5000);
         return;
     }
 
@@ -371,25 +460,37 @@ async function bulkImportWords() {
     const results = [];
     let completed = 0;
     const idBase = App.nextId;
-    App.nextId += words.length;
+    App.nextId += parsedLines.length;
 
-    for (let i = 0; i < words.length; i += concurrencyLimit) {
-        const batch = words.slice(i, i + concurrencyLimit);
+    // 统计用户自定义释义的数量
+    const customMeaningCount = parsedLines.filter(p => p.meaning !== null).length;
 
-        const batchPromises = batch.map(async (word, index) => {
+    for (let i = 0; i < parsedLines.length; i += concurrencyLimit) {
+        const batch = parsedLines.slice(i, i + concurrencyLimit);
+
+        const batchPromises = batch.map(async (item, index) => {
             try {
-                const data = await fetchWordData(word);
+                let data = { meaning: '', pronunciation: '', partOfSpeech: '' };
+
+                // 如果用户提供了释义，直接使用，不再调用API
+                if (item.meaning !== null) {
+                    data.meaning = item.meaning;
+                } else {
+                    // 纯英文单词，调用API获取释义
+                    data = await fetchWordData(item.word);
+                }
+
                 completed++;
 
                 if (completed % 5 === 0) {
-                    const progress = Math.round((completed / words.length) * 100);
+                    const progress = Math.round((completed / parsedLines.length) * 100);
                     const elapsed = Math.round((Date.now() - startTime) / 1000);
-                    showNotification(`导入进度: ${progress}% (${completed}/${words.length}) | 已用时: ${elapsed}秒`, 'info', 2000);
+                    showNotification(`导入进度: ${progress}% (${completed}/${parsedLines.length}) | 已用时: ${elapsed}秒`, 'info', 2000);
                 }
 
                 return {
                     id: idBase + i + index,
-                    word: word,
+                    word: item.word,
                     meaning: data.meaning || '',
                     pronunciation: data.pronunciation || '',
                     partOfSpeech: data.partOfSpeech || '',
@@ -399,8 +500,8 @@ async function bulkImportWords() {
                 completed++;
                 return {
                     id: idBase + i + index,
-                    word: word,
-                    meaning: '',
+                    word: item.word,
+                    meaning: item.meaning || '',
                     pronunciation: '',
                     partOfSpeech: '',
                     addedAt: new Date().toISOString()
@@ -421,10 +522,13 @@ async function bulkImportWords() {
     updateCounts(App.words, App.selectedWords);
     textarea.value = '';
 
+    // 统计结果
     const successCount = results.filter(r => r.meaning && r.meaning.length > 0).length;
     const basicCount = results.length - successCount;
+    const skipMsg = skippedCount > 0 ? ` | 跳过${skippedCount}行` : '';
+    const customMsg = customMeaningCount > 0 ? ` | 自定义释义: ${customMeaningCount}个` : '';
 
-    showNotification(`导入完成: ${results.length}个${wordType} | 成功获取释义: ${successCount}个 | 基础导入: ${basicCount}个 | 用时: ${totalTime}秒`, 'success', 5000);
+    showNotification(`导入完成: ${results.length}个${wordType}${customMsg}${skipMsg} | 用时: ${totalTime}秒`, 'success', 5000);
 }
 
 function deleteWord(id) {
