@@ -1228,7 +1228,8 @@ function downloadFile(content, filename) {
     // 确保内容是字符串类型
     const textContent = typeof content === 'string' ? content : JSON.stringify(content, null, 2);
     // 使用 Blob 创建下载链接，支持所有文件类型
-    const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
+    // 添加 UTF-8 BOM 标记，确保手机浏览器正确识别中文编码
+    const blob = new Blob(['\uFEFF' + textContent], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.setAttribute('href', url);
