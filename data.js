@@ -538,8 +538,12 @@ const DataManager = {
     },
     
     exportToTXT(words, errors) {
-        // 词库导出：每行一个单词，按默认顺序
-        return words.map(w => w.word).join('\n');
+        // 词库导出：每行一个单词和释义，格式为 "单词 释义"
+        return words.map(w => {
+            const word = w.word || '';
+            const meaning = w.meaning || '';
+            return meaning ? `${word} ${meaning}` : word;
+        }).join('\n');
     },
     
     exportErrorBook(errors, format = 'txt', selectedWords = []) {
@@ -708,6 +712,17 @@ const DataManager = {
 
                     // 检查 parent 是否已存在或即将被添加
                     if (parentId === 'root' || result.englishCustomBooks[parentId] || addedNodes.has(parentId)) {
+                        // 验证子节点的 parent 属性是否正确指向当前父节点
+                        // 如果不匹配，说明数据不一致，跳过此子节点
+                        if (node.parent && node.parent !== 'root' && node.parent !== parentId) {
+                            // 子节点的 parent 指向其他节点，不添加到当前父节点
+                            // 但检查是否在其他地方已添加
+                            if (node.parent === 'root' || result.englishCustomBooks[node.parent]) {
+                                // 子节点的 parent 指向其他地方（且该地方存在），跳过
+                            }
+                            return;
+                        }
+
                         // parent 已存在，添加这个节点
                         result.englishCustomBooks[nodeId] = node;
                         addedNodes.add(nodeId);
@@ -718,6 +733,8 @@ const DataManager = {
                                 result.englishCustomBooks.root.children.push(nodeId);
                             }
                         } else if (result.englishCustomBooks[parentId]) {
+                            // 再次验证 children 数组的完整性
+                            result.englishCustomBooks[parentId].children = result.englishCustomBooks[parentId].children || [];
                             if (!result.englishCustomBooks[parentId].children.includes(nodeId)) {
                                 result.englishCustomBooks[parentId].children.push(nodeId);
                             }
@@ -825,6 +842,7 @@ const DataManager = {
                 // 第二步：添加新节点
                 const addedNodes = new Set();
 
+                // 递归添加节点及其所有后代
                 const addNodeAndChildren = (nodeId) => {
                     if (addedNodes.has(nodeId)) return;
                     if (!backupNodes[nodeId]) return;
@@ -832,7 +850,19 @@ const DataManager = {
                     const node = backupNodes[nodeId];
                     const parentId = node.parent || 'root';
 
+                    // 检查 parent 是否已存在或即将被添加
                     if (parentId === 'root' || result.chineseCustomBooks[parentId] || addedNodes.has(parentId)) {
+                        // 验证子节点的 parent 属性是否正确指向当前父节点
+                        // 如果不匹配，说明数据不一致，跳过此子节点
+                        if (node.parent && node.parent !== 'root' && node.parent !== parentId) {
+                            // 子节点的 parent 指向其他节点，不添加到当前父节点
+                            // 但检查是否在其他地方已添加
+                            if (node.parent === 'root' || result.chineseCustomBooks[node.parent]) {
+                                // 子节点的 parent 指向其他地方（且该地方存在），跳过
+                            }
+                            return;
+                        }
+
                         result.chineseCustomBooks[nodeId] = node;
                         addedNodes.add(nodeId);
 
@@ -841,6 +871,8 @@ const DataManager = {
                                 result.chineseCustomBooks.root.children.push(nodeId);
                             }
                         } else if (result.chineseCustomBooks[parentId]) {
+                            // 再次验证 children 数组的完整性
+                            result.chineseCustomBooks[parentId].children = result.chineseCustomBooks[parentId].children || [];
                             if (!result.chineseCustomBooks[parentId].children.includes(nodeId)) {
                                 result.chineseCustomBooks[parentId].children.push(nodeId);
                             }

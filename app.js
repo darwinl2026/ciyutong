@@ -341,7 +341,41 @@ function parseWordLine(line, mode = 'english') {
     const hasChinese = /[\u4e00-\u9fff]/.test(trimmed);
 
     if (hasChinese) {
-        // 方案：找到最后一个英文字母的位置，在此位置之后第一个汉字作为分界点
+        // 解析格式：英文词组 + 空格 + 中文释义
+        // 核心逻辑：从后往前找第一个"空格后紧跟中文"的位置
+        // 例如：
+        //   "is 是" → 最后一个空格(位置2)后是"是"(中文) ✓
+        //   "next to 紧挨着" → 最后一个空格(位置8)后是"紧"(中文) ✓
+        //   "do kung fu练功夫" → 从后往前找到"fu"后的空格 ✓
+        
+        // 找出所有空格的位置
+        const spaceIndices = [];
+        for (let i = 0; i < trimmed.length; i++) {
+            if (trimmed[i] === ' ') {
+                spaceIndices.push(i);
+            }
+        }
+        
+        if (spaceIndices.length > 0) {
+            // 从后往前检查每个空格，找到第一个后跟中文的
+            for (let i = spaceIndices.length - 1; i >= 0; i--) {
+                const spaceIndex = spaceIndices[i];
+                const afterSpace = trimmed.substring(spaceIndex + 1).trim();
+                
+                if (afterSpace && /[\u4e00-\u9fff]/.test(afterSpace[0])) {
+                    // 找到分隔点
+                    const englishPart = trimmed.substring(0, spaceIndex).trim();
+                    const chinesePart = afterSpace;
+                    
+                    // 确保英文部分包含至少一个字母
+                    if (/[a-zA-Z]/.test(englishPart)) {
+                        return { word: englishPart, meaning: chinesePart };
+                    }
+                }
+            }
+        }
+        
+        // 如果找不到空格或格式不符合预期，尝试 fallback 逻辑
         // 扫描字符串，从后往前找英文字母
         let lastLetterIndex = -1;
         for (let i = 0; i < trimmed.length; i++) {
@@ -1491,6 +1525,22 @@ function importCustomWordBook(bookId) {
 function migrateToTreeStructure(oldBooks) {
     // 如果已经包含 root 节点，说明已是新格式
     if (oldBooks.root && oldBooks.root.type === 'root') {
+        // 清理 orphaned children（children 数组中引用了不存在的节点）
+        Object.values(oldBooks).forEach(item => {
+            if (item.children && Array.isArray(item.children)) {
+                item.children = item.children.filter(childId => oldBooks[childId] !== undefined);
+            }
+        });
+        // 清理孤立节点（parent 指向不存在的位置）
+        Object.values(oldBooks).forEach(item => {
+            if (item.parent && item.parent !== 'root' && oldBooks[item.parent] === undefined) {
+                // 将孤立节点移到 root 下
+                item.parent = 'root';
+                if (!oldBooks.root.children.includes(item.id)) {
+                    oldBooks.root.children.push(item.id);
+                }
+            }
+        });
         return oldBooks;
     }
     
@@ -1509,6 +1559,8 @@ function migrateToTreeStructure(oldBooks) {
         if (book && book.id) {
             book.parent = 'root';
             book.children = book.children || [];
+            // 清理无效的 children 引用
+            book.children = book.children.filter(childId => oldBooks[childId] !== undefined);
             newBooks[id] = book;
             newBooks.root.children.push(id);
         }
@@ -1547,13 +1599,41 @@ function createFolder(name, parentId = 'root') {
         return false;
     }
     
-    // 检查是否已存在同名文件夹
+    // 检查是否已存在同名文件夹（在指定父目录下）
     const existingNames = Object.values(customBooks)
         .filter(item => item.parent === parentId && item.type === 'folder')
         .map(item => item.name);
     if (existingNames.includes(name.trim())) {
         showNotification('该位置已存在同名文件夹', 'error');
         return false;
+    }
+    
+    // 安全检查：清理 orphaned children（children 数组中引用了不存在的节点）
+    // 这可以修复数据合并时可能产生的不一致问题
+    Object.values(customBooks).forEach(item => {
+        if (item.type === 'folder' && item.children) {
+            item.children = item.children.filter(childId => customBooks[childId] !== undefined);
+        }
+    });
+    
+    // 同时检查是否有孤立节点（parent 指向不存在的位置）
+    // 这些节点应该被视为不存在，可以重新创建同名文件夹
+    const orphanedNodes = Object.values(customBooks).filter(item => {
+        if (!item.parent || item.parent === 'root') return false;
+        return customBooks[item.parent] === undefined;
+    });
+    const orphanedNames = orphanedNodes.map(item => item.name);
+    if (orphanedNodes.length > 0) {
+        // 清理孤立节点
+        orphanedNodes.forEach(item => {
+            delete customBooks[item.id];
+        });
+        // 从父节点移除引用
+        Object.values(customBooks).forEach(item => {
+            if (item.children) {
+                item.children = item.children.filter(childId => customBooks[childId] !== undefined);
+            }
+        });
     }
     
     const folderId = 'folder_' + Date.now();
@@ -1932,6 +2012,62 @@ function importPreset(presetKey) {
 }
 
 // ==================== 工具函数 ====================
+
+// 修复词库树形结构（清理孤立节点和无效引用）
+function repairCustomBooksTree() {
+    const repairTree = (customBooks) => {
+        let repaired = false;
+        
+        // 清理 orphaned children（children 数组中引用了不存在的节点）
+        Object.values(customBooks).forEach(item => {
+            if (item.children && Array.isArray(item.children)) {
+                const originalLength = item.children.length;
+                item.children = item.children.filter(childId => customBooks[childId] !== undefined);
+                if (item.children.length !== originalLength) {
+                    repaired = true;
+                }
+            }
+        });
+        
+        // 清理孤立节点（parent 指向不存在的位置）并移到 root 下
+        Object.values(customBooks).forEach(item => {
+            if (item.parent && item.parent !== 'root' && customBooks[item.parent] === undefined) {
+                // 将孤立节点移到 root 下
+                item.parent = 'root';
+                if (!customBooks.root.children.includes(item.id)) {
+                    customBooks.root.children.push(item.id);
+                }
+                repaired = true;
+            }
+        });
+        
+        // 检查根节点存在
+        if (!customBooks.root) {
+            customBooks.root = {
+                id: 'root',
+                type: 'root',
+                name: '我的词库',
+                children: []
+            };
+            repaired = true;
+        }
+        
+        return repaired;
+    };
+    
+    // 修复英语词库
+    const englishRepaired = repairTree(App.englishCustomBooks);
+    // 修复语文词库
+    const chineseRepaired = repairTree(App.chineseCustomBooks);
+    
+    if (englishRepaired || chineseRepaired) {
+        saveData();
+        renderCustomWordBooks();
+        showNotification('词库结构已修复', 'success');
+    } else {
+        showNotification('词库结构正常，无需修复', 'info');
+    }
+}
 
 function shuffleArray(array) {
     const shuffled = [...array];

@@ -216,6 +216,19 @@ function handleWordSearch(query) {
             w.word.toLowerCase().includes(currentWordSearch) ||
             (w.meaning && w.meaning.toLowerCase().includes(currentWordSearch))
         );
+        
+        // 精确匹配优先排序
+        filteredWords.sort((a, b) => {
+            const aWord = a.word.toLowerCase();
+            const bWord = b.word.toLowerCase();
+            const aExact = aWord === currentWordSearch;
+            const bExact = bWord === currentWordSearch;
+            
+            if (aExact && !bExact) return -1;  // a精确在前
+            if (!aExact && bExact) return 1;    // b精确在前
+            return 0;
+        });
+        
         renderWordList(filteredWords, App.selectedWords, App.errors, App.currentMode);
         
         // 显示搜索结果提示
