@@ -268,7 +268,7 @@ function renderWordList(words, selectedWords, errors, currentMode) {
                        onchange="toggleWordSelection(${word.id})">
                 <div class="word-text">${word.word} <span class="word-meaning-inline">${word.meaning || ''}</span>${hasErrors ? `<span class="word-error-badge">错${errors[word.word]}次</span>` : ''}</div>
                 <div class="word-actions">
-                    <button class="btn btn-small btn-icon" onclick="playWord('${escapedWord}')" title="朗读">🔈</button>
+                    <button class="btn btn-small btn-icon" onclick="playWord('${escapedWord}', App.currentMode)" title="朗读">🔈</button>
                     <button class="btn btn-small btn-icon" onclick="addToErrorBook('${escapedWord}')" title="加入错题本">📝</button>
                     <button class="btn btn-small btn-icon btn-delete-word" onclick="deleteWord(${word.id})" title="删除">✕</button>
                 </div>
@@ -423,7 +423,7 @@ function renderErrorList(errors, selectedErrorWords, words) {
                 <input type="checkbox" class="error-checkbox" ${selectedErrorWords.has(word) ? 'checked' : ''} onchange="toggleErrorSelection('${word.replace(/'/g, "\\'")}')">
                 <span class="error-word">${word}</span>
                 <div class="error-actions">
-                    <button class="btn btn-small btn-icon" onclick="playWord('${word.replace(/'/g, "\\'")}')" style="width:26px;height:26px;padding:0;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;background:#f5f5f5;color:#666;border:none;">🔈</button>
+                    <button class="btn btn-small btn-icon" onclick="playWord('${word.replace(/'/g, "\\'")}', App.currentMode)" style="width:26px;height:26px;padding:0;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;background:#f5f5f5;color:#666;border:none;">🔈</button>
                     <button class="btn btn-small btn-icon" onclick="editErrorCount('${word.replace(/'/g, "\\'")}')" style="width:28px;height:28px;padding:0;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:bold;background:#fff;color:#856404;border:2px solid #f39c12;">${count}</button>
                     <button class="btn btn-small btn-icon btn-delete-word" onclick="{ App.errors['${word.replace(/'/g, "\\'")}'] = 0; delete App.errors['${word.replace(/'/g, "\\'")}']; App.selectedErrorWords.delete('${word.replace(/'/g, "\\'")}'); saveData(); renderErrorList(App.errors, App.selectedErrorWords, App.words); updateErrorCounts(); }" style="width:26px;height:26px;padding:0;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;background:#f5f5f5;color:#666;border:none;">✕</button>
                 </div>

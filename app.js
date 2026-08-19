@@ -375,34 +375,29 @@ function parseWordLine(line, mode = 'english') {
             }
         }
         
-        // 如果找不到空格或格式不符合预期，尝试 fallback 逻辑
-        // 扫描字符串，从后往前找英文字母
-        let lastLetterIndex = -1;
+        // fallback：找到第一个中文字符，再向左把紧邻中文的
+        // 空格 / 中文标点 / 括号等"非英文"字符归入中文一侧
+        // 例如 "healthy （有益）健康的" → 英文 "healthy" / 中文 "（有益）健康的"
+        let cjkIndex = -1;
         for (let i = 0; i < trimmed.length; i++) {
-            const char = trimmed[i];
-            if (/[a-zA-Z]/.test(char)) {
-                lastLetterIndex = i;
+            if (/[\u4e00-\u9fff]/.test(trimmed[i])) {
+                cjkIndex = i;
+                break;
             }
         }
-        
-        if (lastLetterIndex >= 0) {
-            // 在最后一个英文字母之后，找到第一个汉字的位置
-            let splitIndex = -1;
-            for (let i = lastLetterIndex + 1; i < trimmed.length; i++) {
-                if (/[\u4e00-\u9fff]/.test(trimmed[i])) {
-                    splitIndex = i;
-                    break;
-                }
+
+        if (cjkIndex > 0) {
+            let boundary = cjkIndex;
+            // 把中文左侧紧邻的空格、括号、标点（非英文字母/数字/连字符）归入中文
+            while (boundary > 0 && !/[a-zA-Z0-9\-]/.test(trimmed[boundary - 1])) {
+                boundary--;
             }
-            
-            if (splitIndex > lastLetterIndex) {
-                const englishPart = trimmed.substring(0, splitIndex);
-                const chinesePart = trimmed.substring(splitIndex);
-                
-                // 确保英文部分以字母开头
-                if (/^[a-zA-Z]/i.test(englishPart)) {
-                    return { word: englishPart, meaning: chinesePart };
-                }
+            const englishPart = trimmed.substring(0, boundary).trim();
+            const chinesePart = trimmed.substring(boundary).trim();
+
+            // 确保英文部分以字母开头
+            if (/^[a-zA-Z]/i.test(englishPart)) {
+                return { word: englishPart, meaning: chinesePart };
             }
         }
 
@@ -736,6 +731,9 @@ function startDictation() {
 
 function stopDictation() {
     App.isDictating = false;
+    
+    // 清空语音播放队列
+    AudioManager.cancelAll();
     
     if (App.autoPlayTimer) {
         clearTimeout(App.autoPlayTimer);
