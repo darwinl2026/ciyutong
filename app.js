@@ -71,6 +71,7 @@ const App = {
         showMeaning: false,
         showWord: false,
         showExamples: false,
+        showPinyin: false,
         inputMode: 'offline'
     }
 };
@@ -637,6 +638,8 @@ function startDictation() {
     // 直接从DOM读取显示选项
     const showMeaning = document.getElementById('showMeaning').checked;
     const showWord = document.getElementById('showWord').checked;
+    const showPinyinEl = document.getElementById('showPinyin');
+    const showPinyin = showPinyinEl ? showPinyinEl.checked : false;
 
     // 直接从DOM读取输入模式
     const inputModeRadio = document.querySelector('input[name="inputMode"]:checked');
@@ -716,6 +719,7 @@ function startDictation() {
     App.settings.inputMode = inputMode;
     App.settings.showMeaning = showMeaning;
     App.settings.showWord = showWord;
+    App.settings.showPinyin = showPinyin;
 
     document.getElementById('startDictationBtn').classList.add('hidden');
     document.getElementById('stopDictationBtn').classList.remove('hidden');
@@ -744,6 +748,11 @@ function stopDictation() {
     document.getElementById('stopDictationBtn').classList.add('hidden');
     document.getElementById('displayWord').textContent = '准备开始';
     document.getElementById('displayHint').textContent = '';
+    const pinyinResetEl = document.getElementById('displayPinyin');
+    if (pinyinResetEl) {
+        pinyinResetEl.textContent = '';
+        pinyinResetEl.style.display = 'none';
+    }
     
     updateControlButtons(App.isDictating, App.currentIndex, App.currentSession.length, App.autoPlayTimer);
     
@@ -752,6 +761,32 @@ function stopDictation() {
         : 0;
     
     showNotification(`听写完成！正确率: ${accuracy}%`, 'success');
+}
+
+// 生成中文拼音（依赖 pinyin-pro，浏览器中挂载在 window.pinyinPro）
+// 仅对包含中文的内容生成，返回带声调的拼音字符串（如 "yǔ wén"）
+function getPinyin(text) {
+    if (!text) return '';
+    if (!/[\u4e00-\u9fff]/.test(text)) return '';
+    if (typeof window === 'undefined' || !window.pinyinPro || typeof window.pinyinPro.pinyin !== 'function') {
+        return '';
+    }
+    try {
+        return window.pinyinPro.pinyin(text, { toneType: 'symbol', type: 'string' });
+    } catch (e) {
+        return '';
+    }
+}
+
+// 更新显示屏中的拼音行
+// forceShow: 临时"显示"模式下一并显示拼音
+function updatePinyinDisplay(word, forceShow) {
+    const pinyinEl = document.getElementById('displayPinyin');
+    if (!pinyinEl) return;
+    const shouldShow = App.currentMode === 'chinese' && (App.settings.showPinyin || forceShow);
+    const pinyinText = shouldShow ? getPinyin(word) : '';
+    pinyinEl.textContent = pinyinText;
+    pinyinEl.style.display = pinyinText ? '' : 'none';
 }
 
 function playCurrentWord() {
@@ -775,6 +810,9 @@ function playCurrentWord() {
         hint += '例句: ' + (examplesText.length > 50 ? examplesText.slice(0, 50) + '…' : examplesText);
     }
     document.getElementById('displayHint').textContent = hint;
+
+    // 显示拼音（语文模块 + 勾选拼音 或 临时显示）
+    updatePinyinDisplay(currentWord.word, App.isTempShowingWord);
 
     // 直接从DOM读取播放设置
     const playCountEl = document.getElementById('playCount');
@@ -865,6 +903,9 @@ function toggleShowWord() {
         }
     }
     document.getElementById('displayHint').textContent = hint;
+
+    // 显示拼音（语文模块 + 勾选拼音 或 临时显示）
+    updatePinyinDisplay(currentWord.word, App.isTempShowingWord);
 
     // 更新按钮高亮状态
     const showWordBtn = document.getElementById('showWordBtn');

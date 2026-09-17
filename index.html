@@ -603,6 +603,15 @@
             margin-bottom: 15px;
         }
 
+        .word-pinyin {
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: var(--md-primary);
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            opacity: 0.85;
+        }
+
         .dictation-input {
             width: 100%;
             max-width: 350px;
@@ -2328,6 +2337,7 @@
 
                         <div class="dictation-area">
                             <div class="dictation-display">
+                                <div class="word-pinyin" id="displayPinyin" style="display: none;"></div>
                                 <div class="current-word" id="displayWord">准备开始</div>
                                 <div class="word-hint" id="displayHint"></div>
                             </div>
@@ -2420,6 +2430,7 @@
                                     <label><input type="checkbox" id="showMeaning"> 释义</label>
                                     <label><input type="checkbox" id="showWord"> 单词</label>
                                     <label><input type="checkbox" id="showExamples"> 例句</label>
+                                    <label id="showPinyinLabel" style="display: none;"><input type="checkbox" id="showPinyin"> 拼音</label>
                                 </div>
                             </div>
                         </div>
@@ -2549,6 +2560,7 @@
     </button>
 
     <!-- 脚本引入顺序很重要 -->
+    <script src="pinyin-pro.js"></script>
     <script src="presets.js"></script>
     <script src="data.js"></script>
     <script src="audio.js"></script>

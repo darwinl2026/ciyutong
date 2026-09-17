@@ -521,6 +521,20 @@ function updateModeUI(currentMode, settings) {
     if (chinesePresets) {
         chinesePresets.style.display = isEnglish ? 'none' : 'block';
     }
+
+    // 拼音选项仅在语文模块显示
+    const showPinyinLabel = document.getElementById('showPinyinLabel');
+    if (showPinyinLabel) {
+        showPinyinLabel.style.display = isEnglish ? 'none' : 'flex';
+    }
+    // 切到英语模式时隐藏显示屏中的拼音行
+    if (isEnglish) {
+        const pinyinEl = document.getElementById('displayPinyin');
+        if (pinyinEl) {
+            pinyinEl.textContent = '';
+            pinyinEl.style.display = 'none';
+        }
+    }
     
     // 同步听写范围radio button状态
     document.querySelectorAll('input[name="range"]').forEach(radio => {
@@ -577,6 +591,8 @@ function updateModeUI(currentMode, settings) {
     document.getElementById('showMeaning').checked = App.settings.showMeaning;
     document.getElementById('showWord').checked = App.settings.showWord;
     document.getElementById('showExamples').checked = App.settings.showExamples;
+    const showPinyinEl = document.getElementById('showPinyin');
+    if (showPinyinEl) showPinyinEl.checked = !!App.settings.showPinyin;
 }
 
 /**
@@ -661,6 +677,11 @@ function setupEventListeners(settings) {
 
     document.getElementById('showExamples').addEventListener('change', (e) => {
         App.settings.showExamples = e.target.checked;
+        saveData();
+    });
+
+    document.getElementById('showPinyin').addEventListener('change', (e) => {
+        App.settings.showPinyin = e.target.checked;
         saveData();
     });
 

@@ -460,6 +460,7 @@ const DataManager = {
             showMeaning: false,
             showWord: false,
             showExamples: false,
+            showPinyin: false,
             inputMode: 'offline'
         }
     },
@@ -485,6 +486,7 @@ const DataManager = {
             showMeaning: false,
             showWord: false,
             showExamples: false,
+            showPinyin: false,
             inputMode: 'offline'
         };
         const savedSettings = JSON.parse(localStorage.getItem('dictation_settings') || '{}');
