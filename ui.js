@@ -196,46 +196,169 @@ function promptCreateFolderAt(parentId) {
 
 /**
  * 搜索单词（实时过滤）
+ * 搜索范围：主词库 + 当前模式下所有小词库
+ *   主词库命中的词正常显示在列表里（可勾选/编辑/删除）
+ *   小词库命中的词单独挂在列表末尾，标注所属小词库，可一键导入
  */
 let currentWordSearch = ''; // 当前搜索关键词
+let currentBookSearchHits = []; // 本次搜索在「主词库以外」的小词库中命中的词条
 
 function handleWordSearch(query) {
-    currentWordSearch = query.trim().toLowerCase();
-    
-    // 切换模式时清空搜索
-    if (!currentWordSearch && App.words.length > 0) {
+    currentWordSearch = (query || '').trim().toLowerCase();
+
+    if (currentWordSearch === '') {
         renderWordList(App.words, App.selectedWords, App.errors, App.currentMode);
         return;
     }
-    
-    if (currentWordSearch === '') {
-        renderWordList(App.words, App.selectedWords, App.errors, App.currentMode);
-    } else {
-        // 过滤匹配单词（匹配单词或释义）
-        const filteredWords = App.words.filter(w => 
-            w.word.toLowerCase().includes(currentWordSearch) ||
-            (w.meaning && w.meaning.toLowerCase().includes(currentWordSearch))
-        );
-        
-        // 精确匹配优先排序
-        filteredWords.sort((a, b) => {
-            const aWord = a.word.toLowerCase();
-            const bWord = b.word.toLowerCase();
-            const aExact = aWord === currentWordSearch;
-            const bExact = bWord === currentWordSearch;
-            
-            if (aExact && !bExact) return -1;  // a精确在前
-            if (!aExact && bExact) return 1;    // b精确在前
-            return 0;
-        });
-        
-        renderWordList(filteredWords, App.selectedWords, App.errors, App.currentMode);
-        
-        // 显示搜索结果提示
-        if (filteredWords.length === 0) {
-            showNotification(`未找到匹配"${query}"的单词`, 'info');
-        }
+
+    // 过滤匹配词（匹配词语或释义）
+    const filteredWords = App.words.filter(w =>
+        (w.word || '').toLowerCase().includes(currentWordSearch) ||
+        (w.meaning && String(w.meaning).toLowerCase().includes(currentWordSearch))
+    );
+
+    // 精确匹配优先排序
+    filteredWords.sort((a, b) => {
+        const aExact = (a.word || '').toLowerCase() === currentWordSearch;
+        const bExact = (b.word || '').toLowerCase() === currentWordSearch;
+        if (aExact && !bExact) return -1;  // a精确在前
+        if (!aExact && bExact) return 1;   // b精确在前
+        return 0;
+    });
+
+    // renderWordList 内部会自动带上小词库命中区
+    renderWordList(filteredWords, App.selectedWords, App.errors, App.currentMode);
+
+    // 主词库和小词库都没命中时才提示
+    if (filteredWords.length === 0 && currentBookSearchHits.length === 0) {
+        showNotification(`未找到匹配"${query}"的词`, 'info');
     }
+}
+
+/**
+ * 在「主词库以外」的所有小词库中搜索
+ * 同一个词出现在多本小词库时合并为一条，记录全部来源。
+ * 已存在于主词库的词不重复展示（主词库列表里已经有了）。
+ * @param {string} query 关键词
+ * @returns {Array<{word:string,meaning:string,examples:Array,pronunciation:string,partOfSpeech:string,bookIds:Array<string>,bookNames:Array<string>}>}
+ */
+function collectBookSearchHits(query) {
+    const q = (query || '').trim().toLowerCase();
+    if (!q) return [];
+
+    const mainWordKeys = new Set(App.words.map(w => (w.word || '').toLowerCase()));
+    const hitMap = new Map();
+
+    Object.values(getCurrentCustomBooks()).forEach(node => {
+        if (!Array.isArray(node.words)) return;  // 文件夹节点没有 words
+        node.words.forEach(w => {
+            if (!w || typeof w.word !== 'string') return;
+            const word = w.word.trim();
+            if (!word) return;
+
+            const key = word.toLowerCase();
+            if (mainWordKeys.has(key)) return;  // 主词库已有 → 不重复展示
+
+            const meaning = w.meaning || '';
+            const matched = key.includes(q) || String(meaning).toLowerCase().includes(q);
+            if (!matched) return;
+
+            let hit = hitMap.get(key);
+            if (!hit) {
+                hit = {
+                    word: word,
+                    meaning: '',
+                    examples: [],
+                    pronunciation: w.pronunciation || '',
+                    partOfSpeech: w.partOfSpeech || '',
+                    bookIds: [],
+                    bookNames: []
+                };
+                hitMap.set(key, hit);
+            }
+            if (!hit.bookNames.includes(node.name)) hit.bookNames.push(node.name);
+            if (!hit.bookIds.includes(node.id)) hit.bookIds.push(node.id);
+            // 多本小词库内容不一致时，补齐缺失的释义/例句
+            if (!hit.meaning && meaning) hit.meaning = meaning;
+            if (hit.examples.length === 0 && Array.isArray(w.examples) && w.examples.length) {
+                hit.examples = w.examples.slice();
+            }
+        });
+    });
+
+    const hits = Array.from(hitMap.values());
+    // 前缀匹配优先，其余按拼音/字母序
+    hits.sort((a, b) => {
+        const aw = a.word.toLowerCase();
+        const bw = b.word.toLowerCase();
+        const aStarts = aw.startsWith(q);
+        const bStarts = bw.startsWith(q);
+        if (aStarts && !bStarts) return -1;
+        if (!aStarts && bStarts) return 1;
+        return aw.localeCompare(bw, 'zh-Hans-CN');
+    });
+    return hits;
+}
+
+/**
+ * 渲染「其它小词库命中」区块（追加到单词列表末尾）
+ */
+function renderBookSearchHits(hits) {
+    if (!hits || hits.length === 0) return;
+
+    const container = document.getElementById('wordList');
+    if (!container) return;
+
+    const rows = hits.map((hit, index) => {
+        const meaning = hit.meaning
+            ? ` <span class="book-hit-meaning">${escapeHtml(hit.meaning)}</span>`
+            : '';
+        const books = hit.bookNames.map(n => escapeHtml(n)).join(' / ');
+        return `
+        <div class="book-hit-item">
+            <span class="book-hit-dot"></span>
+            <span class="book-hit-text">${escapeHtml(hit.word)}${meaning}</span>
+            <span class="book-hit-books">在 ${books}</span>
+            <button class="btn btn-small btn-primary book-hit-import" onclick="importBookHit(${index})">导入</button>
+        </div>`;
+    }).join('');
+
+    container.insertAdjacentHTML('beforeend', `
+        <div class="book-hit-divider">其它小词库命中 ${hits.length} 个 · 只读，点「导入」加入主词库</div>
+        ${rows}`);
+}
+
+/**
+ * 把某条小词库命中导入主词库（小词库中保留原词条）
+ * @param {number} index currentBookSearchHits 下标
+ */
+function importBookHit(index) {
+    const hit = currentBookSearchHits[index];
+    if (!hit) return;
+
+    if (App.words.some(w => (w.word || '').toLowerCase() === hit.word.toLowerCase())) {
+        showNotification(`「${hit.word}」已在主词库中`, 'info');
+        return;
+    }
+
+    App.words.push({
+        id: App.nextId++,
+        word: hit.word,
+        meaning: hit.meaning || '',
+        pronunciation: hit.pronunciation || '',
+        partOfSpeech: hit.partOfSpeech || '',
+        examples: (hit.examples || []).slice(),
+        addedAt: new Date().toISOString(),
+        source: hit.bookIds.length ? `custom_book:${hit.bookIds[0]}` : 'custom_book'
+    });
+
+    saveData();
+    updateCounts(App.words, App.selectedWords);
+    showNotification(`已导入「${hit.word}」到词库`, 'success');
+
+    // 刷新：导入后该词转入主词库区，自动从小词库命中区移除
+    const input = document.getElementById('wordSearchInput');
+    handleWordSearch(input ? input.value : currentWordSearch);
 }
 
 /**
@@ -245,7 +368,11 @@ function renderWordList(words, selectedWords, errors, currentMode) {
     const container = document.getElementById('wordList');
     
     if (!words || words.length === 0) {
-        container.innerHTML = '<p style="text-align: center; color: #6c757d; padding: 40px;">暂无单词，请添加或导入</p>';
+        const emptyText = currentWordSearch ? '主词库中无匹配词语' : '暂无单词，请添加或导入';
+        container.innerHTML = `<p style="text-align: center; color: #6c757d; padding: 40px;">${emptyText}</p>`;
+        // 主词库没命中，但小词库可能有 → 继续往下走，展示命中区
+        currentBookSearchHits = currentWordSearch ? collectBookSearchHits(currentWordSearch) : [];
+        renderBookSearchHits(currentBookSearchHits);
         return;
     }
     
@@ -287,6 +414,10 @@ function renderWordList(words, selectedWords, errors, currentMode) {
         </div>
     `;
     }).join('');
+
+    // 搜索时附带展示「其它小词库」命中的词条
+    currentBookSearchHits = currentWordSearch ? collectBookSearchHits(currentWordSearch) : [];
+    renderBookSearchHits(currentBookSearchHits);
 }
 
 // 点击释义开始编辑（与例句编辑一致的UI）
@@ -526,6 +657,12 @@ function updateModeUI(currentMode, settings) {
     const showPinyinLabel = document.getElementById('showPinyinLabel');
     if (showPinyinLabel) {
         showPinyinLabel.style.display = isEnglish ? 'none' : 'flex';
+    }
+
+    // 「缺释义词」导出按钮仅语文模块显示
+    const exportMissingMeaningBtn = document.getElementById('exportMissingMeaningBtn');
+    if (exportMissingMeaningBtn) {
+        exportMissingMeaningBtn.style.display = isEnglish ? 'none' : '';
     }
     // 切到英语模式时隐藏显示屏中的拼音行
     if (isEnglish) {
@@ -907,14 +1044,3 @@ function toggleWordDetail(item, event) {
     item.classList.toggle('expanded');
 }
 
-// 导出UI模块
-window.UIManager = {
-    showNotification,
-    renderWordList,
-    renderErrorList,
-    updateStats,
-    updateCounts,
-    updateModeUI,
-    updateControlButtons,
-    setupEventListeners
-};

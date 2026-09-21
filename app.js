@@ -333,9 +333,40 @@ function parseWordLine(line, mode = 'english') {
     const trimmed = line.trim();
     if (!trimmed) return null;
 
-    // 语文模式：直接返回纯中文内容
+    // 语文模式：支持三种写法，全部向后兼容
+    //   1) 竖线分段（字段明确）：词语|释义|例句1；例句2
+    //   2) 空格分段：词语 释义
+    //   3) 纯词语（旧写法）：整行作为词语
     if (mode === 'chinese') {
-        return { word: trimmed, meaning: null };
+        if (/[|｜]/.test(trimmed)) {
+            const segments = trimmed.split(/[|｜]/);
+            const word = (segments[0] || '').trim();
+            if (word) {
+                const meaning = (segments[1] || '').trim();
+                const examplesRaw = (segments[2] || '').trim();
+                return {
+                    word: word,
+                    meaning: meaning || null,
+                    examples: examplesRaw
+                        ? examplesRaw.split(/[;；]/).map(s => s.trim()).filter(Boolean)
+                        : []
+                };
+            }
+        }
+
+        // 空格分段：仅当"词头"较短且含中文、"词头之后"也含中文时才拆
+        // 例如 "郁郁葱葱 形容草木苍翠茂盛。"
+        const spaceMatch = trimmed.match(/^(\S{1,10})[\s\u3000]+(.+)$/);
+        if (spaceMatch) {
+            const head = spaceMatch[1].trim();
+            const rest = spaceMatch[2].trim();
+            if (head && rest && /[\u4e00-\u9fff]/.test(head) && /[\u4e00-\u9fff]/.test(rest)) {
+                return { word: head, meaning: rest, examples: [] };
+            }
+        }
+
+        // 纯词语：整行作为词语（旧行为，不含释义的行照旧处理）
+        return { word: trimmed, meaning: null, examples: [] };
     }
 
     // 英语模式：检测是否包含中文字符
@@ -410,6 +441,97 @@ function parseWordLine(line, mode = 'english') {
     }
 }
 
+/**
+ * 收集当前模式下"已存在"的词语集合（主词库 + 所有小词库里的副本）
+ * 用于判断一行输入是"新增"还是"更新已有词条"
+ */
+function collectExistingWordKeys() {
+    const keys = new Set();
+    App.words.forEach(w => { if (w && typeof w.word === 'string') keys.add(w.word.toLowerCase()); });
+    Object.values(getCurrentCustomBooks()).forEach(node => {
+        if (!Array.isArray(node.words)) return;
+        node.words.forEach(w => { if (w && typeof w.word === 'string') keys.add(w.word.toLowerCase()); });
+    });
+    return keys;
+}
+
+/** 这一行是否带有可写入词库的内容（释义或例句） */
+function hasUpdatePayload(item) {
+    if (!item) return false;
+    return !!((item.meaning && item.meaning.trim()) || (item.examples && item.examples.length));
+}
+
+/**
+ * 把「词语 → 释义/例句」就地写入已有词条。
+ * 更新范围：主词库 + 当前模式下的所有小词库（含各单元内的词条副本），
+ * 所以同一个词无论被分到哪个小词库，都能一次同步到位，无需逐个查找。
+ * 只覆盖本次确实提供的内容：没给释义就不动原释义，没给例句就保留原例句。
+ * @param {Array<{word:string, meaning?:string|null, examples?:string[]}>} updates
+ * @returns {number} 实际更新的词条数（按词语去重）
+ */
+function applyWordUpdates(updates) {
+    if (!updates || updates.length === 0) return 0;
+
+    // 同一个词在一次输入里出现多行时，后面的内容补齐前面的空字段
+    const index = new Map();
+    updates.forEach(item => {
+        const key = item.word.toLowerCase();
+        const meaning = (item.meaning && item.meaning.trim()) ? item.meaning.trim() : null;
+        const examples = (item.examples && item.examples.length) ? item.examples : null;
+        const prev = index.get(key);
+        if (!prev) {
+            index.set(key, { meaning: meaning, examples: examples });
+        } else {
+            if (!prev.meaning && meaning) prev.meaning = meaning;
+            if (!prev.examples && examples) prev.examples = examples;
+        }
+    });
+
+    const matched = new Set();
+    const patch = (target) => {
+        if (!target || typeof target.word !== 'string') return;
+        const p = index.get(target.word.toLowerCase());
+        if (!p) return;
+        if (p.meaning) target.meaning = p.meaning;
+        if (p.examples) target.examples = p.examples.slice();
+        matched.add(target.word.toLowerCase());
+    };
+
+    App.words.forEach(patch);
+    Object.values(getCurrentCustomBooks()).forEach(node => {
+        if (!Array.isArray(node.words)) return;
+        node.words.forEach(patch);
+    });
+
+    return matched.size;
+}
+
+/**
+ * 收集当前模式下"释义或例句缺失"的词条。
+ * 范围：主词库 + 当前模式下所有小词库（含各单元内的词条副本），按词语去重。
+ * @returns {Array<object>} 缺内容词条对象列表（保持首次出现顺序）
+ */
+function collectWordsMissingMeaning() {
+    const seen = new Set();
+    const list = [];
+    const scan = (w) => {
+        if (!w || typeof w.word !== 'string') return;
+        const word = w.word.trim();
+        if (!word) return;
+        const key = word.toLowerCase();
+        if (seen.has(key)) return;
+        seen.add(key);
+        const noMeaning = !w.meaning || !String(w.meaning).trim();
+        const noExamples = !(w.examples && w.examples.length);
+        if (noMeaning || noExamples) list.push(w);
+    };
+    App.words.forEach(scan);
+    Object.values(getCurrentCustomBooks()).forEach(node => {
+        if (Array.isArray(node.words)) node.words.forEach(scan);
+    });
+    return list;
+}
+
 async function bulkImportWords() {
     const textarea = document.getElementById('bulkImport');
     const text = textarea.value.trim();
@@ -419,10 +541,14 @@ async function bulkImportWords() {
         return;
     }
 
-    const parsedLines = [];  // { word, meaning, line }
-    const seen = new Set(App.words.map(w => w.word.toLowerCase()));
+    const parsedLines = [];   // 本次新增的词条
+    const updateLines = [];   // 词库中已存在、且本次带了释义/例句 → 就地更新
     let skippedCount = 0;
     const skippedLines = [];
+
+    // 已存在的词：主词库 + 当前模式下的所有小词库（含各单元内的副本）
+    const existingWords = collectExistingWordKeys();
+    const seenInInput = new Set();
 
     text.split(/\n/).forEach((line, lineIndex) => {
         const result = parseWordLine(line, App.currentMode);
@@ -430,7 +556,7 @@ async function bulkImportWords() {
         if (result === null) {
             // 无效行（如纯中文、空行等）
             const trimmed = line.trim();
-            if (trimmed && !seen.has(trimmed.toLowerCase())) {
+            if (trimmed && !existingWords.has(trimmed.toLowerCase())) {
                 // 记录跳过的行（可能是用户输入错误）
                 skippedLines.push(lineIndex + 1);
                 skippedCount++;
@@ -438,15 +564,47 @@ async function bulkImportWords() {
             return;
         }
 
-        // 检查是否重复
-        if (seen.has(result.word)) {
+        const key = result.word.toLowerCase();
+
+        // 同一批输入里重复出现 → 只保留第一条
+        if (seenInInput.has(key)) {
             skippedCount++;
+            return;
+        }
+        seenInInput.add(key);
+
+        // 词已在库中：本次带了释义/例句就就地更新，否则沿用旧的"跳过"行为
+        if (existingWords.has(key)) {
+            if (hasUpdatePayload(result)) {
+                updateLines.push(result);
+            } else {
+                skippedCount++;
+            }
             return;
         }
 
         parsedLines.push(result);
-        seen.add(result.word);
+        existingWords.add(key);
     });
+
+    const wordType = App.currentMode === 'english' ? '单词' : '词语';
+
+    // 先把已有词条的释义/例句就地写入（主词库 + 所有小词库同步）
+    let updatedCount = 0;
+    if (updateLines.length > 0) {
+        updatedCount = applyWordUpdates(updateLines);
+    }
+
+    // 只有"更新"、没有"新增"时直接收尾
+    if (parsedLines.length === 0 && updatedCount > 0) {
+        saveData();
+        renderWordList(App.words, App.selectedWords, App.errors, App.currentMode);
+        updateCounts(App.words, App.selectedWords);
+        if (App.currentMode === 'chinese') renderCustomWordBooks();
+        textarea.value = '';
+        showNotification(`已更新 ${updatedCount} 个${wordType}的释义/例句`, 'success', 6000);
+        return;
+    }
 
     if (parsedLines.length === 0) {
         const msg = skippedCount > 0 
@@ -457,7 +615,6 @@ async function bulkImportWords() {
     }
 
     const startTime = Date.now();
-    const wordType = App.currentMode === 'english' ? '单词' : '词语';
     showNotification(`正在导入 ${parsedLines.length} 个${wordType}，请稍候...`, 'info');
 
     // 语文模式：直接批量添加
@@ -470,6 +627,7 @@ async function bulkImportWords() {
             meaning: item.meaning || '',
             pronunciation: '',
             partOfSpeech: '',
+            examples: item.examples || [],
             addedAt: new Date().toISOString()
         }));
 
@@ -477,11 +635,13 @@ async function bulkImportWords() {
         saveData();
         renderWordList(App.words, App.selectedWords, App.errors, App.currentMode);
         updateCounts(App.words, App.selectedWords);
+        if (updatedCount > 0) renderCustomWordBooks();
         textarea.value = '';
 
         const totalTime = Math.round((Date.now() - startTime) / 1000);
         const skipMsg = skippedCount > 0 ? ` | 跳过${skippedCount}行` : '';
-        showNotification(`导入完成: ${results.length}个${wordType}${skipMsg} | 用时: ${totalTime}秒`, 'success', 5000);
+        const updateMsg = updatedCount > 0 ? ` | 更新${updatedCount}个已有词条` : '';
+        showNotification(`导入完成: 新增${results.length}个${wordType}${updateMsg}${skipMsg} | 用时: ${totalTime}秒`, 'success', 6000);
         return;
     }
 
@@ -557,8 +717,9 @@ async function bulkImportWords() {
     const basicCount = results.length - successCount;
     const skipMsg = skippedCount > 0 ? ` | 跳过${skippedCount}行` : '';
     const customMsg = customMeaningCount > 0 ? ` | 自定义释义: ${customMeaningCount}个` : '';
+    const updateMsg = updatedCount > 0 ? ` | 更新${updatedCount}个已有词条` : '';
 
-    showNotification(`导入完成: ${results.length}个${wordType}${customMsg}${skipMsg} | 用时: ${totalTime}秒`, 'success', 5000);
+    showNotification(`导入完成: 新增${results.length}个${wordType}${customMsg}${updateMsg}${skipMsg} | 用时: ${totalTime}秒`, 'success', 6000);
 }
 
 function deleteWord(id) {
@@ -672,7 +833,6 @@ function startDictation() {
         const foundWordsLower = wordsToDictate.map(w => w.word.toLowerCase());
         const notFoundInWordList = selectedErrors.filter(w => !foundWordsLower.includes(w.toLowerCase()));
         if (notFoundInWordList.length > 0) {
-            console.log('[DEBUG] 以下错词本单词在词库中不存在，自动生成:', notFoundInWordList);
             const tempWords = notFoundInWordList.map(word => ({
                 id: Date.now() + Math.random(),
                 word: word,
@@ -747,7 +907,8 @@ function stopDictation() {
     document.getElementById('startDictationBtn').classList.remove('hidden');
     document.getElementById('stopDictationBtn').classList.add('hidden');
     document.getElementById('displayWord').textContent = '准备开始';
-    document.getElementById('displayHint').textContent = '';
+    const hintResetEl = document.getElementById('displayHint');
+    if (hintResetEl) hintResetEl.replaceChildren();
     const pinyinResetEl = document.getElementById('displayPinyin');
     if (pinyinResetEl) {
         pinyinResetEl.textContent = '';
@@ -789,6 +950,90 @@ function updatePinyinDisplay(word, forceShow) {
     pinyinEl.style.display = pinyinText ? '' : 'none';
 }
 
+/**
+ * 组装听写显示屏的提示区：释义、例句各占一行，分别以「释义：」「例句：」开头。
+ * 例句中出现的词语会用 <span class="hint-word"> 高亮（与显示屏大字同色），一眼看出生词。
+ * 全程 DOM 节点拼接 + textContent，不拼 HTML 字符串 → 无 XSS 风险。
+ * @param {object} word 词条对象
+ * @param {boolean} forceShow 临时"显示"模式：忽略勾选，强制显示全部信息
+ * @returns {DocumentFragment|null} 无内容时返回 null
+ */
+function renderHintText(word, forceShow) {
+    if (!word) return null;
+
+    const lines = [];
+    if (word.meaning && (forceShow || App.settings.showMeaning)) {
+        lines.push({ label: '释义：', text: String(word.meaning), highlight: false });
+    }
+    if (Array.isArray(word.examples) && word.examples.length > 0 && (forceShow || App.settings.showExamples)) {
+        let examplesText = word.examples.join(' / ');
+        // 保持原有行为：超长例句先截断（先截断再高亮，避免把高亮标签切断）
+        if (examplesText.length > 50) examplesText = examplesText.slice(0, 50) + '…';
+        lines.push({ label: '例句：', text: examplesText, highlight: true });
+    }
+
+    if (lines.length === 0) return null;
+
+    const fragment = document.createDocumentFragment();
+    lines.forEach((line, lineIndex) => {
+        if (lineIndex > 0) fragment.appendChild(document.createTextNode('\n'));
+        fragment.appendChild(document.createTextNode(line.label));
+        if (line.highlight) {
+            appendHighlightedText(fragment, line.text, word.word);
+        } else {
+            fragment.appendChild(document.createTextNode(line.text));
+        }
+    });
+    return fragment;
+}
+
+/**
+ * 把 text 追加到 parent；命中 target 的片段包进 <span class="hint-word">。
+ * 大小写不敏感，所有出现处都高亮；用 indexOf 循环切分（不构造正则），
+ * 因此词语里含 . ( ) 等正则特殊字符也不会出错。
+ */
+function appendHighlightedText(parent, text, target) {
+    const haystack = String(text || '');
+    const needle = String(target || '');
+    if (!needle) {
+        parent.appendChild(document.createTextNode(haystack));
+        return;
+    }
+
+    const lowerHay = haystack.toLowerCase();
+    const lowerNeedle = needle.toLowerCase();
+    let cursor = 0;
+    let found = lowerHay.indexOf(lowerNeedle, cursor);
+
+    while (found !== -1) {
+        if (found > cursor) {
+            parent.appendChild(document.createTextNode(haystack.slice(cursor, found)));
+        }
+        const span = document.createElement('span');
+        span.className = 'hint-word';
+        span.textContent = haystack.slice(found, found + needle.length);
+        parent.appendChild(span);
+
+        cursor = found + needle.length;
+        found = lowerHay.indexOf(lowerNeedle, cursor);
+    }
+
+    if (cursor < haystack.length) {
+        parent.appendChild(document.createTextNode(haystack.slice(cursor)));
+    }
+}
+
+/**
+ * 把提示内容写进 #displayHint（先清空再挂载）
+ */
+function setHintDisplay(word, forceShow) {
+    const hintEl = document.getElementById('displayHint');
+    if (!hintEl) return;
+    hintEl.replaceChildren();
+    const fragment = renderHintText(word, forceShow);
+    if (fragment) hintEl.appendChild(fragment);
+}
+
 function playCurrentWord() {
     if (!App.isDictating || App.currentIndex >= App.currentSession.length) {
         stopDictation();
@@ -800,16 +1045,7 @@ function playCurrentWord() {
     document.getElementById('displayWord').textContent =
         (App.settings.showWord || App.isTempShowingWord) ? currentWord.word : '♪';
 
-    let hint = '';
-    if (App.settings.showMeaning && currentWord.meaning) {
-        hint += currentWord.meaning;
-    }
-    if (App.settings.showExamples && currentWord.examples && currentWord.examples.length > 0) {
-        const examplesText = currentWord.examples.join(' / ');
-        hint += hint ? '\n' : '';
-        hint += '例句: ' + (examplesText.length > 50 ? examplesText.slice(0, 50) + '…' : examplesText);
-    }
-    document.getElementById('displayHint').textContent = hint;
+    setHintDisplay(currentWord, false);
 
     // 显示拼音（语文模块 + 勾选拼音 或 临时显示）
     updatePinyinDisplay(currentWord.word, App.isTempShowingWord);
@@ -882,27 +1118,7 @@ function toggleShowWord() {
         (App.settings.showWord || App.isTempShowingWord) ? currentWord.word : '♪';
 
     // 按下显示按钮时，强制显示释义+例句；平时按设置勾选显示
-    let hint = '';
-    if (App.isTempShowingWord) {
-        // 强制显示模式：显示所有信息
-        if (currentWord.meaning) hint += currentWord.meaning;
-        if (currentWord.examples && currentWord.examples.length > 0) {
-            const examplesText = currentWord.examples.join(' / ');
-            hint += hint ? '\n' : '';
-            hint += '例句: ' + (examplesText.length > 50 ? examplesText.slice(0, 50) + '…' : examplesText);
-        }
-    } else {
-        // 普通模式：按勾选设置显示
-        if (App.settings.showMeaning && currentWord.meaning) {
-            hint += currentWord.meaning;
-        }
-        if (App.settings.showExamples && currentWord.examples && currentWord.examples.length > 0) {
-            const examplesText = currentWord.examples.join(' / ');
-            hint += hint ? '\n' : '';
-            hint += '例句: ' + (examplesText.length > 50 ? examplesText.slice(0, 50) + '…' : examplesText);
-        }
-    }
-    document.getElementById('displayHint').textContent = hint;
+    setHintDisplay(currentWord, App.isTempShowingWord);
 
     // 显示拼音（语文模块 + 勾选拼音 或 临时显示）
     updatePinyinDisplay(currentWord.word, App.isTempShowingWord);
@@ -953,23 +1169,6 @@ function submitAnswer() {
     nextWord();
 }
 
-function skipWord() {
-    if (!App.isDictating) return;
-    
-    const currentWord = App.currentSession[App.currentIndex];
-    showNotification(`⏭️ 跳过！正确答案是: ${currentWord.word}`, 'info');
-    
-    App.errors[currentWord.word] = (App.errors[currentWord.word] || 0) + 1;
-    saveData();
-    renderErrorList(App.errors, App.selectedErrorWords, App.words);
-    
-    if (App.autoPlayTimer) {
-        clearTimeout(App.autoPlayTimer);
-        App.autoPlayTimer = null;
-    }
-    
-    nextWord();
-}
 
 function previousWord() {
     if (!App.isDictating || App.currentIndex <= 0) return;
@@ -1137,14 +1336,6 @@ function deleteSelectedErrors() {
     showNotification(`已删除 ${wordsToDelete.length} 个错词`, 'success');
 }
 
-function clearErrors() {
-    if (!confirm('确定清空错词本吗？')) return;
-    App.errors = {};
-    App.selectedErrorWords.clear();
-    saveData();
-    renderErrorList(App.errors, App.selectedErrorWords, App.words);
-    showNotification('错词本已清空', 'info');
-}
 
 function exportErrorBook() {
     if (Object.keys(App.errors).length === 0) {
@@ -1261,6 +1452,30 @@ function exportWordList() {
     
     downloadFile(result.content, filename);
     showNotification(`词库已导出 (${result.count}个)`, 'success');
+}
+
+// 导出「缺释义词」：词库里释义或例句缺失的词语（主词库 + 小词库，去重）
+function exportWordsMissingMeaning() {
+    const missing = collectWordsMissingMeaning();
+    if (missing.length === 0) {
+        showNotification('没有缺释义或例句的词语', 'info');
+        return;
+    }
+
+    const format = prompt('选择导出格式 (1: TXT, 2: CSV, 3: JSON)', '1');
+    let formatType = 'txt';
+    if (format === '2') formatType = 'csv';
+    else if (format === '3') formatType = 'json';
+
+    const result = DataManager.exportData(missing, {}, formatType);
+
+    const now = new Date();
+    const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+    const ext = formatType === 'csv' ? 'csv' : formatType === 'json' ? 'json' : 'txt';
+    const filename = `缺释义词_${dateStr}_共${missing.length}个.${ext}`;
+
+    downloadFile(result.content, filename);
+    showNotification(`缺释义词已导出 (${missing.length}个)`, 'success');
 }
 
 function downloadFile(content, filename) {
@@ -1896,24 +2111,6 @@ function promptMoveItem(itemId) {
     );
 }
 
-// 获取词库所在文件夹路径
-function getItemPath(itemId) {
-    const customBooks = getCurrentCustomBooks();
-    const path = [];
-    let current = customBooks[itemId];
-
-    while (current && current.parent) {
-        if (current.parent !== 'root') {
-            const parent = customBooks[current.parent];
-            if (parent) {
-                path.unshift(parent.name);
-            }
-        }
-        current = customBooks[current.parent];
-    }
-
-    return path.join(' / ');
-}
 
 // 重命名文件夹或词库
 function renameItem(itemId) {
@@ -2053,61 +2250,6 @@ function importPreset(presetKey) {
 
 // ==================== 工具函数 ====================
 
-// 修复词库树形结构（清理孤立节点和无效引用）
-function repairCustomBooksTree() {
-    const repairTree = (customBooks) => {
-        let repaired = false;
-        
-        // 清理 orphaned children（children 数组中引用了不存在的节点）
-        Object.values(customBooks).forEach(item => {
-            if (item.children && Array.isArray(item.children)) {
-                const originalLength = item.children.length;
-                item.children = item.children.filter(childId => customBooks[childId] !== undefined);
-                if (item.children.length !== originalLength) {
-                    repaired = true;
-                }
-            }
-        });
-        
-        // 清理孤立节点（parent 指向不存在的位置）并移到 root 下
-        Object.values(customBooks).forEach(item => {
-            if (item.parent && item.parent !== 'root' && customBooks[item.parent] === undefined) {
-                // 将孤立节点移到 root 下
-                item.parent = 'root';
-                if (!customBooks.root.children.includes(item.id)) {
-                    customBooks.root.children.push(item.id);
-                }
-                repaired = true;
-            }
-        });
-        
-        // 检查根节点存在
-        if (!customBooks.root) {
-            customBooks.root = {
-                id: 'root',
-                type: 'root',
-                name: '我的词库',
-                children: []
-            };
-            repaired = true;
-        }
-        
-        return repaired;
-    };
-    
-    // 修复英语词库
-    const englishRepaired = repairTree(App.englishCustomBooks);
-    // 修复语文词库
-    const chineseRepaired = repairTree(App.chineseCustomBooks);
-    
-    if (englishRepaired || chineseRepaired) {
-        saveData();
-        renderCustomWordBooks();
-        showNotification('词库结构已修复', 'success');
-    } else {
-        showNotification('词库结构正常，无需修复', 'info');
-    }
-}
 
 function shuffleArray(array) {
     const shuffled = [...array];

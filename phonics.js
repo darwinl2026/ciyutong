@@ -763,17 +763,6 @@ function exitPhonicsPractice() {
     renderPhonicsLearn();
 }
 
-/**
- * 获取拼读统计数据
- */
-function getPhonicsStats() {
-    const allRules = PhonicsManager.getAllRules();
-    return {
-        totalRules: allRules.length,
-        categories: PhonicsManager.getCategories().length,
-        examples: allRules.reduce((sum, r) => sum + r.sounds.reduce((s, sound) => s + sound.examples.length, 0), 0)
-    };
-}
 
 // 导出模块
 window.PhonicsManager = PhonicsManager;

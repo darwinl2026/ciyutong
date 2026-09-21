@@ -3,7 +3,7 @@
  * 提供离线支持
  */
 
-const CACHE_NAME = 'dictation-tool-v54';
+const CACHE_NAME = 'dictation-tool-v61';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
@@ -112,14 +112,4 @@ self.addEventListener('fetch', (event) => {
           });
       })
   );
-});
-
-// 后台同步（预留）
-self.addEventListener('sync', (event) => {
-  console.log('[SW] Background sync:', event.tag);
-});
-
-// 推送通知（预留）
-self.addEventListener('push', (event) => {
-  console.log('[SW] Push received:', event);
 });

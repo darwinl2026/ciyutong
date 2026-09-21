@@ -15,7 +15,6 @@
         /* ===== Material Design 3 设计系统变量 ===== */
         :root {
             /* M3 圆角系统 */
-            --shape-none: 0px;
             --shape-small: 4px;
             --shape-medium: 8px;
             --shape-large: 12px;
@@ -26,19 +25,13 @@
             --md-primary: #4285F4;
             --md-primary-hover: #3367D6;
             --md-primary-container: #D3E3FD;
-            --md-on-primary-container: #041E49;
 
             --md-success: #10B981;
-            --md-success-container: #D1FAE5;
-            --md-on-success-container: #064E3B;
 
             --md-error: #EF4444;
-            --md-error-container: #FEE2E2;
-            --md-on-error-container: #7F1D1D;
 
             --md-warning: #F59E0B;
             --md-warning-container: #FEF3C7;
-            --md-on-warning-container: #92400E;
 
             /* Surface 色彩 */
             --md-surface: #FAFAFA;
@@ -330,17 +323,6 @@
             box-shadow: var(--elevation-level2);
         }
 
-        /* M3 Filled Button - 危险按钮 */
-        .btn-danger {
-            background: var(--md-error);
-            color: white;
-        }
-
-        .btn-danger:hover {
-            background: #DC2626;
-            box-shadow: var(--elevation-level2);
-        }
-
         /* M3 Outlined Button - 次要按钮 */
         .btn-secondary {
             background: transparent;
@@ -390,12 +372,6 @@
             box-shadow: var(--elevation-level2);
         }
 
-        .settings-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-
         .word-counter {
             font-size: 0.875rem;
             color: var(--md-on-surface-variant);
@@ -433,6 +409,79 @@
             border-bottom: none;
         }
 
+        /* 搜索结果：其它小词库命中区 */
+        .book-hit-divider {
+            padding: 8px 12px;
+            font-size: 0.78rem;
+            color: var(--md-on-surface-variant);
+            background: var(--md-surface-container-high);
+            border-top: 1px dashed var(--md-outline-variant);
+            border-bottom: 1px solid var(--md-outline-variant);
+        }
+
+        .book-hit-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-height: 40px;
+            padding: 6px 12px;
+            border-bottom: 1px solid var(--md-outline-variant);
+        }
+
+        .book-hit-item:last-child {
+            border-bottom: none;
+        }
+
+        .book-hit-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 3px;
+            background: #EEEDFE;
+            border: 1px solid #AFA9EC;
+            flex: none;
+        }
+
+        .book-hit-text {
+            font-size: 0.9rem;
+            min-width: 0;
+            word-break: break-word;
+        }
+
+        .book-hit-meaning {
+            font-size: 0.85rem;
+            color: var(--md-on-surface-variant);
+        }
+
+        .book-hit-books {
+            font-size: 0.75rem;
+            color: #3C3489;
+            background: #EEEDFE;
+            border-radius: 999px;
+            padding: 2px 9px;
+            white-space: nowrap;
+            flex: none;
+        }
+
+        .book-hit-import {
+            font-size: 0.78rem;
+            padding: 3px 10px;
+            margin-left: auto;
+            flex: none;
+        }
+
+        @media (max-width: 768px) {
+            .book-hit-item {
+                flex-wrap: wrap;
+                row-gap: 4px;
+            }
+            .book-hit-text {
+                flex: 1 1 120px;
+            }
+            .book-hit-books {
+                margin-left: 20px;
+            }
+        }
+
         .word-checkbox {
             width: 18px;
             height: 18px;
@@ -447,25 +496,6 @@
             cursor: pointer;
             flex-shrink: 0;
             accent-color: var(--md-primary);
-        }
-
-        .word-info {
-            flex: 1;
-            min-width: 0;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            overflow: hidden;
-        }
-
-        .word-details {
-            font-size: 14px;
-            color: var(--md-on-surface-variant);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-weight: 400;
-            flex: 1;
         }
 
         .word-meaning-inline {
@@ -601,6 +631,16 @@
             font-size: 1rem;
             color: var(--md-on-surface-variant);
             margin-bottom: 15px;
+            /* 释义 / 例句分行显示：保留换行符 + 左对齐 + 撑满宽度 */
+            white-space: pre-line;
+            text-align: left;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* 例句中出现的词语：与显示屏大字同色，方便一眼看到生词 */
+        .word-hint .hint-word {
+            color: var(--md-primary);
         }
 
         .word-pinyin {
@@ -680,19 +720,6 @@
             display: flex;
             gap: 6px;
             flex-shrink: 0;
-        }
-
-        .error-count {
-            background: var(--md-error);
-            color: white;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: 600;
         }
 
         .error-word {
@@ -833,10 +860,6 @@
         .checkbox-group input[type="checkbox"] {
             width: auto;
             margin-right: 4px;
-        }
-
-        .phonics-section {
-            margin-top: 15px;
         }
 
         .phonics-header {
@@ -1089,20 +1112,6 @@
             margin-top: 25px;
         }
 
-        /* 导出选项样式 */
-        .export-buttons {
-            display: flex;
-            gap: 10px;
-            flex-wrap: nowrap;
-            margin-top: 15px;
-        }
-
-        .export-buttons .btn-small {
-            flex: 1;
-            min-width: 0;
-            text-align: center;
-        }
-
         /* 数据管理按钮 - 方案B：纯文字无边框 */
         .data-tab-btn {
             display: inline-flex;
@@ -1353,11 +1362,11 @@
 
             /* 防溢出 */
             .header, .main-grid, .card, .form-group, .radio-group, .word-counter,
-            .dictation-area, .dictation-display, .settings-grid,
-            .export-buttons, .error-list, .word-list-container,
-            .stats-grid, .stat-card, .dictation-controls, .word-toolbar,
+            .dictation-area, .dictation-display,
+            .error-list, .word-list-container,
+            .stats-grid, .stat-card, .dictation-controls,
             .word-item, .error-item, .progress-bar,
-            .phonics-section, .phonics-rule-card, .phonics-rules-container {
+            .phonics-rule-card, .phonics-rules-container {
                 max-width: 100%;
                 overflow-x: hidden;
             }
@@ -1382,7 +1391,7 @@
                 max-width: 100%;
             }
 
-            .word-text, .word-details, .word-meaning-inline,
+            .word-text, .word-meaning-inline,
             h1, h2, h3, p, label {
                 word-wrap: break-word;
                 overflow-wrap: break-word;
@@ -1484,10 +1493,6 @@
                 font-size: 12px;
             }
 
-            .settings-grid {
-                grid-template-columns: 1fr;
-            }
-
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 8px;
@@ -1514,15 +1519,6 @@
                 cursor: pointer;
                 flex-wrap: nowrap;
                 align-items: center;
-            }
-
-            .word-info {
-                flex: 1;
-                min-width: 0;
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                overflow: hidden;
             }
 
             .word-actions {
@@ -1559,16 +1555,6 @@
                 flex-shrink: 0;
             }
 
-            .word-expand-hint {
-                display: inline-flex;
-                color: var(--md-outline);
-                font-size: 1rem;
-                font-weight: bold;
-                transition: transform var(--transition-fast);
-                flex-shrink: 0;
-                align-items: center;
-            }
-
             .word-checkbox {
                 width: 18px;
                 height: 18px;
@@ -1595,10 +1581,6 @@
                 padding: 4px 0;
             }
 
-            .word-item.expanded .word-expand-hint {
-                transform: rotate(90deg);
-            }
-
             /* 搜索框和小词库按钮 */
             .word-counter {
                 flex-wrap: wrap;
@@ -1613,23 +1595,6 @@
                 margin-top: 4px;
             }
 
-            /* 词库操作按钮行 */
-            .word-toolbar {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 8px;
-                margin-bottom: 12px;
-            }
-
-            .word-toolbar .btn-small {
-                flex: 1;
-                min-width: 0;
-                text-align: center;
-                font-size: 11px;
-                padding: 6px 8px;
-                border-radius: var(--shape-full);
-            }
-
             .word-text {
                 font-size: 0.9rem;
                 font-weight: 600;
@@ -1638,17 +1603,6 @@
                 text-overflow: ellipsis;
                 min-width: 80px;
                 flex-shrink: 0;
-            }
-
-            .word-item.expanded .word-info {
-                flex: 1;
-                min-width: 0;
-                width: auto;
-                overflow: visible;
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 4px;
             }
 
             .word-item.expanded .word-main-row {
@@ -1694,10 +1648,6 @@
                 display: block;
                 margin-top: 2px;
                 font-size: 0.8rem;
-            }
-
-            .word-item.expanded .word-expand-hint {
-                transform: rotate(90deg);
             }
 
             /* 听写区域 */
@@ -1816,19 +1766,6 @@
             .phonics-option {
                 padding: 12px 20px;
                 font-size: 1rem;
-            }
-
-            /* 导出按钮 */
-            .export-buttons {
-                gap: 6px;
-            }
-
-            .export-buttons .btn-small {
-                flex: 1;
-                min-width: 0;
-                text-align: center;
-                font-size: 11px;
-                padding: 5px 6px;
             }
 
             .word-list-container {
@@ -1991,24 +1928,6 @@
                 text-overflow: ellipsis;
             }
 
-            .word-details {
-                font-size: 14px;
-                color: var(--md-on-surface-variant);
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                font-weight: 400;
-            }
-
-            .word-info {
-                flex: 1;
-                min-width: 0;
-                overflow: hidden;
-                display: flex;
-                align-items: center;
-                gap: 12px;
-            }
-
             /* 桌面端显示行内释义、徽章、展开箭头 */
             .word-error-badge {
                 display: inline-block;
@@ -2020,33 +1939,6 @@
                 margin-left: 4px;
                 vertical-align: middle;
                 flex-shrink: 0;
-            }
-
-            .word-expand-hint {
-                display: inline-flex;
-                color: var(--md-outline);
-                font-size: 1rem;
-                font-weight: bold;
-                transition: transform var(--transition-fast);
-                flex-shrink: 0;
-                align-items: center;
-            }
-
-            .word-item.expanded .word-expand-hint {
-                transform: rotate(90deg);
-            }
-
-            /* 词库操作按钮行优化 */
-            .word-toolbar {
-                display: flex;
-                gap: 8px;
-                margin-bottom: 12px;
-            }
-
-            .word-toolbar .btn-small {
-                font-size: 12px;
-                padding: 6px 12px;
-                border-radius: var(--shape-full);
             }
 
             .error-toolbar .btn-small {
@@ -2108,10 +2000,6 @@
                 color: var(--md-on-surface-variant);
             }
 
-            .word-details {
-                color: var(--md-on-surface-variant);
-            }
-
             /* 6. 听写区域优化 */
             .dictation-display {
                 padding: 20px 16px;
@@ -2165,8 +2053,7 @@
 
             /* 桌面端错误徽章、展开箭头、释义显示 */
             .word-meaning-inline,
-            .word-error-badge,
-            .word-expand-hint {
+            .word-error-badge {
                 display: inline;
             }
 
@@ -2476,6 +2363,7 @@
                             <button class="data-tab-btn" onclick="exportWordList()">📄 词库</button>
                             <button class="data-tab-btn" onclick="exportErrorBook()">📋 错词</button>
                             <button class="data-tab-btn" onclick="exportDictationRecord()">📝 听写记录</button>
+                            <button class="data-tab-btn" id="exportMissingMeaningBtn" onclick="exportWordsMissingMeaning()">📋 缺释义词</button>
                         </div>
                         <p style="color: #4285F4; font-size: 0.75rem; margin-top: 8px;">
                             支持 TXT / CSV / JSON 格式
