@@ -465,7 +465,8 @@ const DataManager = {
         }
     },
     
-    save(englishWords, englishErrors, chineseWords, chineseErrors, settings, mode, englishCustomBooks, chineseCustomBooks) {
+    save(englishWords, englishErrors, chineseWords, chineseErrors, settings, mode, englishCustomBooks, chineseCustomBooks, tombstones) {
+        const t = tombstones || {};
         localStorage.setItem('dictation_english_words', JSON.stringify(englishWords));
         localStorage.setItem('dictation_english_errors', JSON.stringify(englishErrors));
         localStorage.setItem('dictation_chinese_words', JSON.stringify(chineseWords));
@@ -474,6 +475,11 @@ const DataManager = {
         localStorage.setItem('dictation_mode', mode);
         localStorage.setItem('dictation_english_custom_books', JSON.stringify(englishCustomBooks || {}));
         localStorage.setItem('dictation_chinese_custom_books', JSON.stringify(chineseCustomBooks || {}));
+        // 删除记录（墓碑）：供跨设备同步识别"已删除"，不参与界面展示
+        localStorage.setItem('dictation_english_deleted_words', JSON.stringify(t.englishDeletedWords || {}));
+        localStorage.setItem('dictation_chinese_deleted_words', JSON.stringify(t.chineseDeletedWords || {}));
+        localStorage.setItem('dictation_english_deleted_errors', JSON.stringify(t.englishDeletedErrors || {}));
+        localStorage.setItem('dictation_chinese_deleted_errors', JSON.stringify(t.chineseDeletedErrors || {}));
     },
 
     load() {
@@ -498,7 +504,12 @@ const DataManager = {
             settings: { ...defaultSettings, ...savedSettings },
             mode: localStorage.getItem('dictation_mode') || 'english',
             englishCustomBooks: JSON.parse(localStorage.getItem('dictation_english_custom_books') || '{}'),
-            chineseCustomBooks: JSON.parse(localStorage.getItem('dictation_chinese_custom_books') || '{}')
+            chineseCustomBooks: JSON.parse(localStorage.getItem('dictation_chinese_custom_books') || '{}'),
+            // 删除记录（墓碑）
+            englishDeletedWords: JSON.parse(localStorage.getItem('dictation_english_deleted_words') || '{}'),
+            chineseDeletedWords: JSON.parse(localStorage.getItem('dictation_chinese_deleted_words') || '{}'),
+            englishDeletedErrors: JSON.parse(localStorage.getItem('dictation_english_deleted_errors') || '{}'),
+            chineseDeletedErrors: JSON.parse(localStorage.getItem('dictation_chinese_deleted_errors') || '{}')
         };
     },
     
@@ -586,331 +597,606 @@ const DataManager = {
         }
     },
 
-    // 备份导出（可选择包含哪些数据）
+    // ==================== 词条合并（按词，v2.0） ====================
+
+    /** 词条时间基准：优先 updatedAt，其次 addedAt；返回毫秒数，无法解析则 0 */
+    wordTimestamp(w) {
+        if (!w) return 0;
+        const raw = w.updatedAt || w.addedAt;
+        if (!raw) return 0;
+        const t = Date.parse(raw);
+        return isNaN(t) ? 0 : t;
+    },
+
+    /** 按小写词建立索引：word -> 词条 */
+    indexByWord(list) {
+        const map = new Map();
+        (Array.isArray(list) ? list : []).forEach(w => {
+            if (w && typeof w.word === 'string' && w.word.trim()) {
+                map.set(w.word.trim().toLowerCase(), w);
+            }
+        });
+        return map;
+    },
+
+    /** 取若干词条列表中最大的数字 id（用于推算 nextId，避免新词撞 id） */
+    maxWordId() {
+        let max = 0;
+        for (let i = 0; i < arguments.length; i++) {
+            const list = arguments[i];
+            (Array.isArray(list) ? list : []).forEach(w => {
+                if (w && typeof w.id === 'number' && isFinite(w.id) && w.id > max) max = w.id;
+            });
+        }
+        return max;
+    },
+
+    /** 合并两组删除记录（墓碑）：同一个词取较新的删除时间 */
+    mergeTombstones(a, b) {
+        const out = {};
+        const put = (src) => {
+            if (!src || typeof src !== 'object') return;
+            Object.keys(src).forEach(k => {
+                const t = src[k];
+                if (typeof t !== 'string' || !t) return;
+                if (!out[k] || Date.parse(t) > Date.parse(out[k])) out[k] = t;
+            });
+        };
+        put(a);
+        put(b);
+        return out;
+    },
+
+    /**
+     * 按「词」合并两组词条（不再按 id）。
+     *  - 两边都有   → 内容取时间较新者，id 保留本地的
+     *  - 云端有本地无 → 若墓碑显示已删则跳过，否则加入并分配新 id
+     *  - 本地有云端无 → 保留本地；除非墓碑显示云端删除且删除时间更新
+     */
+    mergeWordList(localWords, remoteWords, localTomb, remoteTomb, allocId) {
+        const stats = { added: 0, updated: 0, deleted: 0 };
+        const remoteMap = this.indexByWord(remoteWords);
+        const tomb = this.mergeTombstones(localTomb, remoteTomb);
+        const out = [];
+        const seen = new Set();
+
+        (Array.isArray(localWords) ? localWords : []).forEach(lw => {
+            if (!lw || typeof lw.word !== 'string') return;
+            const key = lw.word.trim().toLowerCase();
+            if (!key || seen.has(key)) return;
+            seen.add(key);
+
+            const rw = remoteMap.get(key);
+            if (rw) {
+                if (this.wordTimestamp(rw) > this.wordTimestamp(lw)) {
+                    out.push(Object.assign({}, lw, rw, { id: lw.id }));
+                    stats.updated++;
+                } else {
+                    out.push(lw);
+                }
+                return;
+            }
+            const delT = tomb[key];
+            if (delT && Date.parse(delT) > this.wordTimestamp(lw)) {
+                stats.deleted++;
+            } else {
+                out.push(lw);
+            }
+        });
+
+        (Array.isArray(remoteWords) ? remoteWords : []).forEach(rw => {
+            if (!rw || typeof rw.word !== 'string') return;
+            const key = rw.word.trim().toLowerCase();
+            if (!key || seen.has(key)) return;
+            seen.add(key);
+
+            const delT = tomb[key];
+            if (delT && Date.parse(delT) > this.wordTimestamp(rw)) return;
+
+            const copy = Object.assign({}, rw);
+            copy.id = allocId();
+            out.push(copy);
+            stats.added++;
+        });
+
+        // 清理失效墓碑：词条已重新存在且比删除时间更新 → 墓碑作废（避免无限增长）
+        const liveTomb = {};
+        const outMap = this.indexByWord(out);
+        Object.keys(tomb).forEach(k => {
+            const w = outMap.get(k);
+            if (w && this.wordTimestamp(w) > Date.parse(tomb[k])) return;
+            liveTomb[k] = tomb[k];
+        });
+
+        return { words: out, tombstones: liveTomb, stats: stats };
+    },
+
+    /** 合并两组错词本：次数取较大值；墓碑中的词一律移除 */
+    mergeErrorMap(localErrors, remoteErrors, localTomb, remoteTomb) {
+        const tomb = this.mergeTombstones(localTomb, remoteTomb);
+        const out = {};
+        let removed = 0;
+        const keys = new Set();
+        Object.keys(localErrors || {}).forEach(k => keys.add(k));
+        Object.keys(remoteErrors || {}).forEach(k => keys.add(k));
+        keys.forEach(k => {
+            const val = Math.max((localErrors && localErrors[k]) || 0, (remoteErrors && remoteErrors[k]) || 0);
+            if (val <= 0) return;
+            if (tomb[k]) { removed++; return; }
+            out[k] = val;
+        });
+        return { errors: out, tombstones: tomb, stats: { removed: removed } };
+    },
+
+    /** 建立「名称路径 -> 节点 id」索引，用于跨设备识别同一本小词库 */
+    buildPathIndex(books) {
+        const index = new Map();
+        if (!books || typeof books !== 'object') return index;
+        const walk = (id, prefix) => {
+            const node = books[id];
+            if (!node) return;
+            const name = node.type === 'root' ? '' : String(node.name || '');
+            const path = prefix ? (prefix + '/' + name) : name;
+            if (id !== 'root') index.set(path, id);
+            (Array.isArray(node.children) ? node.children : []).forEach(cid => walk(cid, path));
+        };
+        walk('root', '');
+        return index;
+    },
+
+    /**
+     * 合并小词库树：按「名称路径」识别同一本词库（不按 id，两台设备各自新建的同名词库也算同一本）。
+     * 保留本地节点的 id 与结构，云端独有节点会被新建进来。
+     */
+    mergeCustomBooks(localBooks, remoteBooks, allocNodeId) {
+        const result = JSON.parse(JSON.stringify(localBooks || {}));
+        if (!result.root) {
+            result.root = { id: 'root', type: 'root', name: '我的词库', children: [] };
+        } else if (!Array.isArray(result.root.children)) {
+            result.root.children = [];
+        }
+        const stats = { nodes: 0, addedWords: 0, updatedWords: 0 };
+        if (!remoteBooks || typeof remoteBooks !== 'object') {
+            return { books: result, stats: stats };
+        }
+
+        const mergeNode = (remoteId, parentPath) => {
+            const rNode = remoteBooks[remoteId];
+            if (!rNode) return;
+            const name = String(rNode.name || '');
+            const path = parentPath ? (parentPath + '/' + name) : name;
+
+            const index = this.buildPathIndex(result);
+            let localId = index.get(path);
+
+            if (!localId) {
+                const parentLocalId = parentPath ? (index.get(parentPath) || 'root') : 'root';
+                const parent = result[parentLocalId] || result.root;
+                localId = allocNodeId(rNode.type);
+                result[localId] = rNode.type === 'folder'
+                    ? { id: localId, type: 'folder', name: rNode.name, parent: parentLocalId, children: [] }
+                    : { id: localId, type: 'book', name: rNode.name, parent: parentLocalId, words: [] };
+                if (!Array.isArray(parent.children)) parent.children = [];
+                parent.children.push(localId);
+                stats.nodes++;
+            }
+
+            const localNode = result[localId];
+
+            if (rNode.type === 'book' && Array.isArray(rNode.words)) {
+                if (!Array.isArray(localNode.words)) localNode.words = [];
+                rNode.words.forEach(rw => {
+                    if (!rw || typeof rw.word !== 'string' || !rw.word.trim()) return;
+                    const key = rw.word.trim().toLowerCase();
+                    const pos = localNode.words.findIndex(w => w && typeof w.word === 'string' && w.word.trim().toLowerCase() === key);
+                    if (pos >= 0) {
+                        if (this.wordTimestamp(rw) > this.wordTimestamp(localNode.words[pos])) {
+                            localNode.words[pos] = Object.assign({}, localNode.words[pos], rw);
+                            stats.updatedWords++;
+                        }
+                    } else {
+                        localNode.words.push(Object.assign({}, rw));
+                        stats.addedWords++;
+                    }
+                });
+            }
+
+            (Array.isArray(rNode.children) ? rNode.children : []).forEach(cid => mergeNode(cid, path));
+        };
+
+        const rRoot = remoteBooks.root;
+        if (rRoot && Array.isArray(rRoot.children)) {
+            rRoot.children.forEach(cid => mergeNode(cid, ''));
+        }
+
+        return { books: result, stats: stats };
+    },
+
+    // 备份导出（v2.0：附带删除记录，供跨设备同步使用）
     backupExport(data) {
         return JSON.stringify({
-            version: '1.0',
+            version: '2.0',
             backupDate: new Date().toISOString(),
             english: {
                 words: data.englishWords || [],
                 errors: data.englishErrors || {},
-                customBooks: data.englishCustomBooks || {}
+                customBooks: data.englishCustomBooks || {},
+                deletedWords: data.englishDeletedWords || {},
+                deletedErrors: data.englishDeletedErrors || {}
             },
             chinese: {
                 words: data.chineseWords || [],
                 errors: data.chineseErrors || {},
-                customBooks: data.chineseCustomBooks || {}
+                customBooks: data.chineseCustomBooks || {},
+                deletedWords: data.chineseDeletedWords || {},
+                deletedErrors: data.chineseDeletedErrors || {}
             }
         }, null, 2);
     },
 
-    // 备份导入（合并模式，返回合并后的数据）
-    backupImport(backupData, existingData, options = {}) {
-        const {
-            englishWords = true,
-            englishErrors = true,
-            englishCustomBooks = true,
-            chineseWords = true,
-            chineseErrors = true,
-            chineseCustomBooks = true,
-            merge = true  // true=合并，false=替换
-        } = options;
+    /**
+     * 备份 / 云端数据导入。
+     * merge=true → 按词合并（谁都不丢）；merge=false → 用备份数据整体替换。
+     * 兼容 version 1.0（无删除记录字段）。
+     * @returns 合并后的数据（含 nextId）与 stats
+     */
+    backupImport(backupData, existingData, options) {
+        const opt = Object.assign({
+            englishWords: true, englishErrors: true, englishCustomBooks: true,
+            chineseWords: true, chineseErrors: true, chineseCustomBooks: true,
+            merge: true
+        }, options || {});
 
-        const result = { ...existingData };
+        const en = (backupData && backupData.english) || {};
+        const ch = (backupData && backupData.chinese) || {};
 
-        if (englishWords) {
-            if (merge) {
-                // 合并：按id去重，保留新数据
-                const existingIds = new Set((result.englishWords || []).map(w => w.id));
-                const newWords = (backupData.english?.words || []).filter(w => !existingIds.has(w.id));
-                result.englishWords = [...(result.englishWords || []), ...newWords];
+        const result = Object.assign({}, existingData);
+        const stats = {
+            english: { added: 0, updated: 0, deleted: 0 },
+            chinese: { added: 0, updated: 0, deleted: 0 },
+            nodes: 0
+        };
+
+        const usedNodeIds = new Set(Object.keys(result.englishCustomBooks || {}).concat(Object.keys(result.chineseCustomBooks || {})));
+        const usedWordIds = new Set();
+        [result.englishWords, result.chineseWords, en.words, ch.words].forEach(list => {
+            (Array.isArray(list) ? list : []).forEach(w => { if (w && w.id !== undefined) usedWordIds.add(w.id); });
+        });
+        const makeNodeId = (type) => {
+            const prefix = type === 'folder' ? 'folder_' : 'book_';
+            let base = Date.now();
+            let id = prefix + base;
+            while (usedNodeIds.has(id)) { id = prefix + (++base); }
+            usedNodeIds.add(id);
+            return id;
+        };
+        const makeWordId = () => {
+            let id = this.maxWordId(result.englishWords, result.chineseWords) + 1;
+            while (usedWordIds.has(id)) { id++; }
+            usedWordIds.add(id);
+            return id;
+        };
+
+        if (opt.englishWords) {
+            if (opt.merge) {
+                const r = this.mergeWordList(
+                    result.englishWords || [], en.words || [],
+                    result.englishDeletedWords || {}, en.deletedWords || {}, makeWordId
+                );
+                result.englishWords = r.words;
+                result.englishDeletedWords = r.tombstones;
+                stats.english = r.stats;
             } else {
-                result.englishWords = backupData.english?.words || [];
+                result.englishWords = (en.words || []).slice();
+                result.englishDeletedWords = Object.assign({}, en.deletedWords || {});
             }
         }
 
-        if (englishErrors) {
-            if (merge) {
-                // 合并：错误次数取较大值
-                const backupErrors = backupData.english?.errors || {};
-                result.englishErrors = result.englishErrors || {};
-                for (const [word, count] of Object.entries(backupErrors)) {
-                    result.englishErrors[word] = Math.max(result.englishErrors[word] || 0, count);
-                }
+        if (opt.englishErrors) {
+            if (opt.merge) {
+                const r = this.mergeErrorMap(
+                    result.englishErrors || {}, en.errors || {},
+                    result.englishDeletedErrors || {}, en.deletedErrors || {}
+                );
+                result.englishErrors = r.errors;
+                result.englishDeletedErrors = r.tombstones;
             } else {
-                result.englishErrors = backupData.english?.errors || {};
+                result.englishErrors = Object.assign({}, en.errors || {});
+                result.englishDeletedErrors = Object.assign({}, en.deletedErrors || {});
             }
         }
 
-        if (englishCustomBooks) {
-            if (merge) {
-                // 合并树形结构
-                result.englishCustomBooks = result.englishCustomBooks || {};
-                if (!result.englishCustomBooks.root) {
-                    result.englishCustomBooks.root = {
-                        id: 'root',
-                        type: 'root',
-                        name: '我的词库',
-                        children: []
-                    };
-                }
-
-                const backupBooks = backupData.english?.customBooks || {};
-
-                // 收集所有备份节点
-                const backupNodes = {};
-                for (const [itemId, item] of Object.entries(backupBooks)) {
-                    if (itemId === 'root') continue;
-                    backupNodes[itemId] = { ...item };
-                    if (!backupNodes[itemId].children) {
-                        backupNodes[itemId].children = [];
-                    }
-                }
-
-                // 构建完整的父子关系链（从备份数据中）
-                // 找出每个节点应该出现在哪个父节点的 children 中
-                const childToParentMap = {}; // childId -> parentId
-
-                for (const [itemId, item] of Object.entries(backupNodes)) {
-                    // 这个节点会在其 parent 的 children 中
-                    if (item.parent && item.parent !== 'root') {
-                        childToParentMap[itemId] = item.parent;
-                    }
-                }
-
-                // 第一步：合并已有节点的内容
-                for (const [itemId, item] of Object.entries(backupNodes)) {
-                    if (result.englishCustomBooks[itemId]) {
-                        if (item.type === 'book') {
-                            const existingWords = new Set((result.englishCustomBooks[itemId].words || []).map(w => w.word.toLowerCase()));
-                            const newWords = (item.words || []).filter(w => !existingWords.has(w.word.toLowerCase()));
-                            result.englishCustomBooks[itemId].words = result.englishCustomBooks[itemId].words || [];
-                            result.englishCustomBooks[itemId].words.push(...newWords);
-                        }
-                        if (item.type === 'folder' && item.children) {
-                            result.englishCustomBooks[itemId].children = result.englishCustomBooks[itemId].children || [];
-                            const existingChildren = new Set(result.englishCustomBooks[itemId].children);
-                            item.children.forEach(childId => {
-                                if (!existingChildren.has(childId)) {
-                                    result.englishCustomBooks[itemId].children.push(childId);
-                                }
-                            });
-                        }
-                    }
-                }
-
-                // 第二步：添加新节点
-                // 只有当节点的直接 parent 已存在于结果中时，才添加此节点
-                // 否则跳过（它的 parent 稍后会被添加，然后会连带添加它）
-                const addedNodes = new Set(); // 记录已添加的节点
-
-                // 递归添加节点及其所有后代
-                const addNodeAndChildren = (nodeId) => {
-                    if (addedNodes.has(nodeId)) return;
-                    if (!backupNodes[nodeId]) return;
-
-                    const node = backupNodes[nodeId];
-                    const parentId = node.parent || 'root';
-
-                    // 检查 parent 是否已存在或即将被添加
-                    if (parentId === 'root' || result.englishCustomBooks[parentId] || addedNodes.has(parentId)) {
-                        // 验证子节点的 parent 属性是否正确指向当前父节点
-                        // 如果不匹配，说明数据不一致，跳过此子节点
-                        if (node.parent && node.parent !== 'root' && node.parent !== parentId) {
-                            // 子节点的 parent 指向其他节点，不添加到当前父节点
-                            // 但检查是否在其他地方已添加
-                            if (node.parent === 'root' || result.englishCustomBooks[node.parent]) {
-                                // 子节点的 parent 指向其他地方（且该地方存在），跳过
-                            }
-                            return;
-                        }
-
-                        // parent 已存在，添加这个节点
-                        result.englishCustomBooks[nodeId] = node;
-                        addedNodes.add(nodeId);
-
-                        // 确保添加到 parent 的 children
-                        if (parentId === 'root') {
-                            if (!result.englishCustomBooks.root.children.includes(nodeId)) {
-                                result.englishCustomBooks.root.children.push(nodeId);
-                            }
-                        } else if (result.englishCustomBooks[parentId]) {
-                            // 再次验证 children 数组的完整性
-                            result.englishCustomBooks[parentId].children = result.englishCustomBooks[parentId].children || [];
-                            if (!result.englishCustomBooks[parentId].children.includes(nodeId)) {
-                                result.englishCustomBooks[parentId].children.push(nodeId);
-                            }
-                        }
-
-                        // 递归添加所有子节点
-                        if (node.children) {
-                            node.children.forEach(childId => addNodeAndChildren(childId));
-                        }
-                    }
-                };
-
-                // 按深度排序（父节点在前）后添加
-                const nodesByDepth = {};
-                const getDepth = (nodeId, depth = 0) => {
-                    const node = backupNodes[nodeId];
-                    if (!node) return depth;
-                    if (node.parent === 'root' || !node.parent) return depth;
-                    return getDepth(node.parent, depth + 1) + 1;
-                };
-
-                for (const itemId of Object.keys(backupNodes)) {
-                    const depth = getDepth(itemId);
-                    if (!nodesByDepth[depth]) nodesByDepth[depth] = [];
-                    nodesByDepth[depth].push(itemId);
-                }
-
-                // 按深度从浅到深添加
-                for (const depth of Object.keys(nodesByDepth).sort((a, b) => a - b)) {
-                    nodesByDepth[depth].forEach(itemId => addNodeAndChildren(itemId));
-                }
+        if (opt.englishCustomBooks) {
+            if (opt.merge) {
+                const r = this.mergeCustomBooks(result.englishCustomBooks || {}, en.customBooks || {}, makeNodeId);
+                result.englishCustomBooks = r.books;
+                stats.nodes += r.stats.nodes;
             } else {
-                result.englishCustomBooks = backupData.english?.customBooks || {};
+                result.englishCustomBooks = JSON.parse(JSON.stringify(en.customBooks || {}));
             }
         }
 
-        if (chineseWords) {
-            if (merge) {
-                const existingIds = new Set((result.chineseWords || []).map(w => w.id));
-                const newWords = (backupData.chinese?.words || []).filter(w => !existingIds.has(w.id));
-                result.chineseWords = [...(result.chineseWords || []), ...newWords];
+        if (opt.chineseWords) {
+            if (opt.merge) {
+                const r = this.mergeWordList(
+                    result.chineseWords || [], ch.words || [],
+                    result.chineseDeletedWords || {}, ch.deletedWords || {}, makeWordId
+                );
+                result.chineseWords = r.words;
+                result.chineseDeletedWords = r.tombstones;
+                stats.chinese = r.stats;
             } else {
-                result.chineseWords = backupData.chinese?.words || [];
+                result.chineseWords = (ch.words || []).slice();
+                result.chineseDeletedWords = Object.assign({}, ch.deletedWords || {});
             }
         }
 
-        if (chineseErrors) {
-            if (merge) {
-                const backupErrors = backupData.chinese?.errors || {};
-                result.chineseErrors = result.chineseErrors || {};
-                for (const [word, count] of Object.entries(backupErrors)) {
-                    result.chineseErrors[word] = Math.max(result.chineseErrors[word] || 0, count);
-                }
+        if (opt.chineseErrors) {
+            if (opt.merge) {
+                const r = this.mergeErrorMap(
+                    result.chineseErrors || {}, ch.errors || {},
+                    result.chineseDeletedErrors || {}, ch.deletedErrors || {}
+                );
+                result.chineseErrors = r.errors;
+                result.chineseDeletedErrors = r.tombstones;
             } else {
-                result.chineseErrors = backupData.chinese?.errors || {};
+                result.chineseErrors = Object.assign({}, ch.errors || {});
+                result.chineseDeletedErrors = Object.assign({}, ch.deletedErrors || {});
             }
         }
 
-        if (chineseCustomBooks) {
-            if (merge) {
-                // 合并树形结构
-                result.chineseCustomBooks = result.chineseCustomBooks || {};
-                if (!result.chineseCustomBooks.root) {
-                    result.chineseCustomBooks.root = {
-                        id: 'root',
-                        type: 'root',
-                        name: '我的词库',
-                        children: []
-                    };
-                }
-
-                const backupBooks = backupData.chinese?.customBooks || {};
-
-                // 收集所有备份节点
-                const backupNodes = {};
-                for (const [itemId, item] of Object.entries(backupBooks)) {
-                    if (itemId === 'root') continue;
-                    backupNodes[itemId] = { ...item };
-                    if (!backupNodes[itemId].children) {
-                        backupNodes[itemId].children = [];
-                    }
-                }
-
-                // 第一步：合并已有节点的内容
-                for (const [itemId, item] of Object.entries(backupNodes)) {
-                    if (result.chineseCustomBooks[itemId]) {
-                        if (item.type === 'book') {
-                            const existingWords = new Set((result.chineseCustomBooks[itemId].words || []).map(w => w.word.toLowerCase()));
-                            const newWords = (item.words || []).filter(w => !existingWords.has(w.word.toLowerCase()));
-                            result.chineseCustomBooks[itemId].words = result.chineseCustomBooks[itemId].words || [];
-                            result.chineseCustomBooks[itemId].words.push(...newWords);
-                        }
-                        if (item.type === 'folder' && item.children) {
-                            result.chineseCustomBooks[itemId].children = result.chineseCustomBooks[itemId].children || [];
-                            const existingChildren = new Set(result.chineseCustomBooks[itemId].children);
-                            item.children.forEach(childId => {
-                                if (!existingChildren.has(childId)) {
-                                    result.chineseCustomBooks[itemId].children.push(childId);
-                                }
-                            });
-                        }
-                    }
-                }
-
-                // 第二步：添加新节点
-                const addedNodes = new Set();
-
-                // 递归添加节点及其所有后代
-                const addNodeAndChildren = (nodeId) => {
-                    if (addedNodes.has(nodeId)) return;
-                    if (!backupNodes[nodeId]) return;
-
-                    const node = backupNodes[nodeId];
-                    const parentId = node.parent || 'root';
-
-                    // 检查 parent 是否已存在或即将被添加
-                    if (parentId === 'root' || result.chineseCustomBooks[parentId] || addedNodes.has(parentId)) {
-                        // 验证子节点的 parent 属性是否正确指向当前父节点
-                        // 如果不匹配，说明数据不一致，跳过此子节点
-                        if (node.parent && node.parent !== 'root' && node.parent !== parentId) {
-                            // 子节点的 parent 指向其他节点，不添加到当前父节点
-                            // 但检查是否在其他地方已添加
-                            if (node.parent === 'root' || result.chineseCustomBooks[node.parent]) {
-                                // 子节点的 parent 指向其他地方（且该地方存在），跳过
-                            }
-                            return;
-                        }
-
-                        result.chineseCustomBooks[nodeId] = node;
-                        addedNodes.add(nodeId);
-
-                        if (parentId === 'root') {
-                            if (!result.chineseCustomBooks.root.children.includes(nodeId)) {
-                                result.chineseCustomBooks.root.children.push(nodeId);
-                            }
-                        } else if (result.chineseCustomBooks[parentId]) {
-                            // 再次验证 children 数组的完整性
-                            result.chineseCustomBooks[parentId].children = result.chineseCustomBooks[parentId].children || [];
-                            if (!result.chineseCustomBooks[parentId].children.includes(nodeId)) {
-                                result.chineseCustomBooks[parentId].children.push(nodeId);
-                            }
-                        }
-
-                        if (node.children) {
-                            node.children.forEach(childId => addNodeAndChildren(childId));
-                        }
-                    }
-                };
-
-                const nodesByDepth = {};
-                const getDepth = (nodeId, depth = 0) => {
-                    const node = backupNodes[nodeId];
-                    if (!node) return depth;
-                    if (node.parent === 'root' || !node.parent) return depth;
-                    return getDepth(node.parent, depth + 1) + 1;
-                };
-
-                for (const itemId of Object.keys(backupNodes)) {
-                    const depth = getDepth(itemId);
-                    if (!nodesByDepth[depth]) nodesByDepth[depth] = [];
-                    nodesByDepth[depth].push(itemId);
-                }
-
-                for (const depth of Object.keys(nodesByDepth).sort((a, b) => a - b)) {
-                    nodesByDepth[depth].forEach(itemId => addNodeAndChildren(itemId));
-                }
+        if (opt.chineseCustomBooks) {
+            if (opt.merge) {
+                const r = this.mergeCustomBooks(result.chineseCustomBooks || {}, ch.customBooks || {}, makeNodeId);
+                result.chineseCustomBooks = r.books;
+                stats.nodes += r.stats.nodes;
             } else {
-                result.chineseCustomBooks = backupData.chinese?.customBooks || {};
+                result.chineseCustomBooks = JSON.parse(JSON.stringify(ch.customBooks || {}));
             }
         }
 
+        result.nextId = this.maxWordId(result.englishWords, result.chineseWords) + 1;
+        result.stats = stats;
         return result;
     }
 };
+
+/**
+ * 云同步管理器（GitHub 仓库作为云端存储）
+ * - 读写走 api.github.com（已实测支持跨域 + PUT + Authorization 预检）
+ * - 中文必须用 TextEncoder/TextDecoder，直接 atob 会乱码
+ */
+const SyncManager = {
+    CONFIG_KEY: 'dictation_sync_config',
+    SNAPSHOT_KEY: 'dictation_sync_snapshot',
+    LAST_SYNC_KEY: 'dictation_sync_last',
+    API: 'https://api.github.com',
+    SIZE_LIMIT_KB: 800,
+
+    getConfig() {
+        try {
+            return JSON.parse(localStorage.getItem(this.CONFIG_KEY) || '{}') || {};
+        } catch (e) {
+            return {};
+        }
+    },
+
+    saveConfig(cfg) {
+        const cur = this.getConfig();
+        const next = Object.assign({}, cur, cfg || {});
+        localStorage.setItem(this.CONFIG_KEY, JSON.stringify(next));
+        return next;
+    },
+
+    clearConfig() {
+        localStorage.removeItem(this.CONFIG_KEY);
+    },
+
+    isConfigured() {
+        const c = this.getConfig();
+        return !!(c.repo && c.token);
+    },
+
+    getLastSync() {
+        return localStorage.getItem(this.LAST_SYNC_KEY) || '';
+    },
+
+    setLastSync(ts) {
+        localStorage.setItem(this.LAST_SYNC_KEY, ts || new Date().toISOString());
+    },
+
+    filePath() {
+        const c = this.getConfig();
+        return c.path || 'data/words.json';
+    },
+
+    /** 从当前网址推断仓库（部署在用户名.github.io/仓库名 时可自动识别） */
+    guessRepo() {
+        try {
+            const m = /^([^.]+)\.github\.io$/i.exec(location.hostname);
+            if (m) {
+                const seg = location.pathname.split('/').filter(Boolean);
+                return { owner: m[1], repo: seg[0] || '' };
+            }
+        } catch (e) {}
+        return { owner: '', repo: '' };
+    },
+
+    /** UTF-8 安全的 base64 编码 */
+    encodeBase64(str) {
+        if (typeof TextEncoder !== 'undefined' && typeof btoa === 'function') {
+            const bytes = new TextEncoder().encode(str);
+            let bin = '';
+            for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+            return btoa(bin);
+        }
+        return Buffer.from(str, 'utf8').toString('base64');
+    },
+
+    /** UTF-8 安全的 base64 解码（必须走 TextDecoder，否则中文乱码） */
+    decodeBase64(b64) {
+        const clean = String(b64).replace(/[\r\n\s]/g, '');
+        if (typeof TextDecoder !== 'undefined' && typeof atob === 'function') {
+            const bin = atob(clean);
+            const bytes = new Uint8Array(bin.length);
+            for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+            return new TextDecoder('utf-8').decode(bytes);
+        }
+        return Buffer.from(clean, 'base64').toString('utf8');
+    },
+
+    contentUrl() {
+        const c = this.getConfig();
+        return this.API + '/repos/' + c.repo + '/contents/' + this.filePath();
+    },
+
+    headers() {
+        const c = this.getConfig();
+        return {
+            'Authorization': 'Bearer ' + c.token,
+            'Accept': 'application/vnd.github+json',
+            'X-GitHub-Api-Version': '2022-11-28',
+            'Content-Type': 'application/json'
+        };
+    },
+
+    /**
+     * 读取云端数据。
+     * @returns {Promise<{ok:boolean, empty?:boolean, data?:object, sha?:string|null, message?:string, code?:string}>}
+     */
+    async pull() {
+        if (!this.isConfigured()) {
+            return { ok: false, code: 'noconfig', message: '尚未配置仓库和 Token' };
+        }
+        try {
+            const res = await fetch(this.contentUrl(), { headers: this.headers(), cache: 'no-store' });
+            if (res.status === 404) return { ok: true, empty: true, data: null, sha: null };
+            if (res.status === 401) return { ok: false, code: 'auth', message: 'Token 无效或已过期，请重新生成' };
+            if (res.status === 403) {
+                const remain = res.headers.get('X-RateLimit-Remaining');
+                return {
+                    ok: false, code: 'forbidden',
+                    message: remain === '0' ? 'GitHub 接口调用已超限，请稍后再试' : 'Token 权限不足（需要 Contents 读写权限）'
+                };
+            }
+            if (!res.ok) return { ok: false, code: 'http', message: '读取失败（HTTP ' + res.status + '）' };
+
+            const json = await res.json();
+            if (!json || json.encoding !== 'base64' || !json.content) {
+                return { ok: false, code: 'toolarge', message: '云端文件过大或格式不支持，请改用「备份数据」手动传输' };
+            }
+            const text = this.decodeBase64(json.content);
+            let parsed;
+            try {
+                parsed = JSON.parse(text);
+            } catch (e) {
+                return { ok: false, code: 'corrupt', message: '云端数据格式异常，已中止（未改动本地数据）' };
+            }
+            return { ok: true, data: parsed, sha: json.sha };
+        } catch (e) {
+            return { ok: false, code: 'network', message: '网络不通，稍后再试' };
+        }
+    },
+
+    /**
+     * 校验仓库是否可访问。
+     * 必要性：GitHub 对「仓库不存在」和「文件不存在」都返回 404，
+     * 只靠 pull() 无法区分，会把填错的仓库名误报成「连接成功」。
+     */
+    async verify() {
+        if (!this.isConfigured()) {
+            return { ok: false, code: 'noconfig', message: '尚未配置仓库和 Token' };
+        }
+        try {
+            const res = await fetch(this.API + '/repos/' + this.getConfig().repo, {
+                headers: this.headers(), cache: 'no-store'
+            });
+            if (res.status === 401) return { ok: false, code: 'auth', message: 'Token 无效或已过期，请重新生成' };
+            if (res.status === 403) {
+                const remain = res.headers.get('X-RateLimit-Remaining');
+                return {
+                    ok: false, code: 'forbidden',
+                    message: remain === '0' ? 'GitHub 接口调用已超限，请稍后再试' : 'Token 权限不足（需要 Contents 读写权限）'
+                };
+            }
+            if (res.status === 404) {
+                return { ok: false, code: 'notfound', message: '仓库不存在，或 Token 无权访问该仓库，请检查用户名和仓库名' };
+            }
+            if (!res.ok) return { ok: false, code: 'http', message: '校验失败（HTTP ' + res.status + '）' };
+
+            const json = await res.json();
+            return { ok: true, private: !!json.private, defaultBranch: json.default_branch || 'main' };
+        } catch (e) {
+            return { ok: false, code: 'network', message: '网络不通，稍后再试' };
+        }
+    },
+
+    /**
+     * 上传数据（首次创建自动处理；版本冲突自动重试一次）。
+     */
+    async push(obj, sha, commitMessage) {
+        if (!this.isConfigured()) {
+            return { ok: false, code: 'noconfig', message: '尚未配置仓库和 Token' };
+        }
+        const text = JSON.stringify(obj, null, 2);
+        const sizeKB = Math.round(text.length / 1024);
+        if (sizeKB > this.SIZE_LIMIT_KB) {
+            return {
+                ok: false, code: 'toolarge',
+                message: '数据约 ' + sizeKB + ' KB，接近 GitHub 接口上限。请改用「备份数据」下载文件后手动上传'
+            };
+        }
+
+        const body = {
+            message: commitMessage || ('同步词库 ' + new Date().toLocaleString()),
+            content: this.encodeBase64(text)
+        };
+        if (sha) body.sha = sha;
+
+        try {
+            let res = await fetch(this.contentUrl(), {
+                method: 'PUT', headers: this.headers(), body: JSON.stringify(body)
+            });
+
+            if (res.status === 409 || res.status === 422) {
+                const again = await fetch(this.contentUrl(), { headers: this.headers(), cache: 'no-store' });
+                if (again.ok) {
+                    const j = await again.json();
+                    body.sha = j.sha;
+                    res = await fetch(this.contentUrl(), {
+                        method: 'PUT', headers: this.headers(), body: JSON.stringify(body)
+                    });
+                }
+            }
+
+            if (res.status === 401) return { ok: false, code: 'auth', message: 'Token 无效或已过期，请重新生成' };
+            if (res.status === 403) return { ok: false, code: 'forbidden', message: 'Token 权限不足（需要 Contents 读写权限）' };
+            if (res.status === 404) return { ok: false, code: 'notfound', message: '仓库不存在或 Token 无权访问，请检查仓库名' };
+            if (!res.ok) return { ok: false, code: 'http', message: '上传失败（HTTP ' + res.status + '）' };
+
+            const json = await res.json();
+            const newSha = json && json.content ? json.content.sha : null;
+            return { ok: true, sha: newSha, sizeKB: sizeKB };
+        } catch (e) {
+            return { ok: false, code: 'network', message: '网络不通，稍后再试' };
+        }
+    },
+
+    /** 同步快照（用于「撤销上次同步」） */
+    takeSnapshot(jsonStr) {
+        try { localStorage.setItem(this.SNAPSHOT_KEY, jsonStr); } catch (e) {}
+    },
+
+    getSnapshot() {
+        return localStorage.getItem(this.SNAPSHOT_KEY);
+    },
+
+    clearSnapshot() {
+        localStorage.removeItem(this.SNAPSHOT_KEY);
+    }
+};
+
+window.SyncManager = SyncManager;
 
 /**
  * 获取单词数据

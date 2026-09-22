@@ -23,6 +23,12 @@ const App = {
     // 自定义词库（树形结构）
     englishCustomBooks: {},
     chineseCustomBooks: {},
+
+    // 删除记录（墓碑）：记录"某个词/某条错词被删除"的时间，供跨设备同步识别删除
+    englishDeletedWords: {},
+    chineseDeletedWords: {},
+    englishDeletedErrors: {},
+    chineseDeletedErrors: {},
     
     // 展开状态（用于树形UI）
     expandedFolders: {
@@ -101,6 +107,15 @@ Object.defineProperty(App, 'selectedErrorWords', {
     get() { return App.currentMode === 'english' ? App.englishSelectedErrorWords : App.chineseSelectedErrorWords; }
 });
 
+// 墓碑访问器：按当前模式返回对应的删除记录
+Object.defineProperty(App, 'deletedWords', {
+    get() { return App.currentMode === 'english' ? App.englishDeletedWords : App.chineseDeletedWords; }
+});
+
+Object.defineProperty(App, 'deletedErrors', {
+    get() { return App.currentMode === 'english' ? App.englishDeletedErrors : App.chineseDeletedErrors; }
+});
+
 // ==================== 数据持久化 ====================
 
 function saveData() {
@@ -108,7 +123,13 @@ function saveData() {
         App.englishWords, App.englishErrors,
         App.chineseWords, App.chineseErrors,
         App.settings, App.currentMode,
-        App.englishCustomBooks, App.chineseCustomBooks
+        App.englishCustomBooks, App.chineseCustomBooks,
+        {
+            englishDeletedWords: App.englishDeletedWords,
+            chineseDeletedWords: App.chineseDeletedWords,
+            englishDeletedErrors: App.englishDeletedErrors,
+            chineseDeletedErrors: App.chineseDeletedErrors
+        }
     );
 }
 
@@ -120,6 +141,15 @@ function loadData() {
     App.chineseWords = data.chineseWords;
     App.chineseErrors = data.chineseErrors;
     App.settings = { ...App.settings, ...data.settings };
+
+    // 删除记录（墓碑）
+    App.englishDeletedWords = data.englishDeletedWords || {};
+    App.chineseDeletedWords = data.chineseDeletedWords || {};
+    App.englishDeletedErrors = data.englishDeletedErrors || {};
+    App.chineseDeletedErrors = data.chineseDeletedErrors || {};
+
+    // 修正 id 计数器：否则刷新页面后 nextId 归 1，新导入的词会与已有词撞 id
+    App.nextId = DataManager.maxWordId(App.englishWords, App.chineseWords) + 1;
 
     if (data.mode === 'english' || data.mode === 'chinese') {
         App.currentMode = data.mode;
@@ -134,6 +164,223 @@ function loadData() {
         App.expandedFolders = { english: new Set(), chinese: new Set() };
     }
     App.expandedFolders[App.currentMode].add('root');
+}
+
+// ==================== 云同步（GitHub 仓库作为云端存储） ====================
+
+/** 收集本地全部数据（含墓碑），供上传 / 备份使用 */
+function collectLocalData() {
+    return {
+        englishWords: App.englishWords,
+        englishErrors: App.englishErrors,
+        englishCustomBooks: App.englishCustomBooks,
+        englishDeletedWords: App.englishDeletedWords,
+        englishDeletedErrors: App.englishDeletedErrors,
+        chineseWords: App.chineseWords,
+        chineseErrors: App.chineseErrors,
+        chineseCustomBooks: App.chineseCustomBooks,
+        chineseDeletedWords: App.chineseDeletedWords,
+        chineseDeletedErrors: App.chineseDeletedErrors
+    };
+}
+
+/** 数据整体变化后刷新界面 */
+function refreshAfterDataChange() {
+    renderWordList(App.words, App.selectedWords, App.errors, App.currentMode);
+    renderCustomWordBooks();
+    renderErrorList(App.errors, App.selectedErrorWords, App.words);
+    updateCounts(App.words, App.selectedWords);
+    updateErrorCounts();
+}
+
+/** 把主词库最新内容回填到两种模式的小词库副本 */
+function backfillAllCustomBookCopies() {
+    backfillCustomBookCopies(null, 'english');
+    backfillCustomBookCopies(null, 'chinese');
+}
+
+/** 同步前留一份快照，供「撤销上次同步」使用 */
+function takeSyncSnapshot() {
+    try {
+        SyncManager.takeSnapshot(DataManager.backupExport(collectLocalData()));
+    } catch (e) {}
+}
+
+/** 判断合并结果是否真的有变化 */
+function syncStatsChanged(stats) {
+    if (!stats) return false;
+    const en = stats.english || {};
+    const ch = stats.chinese || {};
+    return ((en.added || 0) + (en.updated || 0) + (en.deleted || 0) +
+            (ch.added || 0) + (ch.updated || 0) + (ch.deleted || 0) +
+            (stats.nodes || 0)) > 0;
+}
+
+/** 把统计翻译成人话 */
+function describeSyncStats(stats) {
+    if (!stats) return '无变化';
+    const en = stats.english || {};
+    const ch = stats.chinese || {};
+    const added = (en.added || 0) + (ch.added || 0);
+    const updated = (en.updated || 0) + (ch.updated || 0);
+    const deleted = (en.deleted || 0) + (ch.deleted || 0);
+    const parts = [];
+    if (added) parts.push('新增 ' + added + ' 个词');
+    if (updated) parts.push('更新 ' + updated + ' 个');
+    if (deleted) parts.push('删除 ' + deleted + ' 个');
+    if (stats.nodes) parts.push('新增 ' + stats.nodes + ' 个小词库');
+    return parts.length ? parts.join('，') : '无变化';
+}
+
+/** 把合并/导入结果写回 App 并刷新界面 */
+function applySyncResult(result) {
+    App.englishWords = result.englishWords || [];
+    App.englishErrors = result.englishErrors || {};
+    App.englishCustomBooks = result.englishCustomBooks || {};
+    App.englishDeletedWords = result.englishDeletedWords || {};
+    App.englishDeletedErrors = result.englishDeletedErrors || {};
+
+    App.chineseWords = result.chineseWords || [];
+    App.chineseErrors = result.chineseErrors || {};
+    App.chineseCustomBooks = result.chineseCustomBooks || {};
+    App.chineseDeletedWords = result.chineseDeletedWords || {};
+    App.chineseDeletedErrors = result.chineseDeletedErrors || {};
+
+    App.nextId = DataManager.maxWordId(App.englishWords, App.chineseWords) + 1;
+
+    // 合并后词条 id 可能变化，清掉选中状态避免错位
+    App.selectedWords.clear();
+    App.selectedErrorWords.clear();
+
+    saveData();
+    refreshAfterDataChange();
+}
+
+/** 上传本机数据到云端 */
+async function doCloudUpload(silent) {
+    if (!SyncManager.isConfigured()) {
+        if (!silent) showSyncConfigModal();
+        return { ok: false, code: 'noconfig' };
+    }
+    if (!silent) showNotification('正在上传到云端…', 'info', 2000);
+
+    const payload = JSON.parse(DataManager.backupExport(collectLocalData()));
+    const remote = await SyncManager.pull();
+    const sha = (remote.ok && remote.sha) ? remote.sha : null;
+
+    // 云端已有数据时提醒：上传是「用本机覆盖云端」，别用旧数据盖掉新数据
+    if (!silent && remote.ok && remote.data) {
+        const rd = remote.data.backupDate;
+        const when = rd ? new Date(rd).toLocaleString('zh-CN') : '时间未知';
+        if (!confirm('云端已有数据（' + when + '）。\n\n上传会用【本机数据】覆盖云端，请确认本机确实是最新的。\n若不确定，建议先点「从云端同步」做合并。\n\n确定上传吗？')) {
+            return { ok: false, code: 'cancel' };
+        }
+    }
+
+    const res = await SyncManager.push(payload, sha, '同步词库 ' + new Date().toLocaleString());
+    if (!res.ok) {
+        showNotification('上传失败：' + res.message, 'error', 6000);
+        return res;
+    }
+    SyncManager.setLastSync(new Date().toISOString());
+    SyncManager.saveConfig({ sha: res.sha || sha || '' });
+    renderSyncStatus();
+    showNotification('已上传到云端（' + res.sizeKB + ' KB）', 'success');
+    return res;
+}
+
+/**
+ * 从云端同步。
+ * @param {boolean} force true = 强制对齐云端（用云端数据整体覆盖本机）
+ */
+async function doCloudSync(force) {
+    if (!SyncManager.isConfigured()) {
+        showSyncConfigModal();
+        return { ok: false, code: 'noconfig' };
+    }
+
+    const remote = await SyncManager.pull();
+    if (!remote.ok) {
+        showNotification('同步失败：' + remote.message, 'error', 6000);
+        return remote;
+    }
+    if (remote.empty || !remote.data) {
+        showNotification('云端还没有数据，先点「上传到云端」', 'info', 5000);
+        return { ok: false, code: 'empty' };
+    }
+
+    if (force && !confirm('强制对齐会用云端数据覆盖本机词库，本机独有的词会丢失。\n建议先点「上传到云端」保留本机版本。\n\n确定继续吗？')) {
+        return { ok: false, code: 'cancel' };
+    }
+
+    takeSyncSnapshot();
+
+    const result = DataManager.backupImport(remote.data, collectLocalData(), {
+        englishWords: true, englishErrors: true, englishCustomBooks: true,
+        chineseWords: true, chineseErrors: true, chineseCustomBooks: true,
+        merge: !force
+    });
+
+    applySyncResult(result);
+    backfillAllCustomBookCopies();
+
+    SyncManager.setLastSync(new Date().toISOString());
+    SyncManager.saveConfig({ sha: remote.sha || '' });
+    renderSyncStatus();
+
+    showNotification(force ? '已强制对齐云端' : '同步完成：' + describeSyncStats(result.stats), 'success', 6000);
+    return { ok: true, stats: result.stats };
+}
+
+/** 打开 App 时的静默自动同步（失败不打扰） */
+async function autoSyncOnStart() {
+    if (!SyncManager.isConfigured()) return;
+    if (App.isDictating) return;
+
+    const remote = await SyncManager.pull();
+    if (!remote.ok || remote.empty || !remote.data) return;
+
+    const result = DataManager.backupImport(remote.data, collectLocalData(), { merge: true });
+    if (!syncStatsChanged(result.stats)) return;   // 没变化就什么都不做
+
+    takeSyncSnapshot();                            // 有变化才留快照
+    applySyncResult(result);
+    backfillAllCustomBookCopies();
+
+    SyncManager.setLastSync(new Date().toISOString());
+    SyncManager.saveConfig({ sha: remote.sha || '' });
+    renderSyncStatus();
+    showNotification('☁️ 已从云端同步：' + describeSyncStats(result.stats), 'success', 6000);
+}
+
+/** 撤销上次同步（恢复到同步前） */
+function undoLastSync() {
+    const snap = SyncManager.getSnapshot();
+    if (!snap) {
+        showNotification('没有可撤销的同步记录', 'info');
+        return;
+    }
+    if (!confirm('恢复到上次同步之前的状态？')) return;
+
+    let data;
+    try {
+        data = JSON.parse(snap);
+    } catch (e) {
+        showNotification('快照已损坏，无法恢复', 'error');
+        return;
+    }
+
+    const empty = {
+        englishWords: [], englishErrors: {}, englishCustomBooks: {},
+        chineseWords: [], chineseErrors: {}, chineseCustomBooks: {},
+        englishDeletedWords: {}, chineseDeletedWords: {},
+        englishDeletedErrors: {}, chineseDeletedErrors: {}
+    };
+    const result = DataManager.backupImport(data, empty, { merge: false });
+
+    applySyncResult(result);
+    SyncManager.clearSnapshot();
+    showNotification('已恢复到同步前的状态', 'success');
 }
 
 // ==================== 初始化 ====================
@@ -164,7 +411,13 @@ function initApp() {
     
     // 键盘快捷键
     setupKeyboardShortcuts();
-    
+
+    // 同步状态文字
+    renderSyncStatus();
+
+    // 云端自动同步：静默执行，失败不打扰用户
+    setTimeout(() => { autoSyncOnStart(); }, 1200);
+
     console.log('✅ 英语听写工具已就绪');
 }
 
@@ -450,7 +703,9 @@ function parseWordLine(line, mode = 'english') {
         
         // fallback：找到第一个中文字符，再向左把紧邻中文的
         // 空格 / 中文标点 / 括号等"非英文"字符归入中文一侧
+        // 例外：半角句号 "." 属于英文一侧，遇到就停，不再往左收
         // 例如 "healthy （有益）健康的" → 英文 "healthy" / 中文 "（有益）健康的"
+        //      "Good morning.早上好"   → 英文 "Good morning." / 中文 "早上好"
         let cjkIndex = -1;
         for (let i = 0; i < trimmed.length; i++) {
             if (/[\u4e00-\u9fff]/.test(trimmed[i])) {
@@ -461,12 +716,14 @@ function parseWordLine(line, mode = 'english') {
 
         if (cjkIndex > 0) {
             let boundary = cjkIndex;
-            // 把中文左侧紧邻的空格、括号、标点（非英文字母/数字/连字符）归入中文
-            while (boundary > 0 && !/[a-zA-Z0-9\-]/.test(trimmed[boundary - 1])) {
+            // 把中文左侧紧邻的空格、括号、标点（非英文字母/数字/连字符）归入中文，
+            // 但半角句号 "." 例外（它是英文的一部分，不该跑进释义）
+            while (boundary > 0 && trimmed[boundary - 1] !== '.' && !/[a-zA-Z0-9\-]/.test(trimmed[boundary - 1])) {
                 boundary--;
             }
             const englishPart = trimmed.substring(0, boundary).trim();
-            const chinesePart = trimmed.substring(boundary).trim();
+            // 分界处残留的句号（中文 。或全角 ．、以及多余的半角 .）两边都不属于 → 丢掉
+            const chinesePart = trimmed.substring(boundary).trim().replace(/^[。．.]+/, '').trim();
 
             // 确保英文部分以字母开头
             if (/^[a-zA-Z]/i.test(englishPart)) {
@@ -535,6 +792,7 @@ function applyWordUpdates(updates) {
         if (!p) return;
         if (p.meaning) target.meaning = p.meaning;
         if (p.examples) target.examples = p.examples.slice();
+        target.updatedAt = new Date().toISOString();   // 供跨设备合并时判断谁更新
         matched.add(target.word.toLowerCase());
     };
 
@@ -765,8 +1023,46 @@ async function bulkImportWords() {
     showNotification(`导入完成: 新增${results.length}个${wordType}${customMsg}${updateMsg}${skipMsg} | 用时: ${totalTime}秒`, 'success', 6000);
 }
 
+/**
+ * 记录「某个词被删除」，写入墓碑（按当前模式）。
+ * 云端同步时据此判断"这个词是主动删掉的"，避免被其它终端的旧数据复活。
+ */
+function recordWordDeletion(word) {
+    if (!word || typeof word !== 'string' || !word.trim()) return;
+    App.deletedWords[word.trim().toLowerCase()] = new Date().toISOString();
+}
+
+/**
+ * 记录「某条错词被删除」，写入墓碑。
+ * 注意：听写时因答对而自动减到 0 不算删除意图，不记墓碑（那是学习记录）；
+ * 只有用户主动删除 / 手工把次数改为 0 才记录。
+ */
+function recordErrorDeletion(word) {
+    if (!word || typeof word !== 'string' || !word.trim()) return;
+    App.deletedErrors[word.trim().toLowerCase()] = new Date().toISOString();
+}
+
+/** 取消「某条错词」的墓碑（该词又被拼错 / 重新加入错题本时调用） */
+function clearErrorTombstone(word) {
+    if (!word || typeof word !== 'string') return;
+    delete App.deletedErrors[word.trim().toLowerCase()];
+}
+
+/** 从错词本删除单条（记墓碑，供跨设备同步） */
+function deleteErrorWord(word) {
+    recordErrorDeletion(word);
+    delete App.errors[word];
+    App.selectedErrorWords.delete(word);
+    saveData();
+    renderErrorList(App.errors, App.selectedErrorWords, App.words);
+    updateErrorCounts();
+}
+
 function deleteWord(id) {
     if (!confirm('确定删除这个单词吗？')) return;
+
+    const target = App.words.find(w => w.id === id);
+    if (target) recordWordDeletion(target.word);
 
     App.words = App.words.filter(w => w.id !== id);
     App.selectedWords.delete(id);
@@ -776,14 +1072,59 @@ function deleteWord(id) {
     showNotification('单词已删除', 'info');
 }
 
+/**
+ * 把小词库里的词条副本刷新为主词库的最新内容。
+ * 小词库存的是副本，编辑主词库后副本不会自动跟着变 → 用这个函数回填。
+ * @param {Array} sourceWords 主词库中的词条（省略则用整个主词库）
+ * @returns {number} 被刷新的副本数量
+ */
+function backfillCustomBookCopies(sourceWords, mode) {
+    const m = mode || App.currentMode;
+    const books = m === 'english' ? App.englishCustomBooks : App.chineseCustomBooks;
+    if (!books) return 0;
+
+    const srcWords = sourceWords || (m === 'english' ? App.englishWords : App.chineseWords);
+    const index = new Map();
+    srcWords.forEach(w => {
+        if (w && typeof w.word === 'string' && w.word.trim()) {
+            index.set(w.word.trim().toLowerCase(), w);
+        }
+    });
+    if (index.size === 0) return 0;
+
+    let count = 0;
+    Object.values(books).forEach(node => {
+        if (!node || !Array.isArray(node.words)) return;   // 文件夹节点没有 words
+        node.words.forEach(copy => {
+            if (!copy || typeof copy.word !== 'string') return;
+            const src = index.get(copy.word.trim().toLowerCase());
+            if (!src) return;
+            let changed = false;
+            if (copy.meaning !== src.meaning) { copy.meaning = src.meaning; changed = true; }
+            if (JSON.stringify(copy.examples || []) !== JSON.stringify(src.examples || [])) {
+                copy.examples = (src.examples || []).slice();
+                changed = true;
+            }
+            if (copy.pronunciation !== src.pronunciation) { copy.pronunciation = src.pronunciation; changed = true; }
+            if (copy.partOfSpeech !== src.partOfSpeech) { copy.partOfSpeech = src.partOfSpeech; changed = true; }
+            if (changed) count++;
+        });
+    });
+    return count;
+}
+
 // 编辑单词释义
 function editWordMeaning(wordId, newMeaning) {
     const word = App.words.find(w => w.id === wordId);
     if (!word) return;
 
     word.meaning = newMeaning.trim();
+    word.updatedAt = new Date().toISOString();
+    // 同步刷新小词库里的同名词条副本，避免"主词库改了、小词库还是旧的"
+    backfillCustomBookCopies([word]);
     saveData();
     renderWordList(App.words, App.selectedWords, App.errors, App.currentMode);
+    renderCustomWordBooks();
 }
 
 function toggleWordSelection(id) {
@@ -803,6 +1144,11 @@ function clearSelectedWords() {
     }
 
     if (!confirm(`确定要清理选中的 ${selectedCount} 个单词吗？`)) return;
+
+    // 逐个写墓碑，供跨设备同步识别删除
+    App.words.forEach(w => {
+        if (App.selectedWords.has(w.id)) recordWordDeletion(w.word);
+    });
 
     App.words = App.words.filter(w => !App.selectedWords.has(w.id));
     App.selectedWords.clear();
@@ -1204,6 +1550,8 @@ function submitAnswer() {
     } else {
         showNotification(`❌ 错误！正确答案是: ${currentWord.word}`, 'error');
         
+        // 该词又被拼错 → 撤销它的删除记录（否则同步后会被当成"已删除"抹掉）
+        clearErrorTombstone(currentWord.word);
         App.errors[currentWord.word] = (App.errors[currentWord.word] || 0) + 1;
         saveData();
         renderErrorList(App.errors, App.selectedErrorWords, App.words);
@@ -1268,6 +1616,8 @@ function handleEnter(event) {
 // ==================== 错题本 ====================
 
 function addToErrorBook(word) {
+    // 重新加入错题本 → 撤销该词的删除记录
+    clearErrorTombstone(word);
     App.errors[word] = (App.errors[word] || 0) + 1;
     saveData();
     renderErrorList(App.errors, App.selectedErrorWords, App.words);
@@ -1346,9 +1696,11 @@ function editErrorCount(word) {
     }
     
     if (count === 0) {
+        recordErrorDeletion(word);   // 手工改为 0 视为主动删除 → 记墓碑
         delete App.errors[word];
         App.selectedErrorWords.delete(word);
     } else {
+        clearErrorTombstone(word);   // 又有了次数 → 撤销删除记录
         App.errors[word] = count;
     }
     
@@ -1369,6 +1721,7 @@ function deleteSelectedErrors() {
     const wordsToDelete = Array.from(App.selectedErrorWords);
     
     wordsToDelete.forEach(word => {
+        recordErrorDeletion(word);   // 记墓碑，供跨设备同步
         delete App.errors[word];
     });
     App.selectedErrorWords.clear();

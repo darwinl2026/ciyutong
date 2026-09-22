@@ -2375,6 +2375,17 @@
                                 <button class="data-tab-btn" onclick="importBackupFromFile()">📂 恢复数据</button>
                             </div>
                         </div>
+                        <div style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed #dee2e6;">
+                            <p style="color: #6c757d; font-size: 0.9rem; margin-bottom: 10px;">☁️ 云端同步（GitHub 仓库）</p>
+                            <div class="data-tabs">
+                                <button class="data-tab-btn" onclick="showSyncConfigModal()">⚙️ 同步设置</button>
+                                <button class="data-tab-btn" onclick="doCloudUpload()">⬆️ 上传到云端</button>
+                                <button class="data-tab-btn" onclick="doCloudSync(false)">⬇️ 从云端同步</button>
+                            </div>
+                            <p id="syncStatusText" style="color: #6c757d; font-size: 0.75rem; margin-top: 8px; line-height: 1.6;">
+                                未配置。点「同步设置」填入 GitHub 仓库和 Token 后，各设备打开本工具会自动同步。
+                            </p>
+                        </div>
                         </div><!-- end card-collapsible -->
                     </div>
                 </div>
@@ -2437,6 +2448,44 @@
                 <button class="btn btn-small btn-secondary" onclick="closeImportPreviewModal()">取消</button>
                 <button class="btn btn-small btn-warning" onclick="doImportReplace()">替换全部</button>
                 <button class="btn btn-small btn-primary" onclick="doImportMerge()">合并导入</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 云同步设置弹窗 -->
+    <div class="modal hidden" id="syncConfigModal">
+        <div class="modal-content" style="display: none; background: white; padding: 25px; border-radius: 10px; max-width: 520px; margin: 60px auto; box-shadow: 0 5px 20px rgba(0,0,0,0.3); max-height: 85vh; overflow-y: auto;">
+            <h3 style="margin-top: 0; color: #2c3e50;">☁️ 云端同步设置</h3>
+            <p style="color: #666; font-size: 0.85rem; line-height: 1.6;">
+                把词库存进你自己的 GitHub 仓库，多台设备打开本工具就会自动同步。<br>
+                Token 只需要 <strong>Contents 读写</strong>权限（公开仓库勾 <strong>public_repo</strong> 即可，私有仓库勾 <strong>repo</strong>）。
+            </p>
+            <div style="margin: 15px 0;">
+                <label style="display: block; font-size: 0.85rem; color: #555; margin-bottom: 4px;">GitHub 用户名 / 组织名</label>
+                <input type="text" id="syncOwnerInput" placeholder="例如 darwin2026" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box;">
+                <label style="display: block; font-size: 0.85rem; color: #555; margin: 12px 0 4px;">仓库名</label>
+                <input type="text" id="syncRepoInput" placeholder="例如 dictation-data" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box;">
+                <label style="display: block; font-size: 0.85rem; color: #555; margin: 12px 0 4px;">Personal Access Token</label>
+                <input type="password" id="syncTokenInput" placeholder="ghp_xxxxxxxxxxxx" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box;">
+                <label style="display: block; font-size: 0.85rem; color: #555; margin: 12px 0 4px;">数据文件路径（通常不用改）</label>
+                <input type="text" id="syncPathInput" placeholder="data/words.json" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box;">
+            </div>
+            <div style="background: #f8f9fa; padding: 10px; border-radius: 6px; font-size: 0.8rem; color: #555; line-height: 1.6;">
+                云端地址：<code id="syncUrlPreview" style="word-break: break-all;">—</code>
+            </div>
+            <div style="background: #fff3cd; padding: 10px; border-radius: 6px; margin-top: 10px; font-size: 0.8rem; color: #856404; line-height: 1.6;">
+                ⚠️ 仓库若是公开的，任何人都能读到你的词库内容（只能读，不能改）。<br>
+                Token 只保存在本机浏览器里，不会上传到任何地方。
+            </div>
+            <div style="text-align: right; margin-top: 20px;">
+                <button class="btn btn-small btn-secondary" onclick="closeSyncConfigModal()">关闭</button>
+                <button class="btn btn-small btn-primary" onclick="saveSyncConfigFromModal()">保存并测试</button>
+            </div>
+            <div style="margin-top: 14px; padding-top: 12px; border-top: 1px dashed #dee2e6; font-size: 0.8rem; line-height: 1.9;">
+                <div style="color: #6c757d; margin-bottom: 6px;">高级操作：</div>
+                <a href="#" onclick="doForceAlign();return false;" style="color: #e67e22; margin-right: 14px;">⚠️ 强制对齐云端（覆盖本机）</a>
+                <a href="#" onclick="undoLastSync();return false;" style="color: #e67e22; margin-right: 14px;">↩️ 撤销上次同步</a>
+                <a href="#" onclick="clearSyncConfig();return false;" style="color: #c0392b;">🗑️ 清除同步设置</a>
             </div>
         </div>
     </div>

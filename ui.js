@@ -377,8 +377,9 @@ function renderWordList(words, selectedWords, errors, currentMode) {
     }
     
     container.innerHTML = words.map(word => {
-        const escapedWord = word.word.replace(/'/g, "\\'");
-        const escapedMeaning = (word.meaning || '').replace(/'/g, "\\'");
+        const safeWord = escapeHtml(word.word);
+        const safeMeaning = escapeHtml(word.meaning || '');
+        const jsWord = String(word.word).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
         const hasErrors = errors && errors[word.word] > 0;
         const examples = word.examples || [];
         const exampleCount = examples.length;
@@ -393,21 +394,21 @@ function renderWordList(words, selectedWords, errors, currentMode) {
                 <input type="checkbox" class="word-checkbox"
                        ${selectedWords.has(word.id) ? 'checked' : ''}
                        onchange="toggleWordSelection(${word.id})">
-                <div class="word-text">${word.word} <span class="word-meaning-inline">${word.meaning || ''}</span>${hasErrors ? `<span class="word-error-badge">错${errors[word.word]}次</span>` : ''}</div>
+                <div class="word-text">${safeWord} <span class="word-meaning-inline">${safeMeaning}</span>${hasErrors ? `<span class="word-error-badge">错${errors[word.word]}次</span>` : ''}</div>
                 <div class="word-actions">
-                    <button class="btn btn-small btn-icon" onclick="playWord('${escapedWord}', App.currentMode)" title="朗读">🔈</button>
-                    <button class="btn btn-small btn-icon" onclick="addToErrorBook('${escapedWord}')" title="加入错题本">📝</button>
+                    <button class="btn btn-small btn-icon" onclick="playWord('${jsWord}', App.currentMode)" title="朗读">🔈</button>
+                    <button class="btn btn-small btn-icon" onclick="addToErrorBook('${jsWord}')" title="加入错题本">📝</button>
                     <button class="btn btn-small btn-icon btn-delete-word" onclick="deleteWord(${word.id})" title="删除">✕</button>
                 </div>
             </div>
             <!-- 第2行：释义（仅展开时显示） -->
             <div class="word-meaning-row word-detail-extra" id="meaningRow_${word.id}">
-                <span class="meaning-edit" onclick="startEditMeaning(${word.id})" title="点击编辑释义">释义: ${word.meaning || '(无)'}</span>
+                <span class="meaning-edit" onclick="startEditMeaning(${word.id})" title="点击编辑释义">释义: ${safeMeaning || '(无)'}</span>
             </div>
             <!-- 第3行：例句（仅展开时显示） -->
             <div class="word-example-row word-detail-extra" id="exampleRow_${word.id}">
                 <span class="example-display" onclick="startEditExamples(${word.id})" title="点击编辑例句">
-                    📝 例句: ${exampleCount > 0 ? examplePreview : '(无)'}
+                    📝 例句: ${exampleCount > 0 ? escapeHtml(examplePreview) : '(无)'}
                     ${exampleCount > 0 ? `<span style="color: var(--md-primary);">(${exampleCount}句)</span>` : ''}
                 </span>
             </div>
@@ -423,7 +424,7 @@ function renderWordList(words, selectedWords, errors, currentMode) {
 // 点击释义开始编辑（与例句编辑一致的UI）
 function startEditMeaning(wordId) {
     const currentMeaning = App.words.find(w => w.id === wordId)?.meaning || '';
-    const escapedMeaning = currentMeaning.replace(/"/g, '&quot;');
+    const escapedMeaning = escapeHtml(currentMeaning);
 
     const meaningRow = document.getElementById(`meaningRow_${wordId}`);
     if (!meaningRow) return;
@@ -464,7 +465,7 @@ function startEditExamples(wordId) {
 
     const examples = word.examples || [];
     const currentText = examples.join('\n');
-    const escapedText = currentText.replace(/"/g, '&quot;').replace(/'/g, "\\'");
+    const escapedText = escapeHtml(currentText);
 
     const exampleRow = document.getElementById(`exampleRow_${wordId}`);
     if (!exampleRow) return;
@@ -507,8 +508,12 @@ function editWordExamples(wordId, examples) {
     if (!word) return;
 
     word.examples = examples;
+    word.updatedAt = new Date().toISOString();
+    // 同步刷新小词库里的同名词条副本
+    backfillCustomBookCopies([word]);
     saveData();
     renderWordList(App.words, App.selectedWords, App.errors, App.currentMode);
+    renderCustomWordBooks();
 }
 
 /**
@@ -549,17 +554,20 @@ function renderErrorList(errors, selectedErrorWords, words) {
     }
     
     container.innerHTML = `
-        ${errorWords.map(([word, count]) => `
+        ${errorWords.map(([word, count]) => {
+            const jsWord = String(word).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+            return `
             <div class="error-item">
-                <input type="checkbox" class="error-checkbox" ${selectedErrorWords.has(word) ? 'checked' : ''} onchange="toggleErrorSelection('${word.replace(/'/g, "\\'")}')">
-                <span class="error-word">${word}</span>
+                <input type="checkbox" class="error-checkbox" ${selectedErrorWords.has(word) ? 'checked' : ''} onchange="toggleErrorSelection('${jsWord}')">
+                <span class="error-word">${escapeHtml(word)}</span>
                 <div class="error-actions">
-                    <button class="btn btn-small btn-icon" onclick="playWord('${word.replace(/'/g, "\\'")}', App.currentMode)" style="width:26px;height:26px;padding:0;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;background:#f5f5f5;color:#666;border:none;">🔈</button>
-                    <button class="btn btn-small btn-icon" onclick="editErrorCount('${word.replace(/'/g, "\\'")}')" style="width:28px;height:28px;padding:0;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:bold;background:#fff;color:#856404;border:2px solid #f39c12;">${count}</button>
-                    <button class="btn btn-small btn-icon btn-delete-word" onclick="{ App.errors['${word.replace(/'/g, "\\'")}'] = 0; delete App.errors['${word.replace(/'/g, "\\'")}']; App.selectedErrorWords.delete('${word.replace(/'/g, "\\'")}'); saveData(); renderErrorList(App.errors, App.selectedErrorWords, App.words); updateErrorCounts(); }" style="width:26px;height:26px;padding:0;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;background:#f5f5f5;color:#666;border:none;">✕</button>
+                    <button class="btn btn-small btn-icon" onclick="playWord('${jsWord}', App.currentMode)" style="width:26px;height:26px;padding:0;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;background:#f5f5f5;color:#666;border:none;">🔈</button>
+                    <button class="btn btn-small btn-icon" onclick="editErrorCount('${jsWord}')" style="width:28px;height:28px;padding:0;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:bold;background:#fff;color:#856404;border:2px solid #f39c12;">${count}</button>
+                    <button class="btn btn-small btn-icon btn-delete-word" onclick="deleteErrorWord('${jsWord}')" style="width:26px;height:26px;padding:0;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;background:#f5f5f5;color:#666;border:none;">✕</button>
                 </div>
             </div>
-        `).join('')}
+        `;
+        }).join('')}
     `;
 
     // 更新错词本统计
@@ -1004,9 +1012,13 @@ function doImportWithMode(merge) {
         englishWords: App.englishWords,
         englishErrors: App.englishErrors,
         englishCustomBooks: App.englishCustomBooks,
+        englishDeletedWords: App.englishDeletedWords,
+        englishDeletedErrors: App.englishDeletedErrors,
         chineseWords: App.chineseWords,
         chineseErrors: App.chineseErrors,
-        chineseCustomBooks: App.chineseCustomBooks
+        chineseCustomBooks: App.chineseCustomBooks,
+        chineseDeletedWords: App.chineseDeletedWords,
+        chineseDeletedErrors: App.chineseDeletedErrors
     };
 
     const result = DataManager.backupImport(backupData, existingData, options);
@@ -1015,9 +1027,16 @@ function doImportWithMode(merge) {
     App.englishWords = result.englishWords || [];
     App.englishErrors = result.englishErrors || {};
     App.englishCustomBooks = result.englishCustomBooks || {};
+    App.englishDeletedWords = result.englishDeletedWords || {};
+    App.englishDeletedErrors = result.englishDeletedErrors || {};
     App.chineseWords = result.chineseWords || [];
     App.chineseErrors = result.chineseErrors || {};
     App.chineseCustomBooks = result.chineseCustomBooks || {};
+    App.chineseDeletedWords = result.chineseDeletedWords || {};
+    App.chineseDeletedErrors = result.chineseDeletedErrors || {};
+
+    // 修正 id 计数器：导入后词条 id 可能变大，否则后续新导入的词会撞 id
+    App.nextId = DataManager.maxWordId(App.englishWords, App.chineseWords) + 1;
 
     // 保存到localStorage
     saveData();
@@ -1026,7 +1045,8 @@ function doImportWithMode(merge) {
     renderWordList(App.words, App.selectedWords, App.errors, App.currentMode);
     renderCustomWordBooks();
     renderErrorList(App.errors, App.selectedErrorWords, App.words);
-    updateCounts();
+    updateCounts(App.words, App.selectedWords);
+    updateErrorCounts();
 
     closeImportPreviewModal();
     showNotification('数据导入成功', 'success');
@@ -1042,5 +1062,166 @@ function toggleWordDetail(item, event) {
     if (event.target.classList.contains('example-display')) return;
     
     item.classList.toggle('expanded');
+}
+
+// ==================== 云同步界面 ====================
+
+/** 把 owner / repo 拼成 owner/repo */
+function joinRepo(owner, repo) {
+    const o = String(owner || '').trim().replace(/^\/+|\/+$/g, '');
+    const r = String(repo || '').trim().replace(/^\/+|\/+$/g, '');
+    if (!o || !r) return '';
+    return o + '/' + r;
+}
+
+/** 取输入框的值（元素不存在时返回空串） */
+function syncInputValue(id) {
+    const el = document.getElementById(id);
+    return el ? String(el.value || '') : '';
+}
+
+/** 刷新「云端地址」预览 */
+function updateSyncUrlPreview() {
+    const el = document.getElementById('syncUrlPreview');
+    if (!el) return;
+    const full = joinRepo(syncInputValue('syncOwnerInput'), syncInputValue('syncRepoInput'));
+    if (!full) { el.textContent = '—'; return; }
+    const path = (syncInputValue('syncPathInput') || 'data/words.json').replace(/^\/+/, '');
+    el.textContent = 'https://github.com/' + full + '/blob/' + path;
+}
+
+/** 打开云同步设置弹窗 */
+function showSyncConfigModal() {
+    const modal = document.getElementById('syncConfigModal');
+    if (!modal) return;
+
+    const cfg = (typeof SyncManager !== 'undefined') ? SyncManager.getConfig() : {};
+    let owner = cfg.owner || '';
+    let repo = cfg.repoName || '';
+
+    // 兼容只保存了 "owner/repo" 的旧配置
+    if ((!owner || !repo) && cfg.repo && cfg.repo.indexOf('/') > -1) {
+        const seg = cfg.repo.split('/');
+        owner = owner || seg[0];
+        repo = repo || seg.slice(1).join('/');
+    }
+    // 部署在 GitHub Pages 时，可自动识别出当前仓库
+    if (!owner || !repo) {
+        const g = (typeof SyncManager !== 'undefined') ? SyncManager.guessRepo() : {};
+        owner = owner || g.owner || '';
+        repo = repo || g.repo || '';
+    }
+
+    const setVal = (id, v) => { const el = document.getElementById(id); if (el) el.value = v || ''; };
+    setVal('syncOwnerInput', owner);
+    setVal('syncRepoInput', repo);
+    setVal('syncTokenInput', cfg.token || '');
+    setVal('syncPathInput', cfg.path || 'data/words.json');
+
+    ['syncOwnerInput', 'syncRepoInput', 'syncPathInput'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.oninput = updateSyncUrlPreview;
+    });
+    updateSyncUrlPreview();
+
+    modal.classList.remove('hidden');
+    const content = modal.querySelector('.modal-content');
+    if (content) content.style.display = 'block';
+}
+
+/** 关闭云同步设置弹窗 */
+function closeSyncConfigModal() {
+    const modal = document.getElementById('syncConfigModal');
+    if (modal) modal.classList.add('hidden');
+}
+
+/** 保存同步设置并测试连接 */
+async function saveSyncConfigFromModal() {
+    const owner = syncInputValue('syncOwnerInput').trim();
+    const repo = syncInputValue('syncRepoInput').trim();
+    const token = syncInputValue('syncTokenInput').trim();
+    let path = syncInputValue('syncPathInput').trim() || 'data/words.json';
+    path = path.replace(/^\/+/, '');
+
+    if (!owner || !repo) { showNotification('请填写 GitHub 用户名和仓库名', 'error'); return; }
+    if (!token) { showNotification('请填写 Personal Access Token', 'error'); return; }
+
+    SyncManager.saveConfig({
+        owner: owner,
+        repoName: repo,
+        repo: joinRepo(owner, repo),
+        token: token,
+        path: path
+    });
+
+    const btn = (typeof event !== 'undefined' && event && event.target) ? event.target : null;
+    if (btn) btn.disabled = true;
+    showNotification('正在测试连接…', 'info', 3000);
+
+    const res = await SyncManager.verify();
+    if (btn) btn.disabled = false;
+
+    if (!res.ok) {
+        showNotification('连接失败：' + res.message, 'error', 7000);
+        return;   // 不关闭弹窗，方便修改
+    }
+
+    const p = await SyncManager.pull();
+    const tail = (p.ok && p.empty) ? '，云端暂无数据，请点「上传到云端」创建' : '';
+    showNotification('连接成功' + (res.private ? '（私有仓库）' : '（公开仓库）') + tail, 'success', 5000);
+
+    updateSyncUrlPreview();
+    renderSyncStatus();
+    closeSyncConfigModal();
+}
+
+/** 清除本机保存的同步设置 */
+function clearSyncConfig() {
+    if (!confirm('清除本机保存的同步设置？\nToken 会被删除，云端数据不受影响。')) return;
+
+    SyncManager.clearConfig();
+    ['syncOwnerInput', 'syncRepoInput', 'syncTokenInput'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+    });
+    const pathEl = document.getElementById('syncPathInput');
+    if (pathEl) pathEl.value = 'data/words.json';
+
+    updateSyncUrlPreview();
+    renderSyncStatus();
+    closeSyncConfigModal();
+    showNotification('同步设置已清除', 'success');
+}
+
+/** 刷新数据管理区的同步状态文字 */
+function renderSyncStatus() {
+    const el = document.getElementById('syncStatusText');
+    if (!el) return;
+
+    if (typeof SyncManager === 'undefined' || !SyncManager.isConfigured()) {
+        el.textContent = '未配置。点「同步设置」填入 GitHub 仓库和 Token 后，各设备打开本工具会自动同步。';
+        el.style.color = '#6c757d';
+        return;
+    }
+
+    const cfg = SyncManager.getConfig();
+    const last = SyncManager.getLastSync();
+    let when = '尚未同步';
+    if (last) {
+        const d = new Date(last);
+        when = isNaN(d.getTime()) ? '未知' : d.toLocaleString('zh-CN');
+    }
+    el.textContent = '已配置：' + cfg.repo + '（' + (cfg.path || 'data/words.json') + '）｜ 上次同步：' + when;
+    el.style.color = '#4285F4';
+}
+
+/** 强制对齐云端（用云端数据覆盖本机） */
+async function doForceAlign() {
+    if (!SyncManager.isConfigured()) {
+        showNotification('请先完成同步设置', 'info');
+        return;
+    }
+    closeSyncConfigModal();
+    await doCloudSync(true);
 }
 
