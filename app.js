@@ -369,6 +369,47 @@ function parseWordLine(line, mode = 'english') {
         return { word: trimmed, meaning: null, examples: [] };
     }
 
+    // 英语模式：竖线分段（字段明确，可带例句；半角 | 与全角 ｜ 都认）
+    //   apple|苹果|I like apples.；An apple a day.  → 词 / 释义 / 例句
+    //   apple|苹果                                  → 词 / 释义（无例句）
+    //   apple||I like apples.                       → 词 / 例句（释义留空）
+    //   apple 苹果|I like apples.                    → 首段已含中文时，先按空格规则拆词头/释义，其余段作例句
+    if (/[|｜]/.test(trimmed)) {
+        const segments = trimmed.split(/[|｜]/);
+        const head = (segments[0] || '').trim();
+
+        if (head) {
+            let word = head;
+            let meaning = null;
+            let exampleSegments;
+
+            if (/[\u4e00-\u9fff]/.test(head)) {
+                // 首段含中文 → 复用同一套空格规则拆开（首段已无竖线，不会无限递归）
+                const inner = parseWordLine(head, 'english');
+                if (inner) {
+                    word = inner.word;
+                    meaning = inner.meaning || null;
+                }
+                exampleSegments = segments.slice(1);
+            } else {
+                // 首段是纯英文 → 第 2 段作释义，第 3 段起作例句
+                meaning = (segments[1] || '').trim() || null;
+                exampleSegments = segments.slice(2);
+            }
+
+            // 词头必须含字母，否则视为无效行，回落到下面的旧逻辑
+            if (/[a-zA-Z]/.test(word)) {
+                const examples = exampleSegments
+                    .map(s => s.trim())
+                    .filter(Boolean)
+                    .reduce((acc, s) => acc.concat(
+                        s.split(/[;；]/).map(x => x.trim()).filter(Boolean)
+                    ), []);
+                return { word: word, meaning: meaning, examples: examples };
+            }
+        }
+    }
+
     // 英语模式：检测是否包含中文字符
     const hasChinese = /[\u4e00-\u9fff]/.test(trimmed);
 
@@ -401,7 +442,7 @@ function parseWordLine(line, mode = 'english') {
                     
                     // 确保英文部分包含至少一个字母
                     if (/[a-zA-Z]/.test(englishPart)) {
-                        return { word: englishPart, meaning: chinesePart };
+                        return { word: englishPart, meaning: chinesePart, examples: [] };
                     }
                 }
             }
@@ -429,7 +470,7 @@ function parseWordLine(line, mode = 'english') {
 
             // 确保英文部分以字母开头
             if (/^[a-zA-Z]/i.test(englishPart)) {
-                return { word: englishPart, meaning: chinesePart };
+                return { word: englishPart, meaning: chinesePart, examples: [] };
             }
         }
 
@@ -437,7 +478,7 @@ function parseWordLine(line, mode = 'english') {
         return null;
     } else {
         // 情况B: 输入不包含中文（纯英文）
-        return { word: trimmed, meaning: null };
+        return { word: trimmed, meaning: null, examples: [] };
     }
 }
 
@@ -684,6 +725,7 @@ async function bulkImportWords() {
                     meaning: data.meaning || '',
                     pronunciation: data.pronunciation || '',
                     partOfSpeech: data.partOfSpeech || '',
+                    examples: item.examples || [],
                     addedAt: new Date().toISOString()
                 };
             } catch (error) {
@@ -694,6 +736,7 @@ async function bulkImportWords() {
                     meaning: item.meaning || '',
                     pronunciation: '',
                     partOfSpeech: '',
+                    examples: item.examples || [],
                     addedAt: new Date().toISOString()
                 };
             }
