@@ -1,900 +1,9 @@
 {
   "version": "2.0",
-  "backupDate": "2026-09-22T16:29:43.194Z",
+  "backupDate": "2026-09-23T02:55:10.989Z",
   "english": {
-    "words": [
-      {
-        "id": 282,
-        "word": "Class 2, Grade 5",
-        "meaning": "五年级2班",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:02.643Z",
-        "source": "custom_book:book_1790085440236"
-      },
-      {
-        "id": 283,
-        "word": "tall",
-        "meaning": "高的",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:02.643Z",
-        "source": "custom_book:book_1790085440236"
-      },
-      {
-        "id": 284,
-        "word": "short",
-        "meaning": "1、矮的；2、短的(short hair 短头发)",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:02.643Z",
-        "source": "custom_book:book_1790085440236"
-      },
-      {
-        "id": 285,
-        "word": "long hair",
-        "meaning": "长头发",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:02.643Z",
-        "source": "custom_book:book_1790085440236"
-      },
-      {
-        "id": 286,
-        "word": "cute",
-        "meaning": "可爱的",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:02.643Z",
-        "source": "custom_book:book_1790085440236"
-      },
-      {
-        "id": 287,
-        "word": "a lovely nose",
-        "meaning": "可爱的鼻子",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:02.643Z",
-        "source": "custom_book:book_1790085440236"
-      },
-      {
-        "id": 288,
-        "word": "big eyes",
-        "meaning": "大眼睛",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:02.643Z",
-        "source": "custom_book:book_1790085440236"
-      },
-      {
-        "id": 289,
-        "word": "fat",
-        "meaning": "胖的",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:02.643Z",
-        "source": "custom_book:book_1790085440236"
-      },
-      {
-        "id": 290,
-        "word": "thin",
-        "meaning": "瘦的",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:02.644Z",
-        "source": "custom_book:book_1790085440236"
-      },
-      {
-        "id": 291,
-        "word": "come from/be from",
-        "meaning": "来自...",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:02.644Z",
-        "source": "custom_book:book_1790085440236"
-      },
-      {
-        "id": 292,
-        "word": "play ping-pong/basketball",
-        "meaning": "打乒乓球/打篮球",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:02.644Z",
-        "source": "custom_book:book_1790085440236"
-      },
-      {
-        "id": 293,
-        "word": "strong",
-        "meaning": "强壮的",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:02.644Z",
-        "source": "custom_book:book_1790085440236"
-      },
-      {
-        "id": 294,
-        "word": "a fan of",
-        "meaning": "...迷",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:02.644Z",
-        "source": "custom_book:book_1790085440236"
-      },
-      {
-        "id": 295,
-        "word": "good friends",
-        "meaning": "好朋友",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:02.644Z",
-        "source": "custom_book:book_1790085440236"
-      },
-      {
-        "id": 296,
-        "word": "best friend",
-        "meaning": "最好的朋友",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:02.644Z",
-        "source": "custom_book:book_1790085440236"
-      },
-      {
-        "id": 297,
-        "word": "do sports",
-        "meaning": "做运动",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:02.644Z",
-        "source": "custom_book:book_1790085440236"
-      },
-      {
-        "id": 298,
-        "word": "be good at +V-ing",
-        "meaning": "擅长做...",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:02.644Z",
-        "source": "custom_book:book_1790085440236"
-      },
-      {
-        "id": 299,
-        "word": "with my friends",
-        "meaning": "与朋友一起",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.213Z",
-        "source": "custom_book:book_1790085657261"
-      },
-      {
-        "id": 300,
-        "word": "have basketball games",
-        "meaning": "举行篮球比赛",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.213Z",
-        "source": "custom_book:book_1790085657261"
-      },
-      {
-        "id": 301,
-        "word": "at school",
-        "meaning": "在学校",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.213Z",
-        "source": "custom_book:book_1790085657261"
-      },
-      {
-        "id": 302,
-        "word": "after class",
-        "meaning": "课后、课余时间",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.213Z",
-        "source": "custom_book:book_1790085657261"
-      },
-      {
-        "id": 303,
-        "word": "on school days",
-        "meaning": "上学的日子",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.213Z",
-        "source": "custom_book:book_1790085657261"
-      },
-      {
-        "id": 304,
-        "word": "draw pictures on the computer",
-        "meaning": "用电脑绘图",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.213Z",
-        "source": "custom_book:book_1790085657261"
-      },
-      {
-        "id": 305,
-        "word": "basketball training",
-        "meaning": "篮球训练",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.213Z",
-        "source": "custom_book:book_1790085657261"
-      },
-      {
-        "id": 306,
-        "word": "Basketball Club",
-        "meaning": "篮球俱乐部",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.213Z",
-        "source": "custom_book:book_1790085657261"
-      },
-      {
-        "id": 307,
-        "word": "have parties",
-        "meaning": "开派对",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.213Z",
-        "source": "custom_book:book_1790085657261"
-      },
-      {
-        "id": 308,
-        "word": "skip rope",
-        "meaning": "跳绳",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.213Z",
-        "source": "custom_book:book_1790085657261"
-      },
-      {
-        "id": 309,
-        "word": "visit the museums",
-        "meaning": "参观博物馆",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.213Z",
-        "source": "custom_book:book_1790085657261"
-      },
-      {
-        "id": 310,
-        "word": "do experiments",
-        "meaning": "做实验",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.213Z",
-        "source": "custom_book:book_1790085657261"
-      },
-      {
-        "id": 311,
-        "word": "kind",
-        "meaning": "善良的",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.213Z",
-        "source": "custom_book:book_1790085657261"
-      },
-      {
-        "id": 312,
-        "word": "team",
-        "meaning": "团队",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.213Z",
-        "source": "custom_book:book_1790085657261"
-      },
-      {
-        "id": 313,
-        "word": "visit the Science Museum",
-        "meaning": "参观科学博物馆",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.213Z",
-        "source": "custom_book:book_1790085657261"
-      },
-      {
-        "id": 314,
-        "word": "It's time for ......",
-        "meaning": "到......的时间了",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.213Z",
-        "source": "custom_book:book_1790085657261"
-      },
-      {
-        "id": 315,
-        "word": "be kind to each other",
-        "meaning": "相互友善",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.896Z",
-        "source": "custom_book:book_1790085694707"
-      },
-      {
-        "id": 316,
-        "word": "listen to each other",
-        "meaning": "彼此倾听",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.896Z",
-        "source": "custom_book:book_1790085694707"
-      },
-      {
-        "id": 317,
-        "word": "hurt his foot",
-        "meaning": "他的脚受伤",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.896Z",
-        "source": "custom_book:book_1790085694707"
-      },
-      {
-        "id": 318,
-        "word": "help sb. with homework",
-        "meaning": "辅导某人写作业",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.896Z",
-        "source": "custom_book:book_1790085694707"
-      },
-      {
-        "id": 319,
-        "word": "help sb. with studies",
-        "meaning": "辅导某人学习",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.896Z",
-        "source": "custom_book:book_1790085694707"
-      },
-      {
-        "id": 320,
-        "word": "get -well card",
-        "meaning": "祝愿康复卡",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.896Z",
-        "source": "custom_book:book_1790085694707"
-      },
-      {
-        "id": 321,
-        "word": "share good ideas with me",
-        "meaning": "分享好主意",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.896Z",
-        "source": "custom_book:book_1790085694707"
-      },
-      {
-        "id": 322,
-        "word": "give me a nice card",
-        "meaning": "给我一张漂亮的卡片",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.896Z",
-        "source": "custom_book:book_1790085694707"
-      },
-      {
-        "id": 323,
-        "word": "friends in need",
-        "meaning": "患难中的朋友",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.896Z",
-        "source": "custom_book:book_1790085694707"
-      },
-      {
-        "id": 324,
-        "word": "make each other happy",
-        "meaning": "让彼此快乐",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.896Z",
-        "source": "custom_book:book_1790085694707"
-      },
-      {
-        "id": 325,
-        "word": "in hospital",
-        "meaning": "住院",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.896Z",
-        "source": "custom_book:book_1790085694707"
-      },
-      {
-        "id": 326,
-        "word": "interesting books",
-        "meaning": "有趣的书",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.896Z",
-        "source": "custom_book:book_1790085694707"
-      },
-      {
-        "id": 327,
-        "word": "science books",
-        "meaning": "科普书",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.896Z",
-        "source": "custom_book:book_1790085694707"
-      },
-      {
-        "id": 328,
-        "word": "write to sb.",
-        "meaning": "写给...",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.896Z",
-        "source": "custom_book:book_1790085694707"
-      },
-      {
-        "id": 329,
-        "word": "good idea",
-        "meaning": "好主意",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.896Z",
-        "source": "custom_book:book_1790085694707"
-      },
-      {
-        "id": 330,
-        "word": "make me laugh",
-        "meaning": "使我大笑",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.896Z",
-        "source": "custom_book:book_1790085694707"
-      },
-      {
-        "id": 331,
-        "word": "thank-you note",
-        "meaning": "感谢信",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.896Z",
-        "source": "custom_book:book_1790085694707"
-      },
-      {
-        "id": 332,
-        "word": "bring me some books",
-        "meaning": "带一些书给我",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-22T14:16:03.896Z",
-        "source": "custom_book:book_1790085694707"
-      },
-      {
-        "id": 258,
-        "word": "grade",
-        "meaning": "年级",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-06T01:40:14.747Z",
-        "source": "custom_book:book_1783923620132"
-      },
-      {
-        "id": 259,
-        "word": "lovely",
-        "meaning": "可爱的；美丽的",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-06T01:40:14.747Z",
-        "source": "custom_book:book_1783923620132"
-      },
-      {
-        "id": 260,
-        "word": "both",
-        "meaning": "两个都",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-06T01:40:14.747Z",
-        "source": "custom_book:book_1783923620132"
-      },
-      {
-        "id": 261,
-        "word": "best",
-        "meaning": "最好的",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-06T01:40:14.747Z",
-        "source": "custom_book:book_1783923620132"
-      },
-      {
-        "id": 262,
-        "word": "fan",
-        "meaning": "迷",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-06T01:40:14.747Z",
-        "source": "custom_book:book_1783923620132"
-      },
-      {
-        "id": 263,
-        "word": "study",
-        "meaning": "学习；功课",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-06T01:40:14.747Z",
-        "source": "custom_book:book_1783923620132"
-      },
-      {
-        "id": 264,
-        "word": "indeed",
-        "meaning": "真正地",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-06T01:40:14.747Z",
-        "source": "custom_book:book_1783923620132"
-      },
-      {
-        "id": 265,
-        "word": "each other",
-        "meaning": "相互",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-06T01:40:14.747Z",
-        "source": "custom_book:book_1783923620132"
-      },
-      {
-        "id": 266,
-        "word": "share",
-        "meaning": "分享",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-06T01:40:14.747Z",
-        "source": "custom_book:book_1783923620132"
-      },
-      {
-        "id": 267,
-        "word": "warm up",
-        "meaning": "做准备活动",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-06T01:40:14.747Z",
-        "source": "custom_book:book_1783923620132"
-      },
-      {
-        "id": 268,
-        "word": "train",
-        "meaning": "训练",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-06T01:40:14.747Z",
-        "source": "custom_book:book_1783923620132"
-      },
-      {
-        "id": 269,
-        "word": "clever",
-        "meaning": "聪明的",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-06T01:40:14.747Z",
-        "source": "custom_book:book_1783923620132"
-      },
-      {
-        "id": 270,
-        "word": "model",
-        "meaning": "模型",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-06T01:40:14.747Z",
-        "source": "custom_book:book_1783923620132"
-      },
-      {
-        "id": 271,
-        "word": "science",
-        "meaning": "科学",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-06T01:40:14.747Z",
-        "source": "custom_book:book_1783923620132"
-      },
-      {
-        "id": 272,
-        "word": "hurt （",
-        "meaning": "使）受伤",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-06T01:40:14.747Z",
-        "source": "custom_book:book_1783923620132"
-      },
-      {
-        "id": 273,
-        "word": "help(sb.)with...",
-        "meaning": "帮着（某人）做……",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-06T01:40:14.747Z",
-        "source": "custom_book:book_1783923620132"
-      },
-      {
-        "id": 274,
-        "word": "idea",
-        "meaning": "想法，办法",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-06T01:40:14.747Z",
-        "source": "custom_book:book_1783923620132"
-      },
-      {
-        "id": 275,
-        "word": "write",
-        "meaning": "写",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-06T01:40:14.747Z",
-        "source": "custom_book:book_1783923620132"
-      },
-      {
-        "id": 276,
-        "word": "get-well card",
-        "meaning": "祝愿康复卡",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-06T01:40:14.747Z",
-        "source": "custom_book:book_1783923620132"
-      },
-      {
-        "id": 277,
-        "word": "laugh",
-        "meaning": "大笑；发笑",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-06T01:40:14.747Z",
-        "source": "custom_book:book_1783923620132"
-      },
-      {
-        "id": 1,
-        "word": "grade",
-        "meaning": "年级",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-21T10:35:36.874Z",
-        "source": "custom_book:book_1789981346726"
-      },
-      {
-        "id": 2,
-        "word": "lovely",
-        "meaning": "可爱的；美丽的",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-21T10:35:36.874Z",
-        "source": "custom_book:book_1789981346726"
-      },
-      {
-        "id": 3,
-        "word": "best",
-        "meaning": "最好的",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-21T10:35:36.874Z",
-        "source": "custom_book:book_1789981346726"
-      },
-      {
-        "id": 4,
-        "word": "fan",
-        "meaning": "迷",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-21T10:35:36.874Z",
-        "source": "custom_book:book_1789981346726"
-      },
-      {
-        "id": 5,
-        "word": "study",
-        "meaning": "学习；功课",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-21T10:35:36.874Z",
-        "source": "custom_book:book_1789981346726"
-      },
-      {
-        "id": 6,
-        "word": "indeed",
-        "meaning": "真正地",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-21T10:35:36.874Z",
-        "source": "custom_book:book_1789981346726"
-      },
-      {
-        "id": 7,
-        "word": "share",
-        "meaning": "分享",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-21T10:35:36.874Z",
-        "source": "custom_book:book_1789981346726"
-      },
-      {
-        "id": 8,
-        "word": "train",
-        "meaning": "训练",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-21T10:35:36.874Z",
-        "source": "custom_book:book_1789981346726"
-      },
-      {
-        "id": 9,
-        "word": "clever",
-        "meaning": "聪明的",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-21T10:35:36.874Z",
-        "source": "custom_book:book_1789981346726"
-      },
-      {
-        "id": 10,
-        "word": "model",
-        "meaning": "模型",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-21T10:35:36.874Z",
-        "source": "custom_book:book_1789981346726"
-      },
-      {
-        "id": 11,
-        "word": "science",
-        "meaning": "科学",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-21T10:35:36.874Z",
-        "source": "custom_book:book_1789981346726"
-      },
-      {
-        "id": 12,
-        "word": "hurt",
-        "meaning": "感到疼痛的；受伤的",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-21T10:35:36.874Z",
-        "source": "custom_book:book_1789981346726"
-      },
-      {
-        "id": 13,
-        "word": "help(sb.)with...",
-        "meaning": "帮着（某人）做……",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-21T10:35:36.874Z",
-        "source": "custom_book:book_1789981346726"
-      },
-      {
-        "id": 14,
-        "word": "idea",
-        "meaning": "想法，办法",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-21T10:35:36.874Z",
-        "source": "custom_book:book_1789981346726"
-      },
-      {
-        "id": 15,
-        "word": "write",
-        "meaning": "写",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-21T10:35:36.874Z",
-        "source": "custom_book:book_1789981346726"
-      },
-      {
-        "id": 16,
-        "word": "get-well card",
-        "meaning": "祝愿康复卡",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-21T10:35:36.874Z",
-        "source": "custom_book:book_1789981346726"
-      },
-      {
-        "id": 17,
-        "word": "laugh",
-        "meaning": "大笑；发笑",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [],
-        "addedAt": "2026-09-21T10:35:36.874Z",
-        "source": "custom_book:book_1789981346726"
-      }
-    ],
-    "errors": {
-      "idea": 1,
-      "help(sb.)with...": 1,
-      "get-well card": 1,
-      "study": 1,
-      "model": 1,
-      "train": 1,
-      "write": 1,
-      "each other": 1,
-      "share": 1
-    },
+    "words": [],
+    "errors": {},
     "customBooks": {
       "root": {
         "id": "root",
@@ -8134,6 +7243,7 @@
         "children": [
           "folder_1783923387660",
           "folder_1785485962009",
+          "folder_1790131953671",
           "book_1785485052245",
           "book_1785486405296"
         ]
@@ -11784,6 +10894,13 @@
             "pronunciation": "",
             "partOfSpeech": "",
             "examples": []
+          },
+          {
+            "word": "hurt",
+            "meaning": "感到疼痛的；受伤的",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
           }
         ],
         "createdAt": "2026-07-13T06:20:20.132Z"
@@ -12014,1202 +11131,494 @@
           }
         ],
         "createdAt": "2026-07-13T07:21:54.240Z"
+      },
+      "folder_1790131953671": {
+        "id": "folder_1790131953671",
+        "type": "folder",
+        "name": "五上词语和词组",
+        "parent": "folder_1783923255818",
+        "children": [
+          "book_1790131970000",
+          "book_1790132011196",
+          "book_1790132071900"
+        ]
+      },
+      "book_1790131970000": {
+        "id": "book_1790131970000",
+        "type": "book",
+        "name": "U1L1",
+        "parent": "folder_1790131953671",
+        "children": [],
+        "words": [
+          {
+            "word": "Class 2, Grade 5",
+            "meaning": "五年级2班",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "tall",
+            "meaning": "高的",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "short",
+            "meaning": "1、矮的；2、短的(short hair 短头发)",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "long hair",
+            "meaning": "长头发",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "cute",
+            "meaning": "可爱的",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "a lovely nose",
+            "meaning": "可爱的鼻子",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "big eyes",
+            "meaning": "大眼睛",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "fat",
+            "meaning": "胖的",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "thin",
+            "meaning": "瘦的",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "come from/be from",
+            "meaning": "来自...",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "play ping-pong/basketball",
+            "meaning": "打乒乓球/打篮球",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "strong",
+            "meaning": "强壮的",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "a fan of",
+            "meaning": "...迷",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "good friends",
+            "meaning": "好朋友",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "best friend",
+            "meaning": "最好的朋友",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "do sports",
+            "meaning": "做运动",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "be good at +V-ing",
+            "meaning": "擅长做...",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-09-23T02:52:50.000Z"
+      },
+      "book_1790132011196": {
+        "id": "book_1790132011196",
+        "type": "book",
+        "name": "U1L2",
+        "parent": "folder_1790131953671",
+        "children": [],
+        "words": [
+          {
+            "word": "with my friends",
+            "meaning": "与朋友一起",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "have basketball games",
+            "meaning": "举行篮球比赛",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "at school",
+            "meaning": "在学校",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "after class",
+            "meaning": "课后、课余时间",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "on school days",
+            "meaning": "上学的日子",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "draw pictures on the computer",
+            "meaning": "用电脑绘图",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "basketball training",
+            "meaning": "篮球训练",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Basketball Club",
+            "meaning": "篮球俱乐部",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "have parties",
+            "meaning": "开派对",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "skip rope",
+            "meaning": "跳绳",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "visit the museums",
+            "meaning": "参观博物馆",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "do experiments",
+            "meaning": "做实验",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "kind",
+            "meaning": "善良的",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "team",
+            "meaning": "团队",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "visit the Science Museum",
+            "meaning": "参观科学博物馆",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "It's time for ......",
+            "meaning": "到......的时间了",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-09-23T02:53:31.196Z"
+      },
+      "book_1790132071900": {
+        "id": "book_1790132071900",
+        "type": "book",
+        "name": "U1L3",
+        "parent": "folder_1790131953671",
+        "children": [],
+        "words": [
+          {
+            "word": "be kind to each other",
+            "meaning": "相互友善",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "listen to each other",
+            "meaning": "彼此倾听",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "hurt his foot",
+            "meaning": "他的脚受伤",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "help sb. with homework",
+            "meaning": "辅导某人写作业",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "help sb. with studies",
+            "meaning": "辅导某人学习",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "get -well card",
+            "meaning": "祝愿康复卡",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "share good ideas with me",
+            "meaning": "分享好主意",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "give me a nice card",
+            "meaning": "给我一张漂亮的卡片",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "friends in need",
+            "meaning": "患难中的朋友",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "make each other happy",
+            "meaning": "让彼此快乐",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "in hospital",
+            "meaning": "住院",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "interesting books",
+            "meaning": "有趣的书",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "science books",
+            "meaning": "科普书",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "write to sb.",
+            "meaning": "写给...",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "good idea",
+            "meaning": "好主意",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "make me laugh",
+            "meaning": "使我大笑",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "thank-you note",
+            "meaning": "感谢信",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "bring me some books",
+            "meaning": "带一些书给我",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-09-23T02:54:31.900Z"
       }
     },
-    "deletedWords": {},
-    "deletedErrors": {}
+    "deletedWords": {
+      "class 2, grade 5": "2026-09-23T02:54:39.685Z",
+      "tall": "2026-09-23T02:54:39.685Z",
+      "short": "2026-09-23T02:54:39.685Z",
+      "long hair": "2026-09-23T02:54:39.685Z",
+      "cute": "2026-09-23T02:54:39.685Z",
+      "a lovely nose": "2026-09-23T02:54:39.685Z",
+      "big eyes": "2026-09-23T02:54:39.685Z",
+      "fat": "2026-09-23T02:54:39.685Z",
+      "thin": "2026-09-23T02:54:39.685Z",
+      "come from/be from": "2026-09-23T02:54:39.685Z",
+      "play ping-pong/basketball": "2026-09-23T02:54:39.685Z",
+      "strong": "2026-09-23T02:54:39.685Z",
+      "a fan of": "2026-09-23T02:54:39.685Z",
+      "good friends": "2026-09-23T02:54:39.685Z",
+      "best friend": "2026-09-23T02:54:39.685Z",
+      "do sports": "2026-09-23T02:54:39.685Z",
+      "be good at +v-ing": "2026-09-23T02:54:39.685Z",
+      "with my friends": "2026-09-23T02:54:39.685Z",
+      "have basketball games": "2026-09-23T02:54:39.685Z",
+      "at school": "2026-09-23T02:54:39.685Z",
+      "after class": "2026-09-23T02:54:39.685Z",
+      "on school days": "2026-09-23T02:54:39.685Z",
+      "draw pictures on the computer": "2026-09-23T02:54:39.685Z",
+      "basketball training": "2026-09-23T02:54:39.685Z",
+      "basketball club": "2026-09-23T02:54:39.685Z",
+      "have parties": "2026-09-23T02:54:39.685Z",
+      "skip rope": "2026-09-23T02:54:39.685Z",
+      "visit the museums": "2026-09-23T02:54:39.685Z",
+      "do experiments": "2026-09-23T02:54:39.685Z",
+      "kind": "2026-09-23T02:54:39.685Z",
+      "team": "2026-09-23T02:54:39.685Z",
+      "visit the science museum": "2026-09-23T02:54:39.685Z",
+      "it's time for ......": "2026-09-23T02:54:39.685Z",
+      "be kind to each other": "2026-09-23T02:54:39.685Z",
+      "listen to each other": "2026-09-23T02:54:39.685Z",
+      "hurt his foot": "2026-09-23T02:54:39.685Z",
+      "help sb. with homework": "2026-09-23T02:54:39.685Z",
+      "help sb. with studies": "2026-09-23T02:54:39.685Z",
+      "get -well card": "2026-09-23T02:54:39.685Z",
+      "share good ideas with me": "2026-09-23T02:54:39.685Z",
+      "give me a nice card": "2026-09-23T02:54:39.685Z",
+      "friends in need": "2026-09-23T02:54:39.685Z",
+      "make each other happy": "2026-09-23T02:54:39.685Z",
+      "in hospital": "2026-09-23T02:54:39.685Z",
+      "interesting books": "2026-09-23T02:54:39.685Z",
+      "science books": "2026-09-23T02:54:39.685Z",
+      "write to sb.": "2026-09-23T02:54:39.685Z",
+      "good idea": "2026-09-23T02:54:39.685Z",
+      "make me laugh": "2026-09-23T02:54:39.685Z",
+      "thank-you note": "2026-09-23T02:54:39.685Z",
+      "bring me some books": "2026-09-23T02:54:39.685Z",
+      "grade": "2026-09-23T02:54:39.685Z",
+      "lovely": "2026-09-23T02:54:39.685Z",
+      "both": "2026-09-23T02:54:39.685Z",
+      "best": "2026-09-23T02:54:39.685Z",
+      "fan": "2026-09-23T02:54:39.685Z",
+      "study": "2026-09-23T02:54:39.685Z",
+      "indeed": "2026-09-23T02:54:39.685Z",
+      "each other": "2026-09-23T02:54:39.685Z",
+      "share": "2026-09-23T02:54:39.685Z",
+      "warm up": "2026-09-23T02:54:39.685Z",
+      "train": "2026-09-23T02:54:39.685Z",
+      "clever": "2026-09-23T02:54:39.685Z",
+      "model": "2026-09-23T02:54:39.685Z",
+      "science": "2026-09-23T02:54:39.685Z",
+      "hurt （": "2026-09-23T02:54:39.685Z",
+      "help(sb.)with...": "2026-09-23T02:54:39.685Z",
+      "idea": "2026-09-23T02:54:39.685Z",
+      "write": "2026-09-23T02:54:39.685Z",
+      "get-well card": "2026-09-23T02:54:39.685Z",
+      "laugh": "2026-09-23T02:54:39.685Z",
+      "hurt": "2026-09-23T02:54:39.685Z"
+    },
+    "deletedErrors": {
+      "idea": "2026-09-23T02:54:46.802Z",
+      "help(sb.)with...": "2026-09-23T02:54:46.802Z",
+      "get-well card": "2026-09-23T02:54:46.802Z",
+      "study": "2026-09-23T02:54:46.802Z",
+      "model": "2026-09-23T02:54:46.802Z",
+      "train": "2026-09-23T02:54:46.802Z",
+      "write": "2026-09-23T02:54:46.802Z",
+      "each other": "2026-09-23T02:54:46.802Z",
+      "share": "2026-09-23T02:54:46.802Z"
+    }
   },
   "chinese": {
-    "words": [
-      {
-        "id": 429,
-        "word": "桂花",
-        "meaning": "木犀的通称，一种常绿小乔木或灌木，开白色或暗黄色小花，有特殊香气",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "秋天到了，公园里的桂花开了，香气飘得很远很远。"
-        ],
-        "addedAt": "2026-09-21T09:12:56.087Z",
-        "source": "custom_book:book_1788657632966"
-      },
-      {
-        "id": 430,
-        "word": "故乡",
-        "meaning": "出生或长期居住过的地方；家乡",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "每当夜深人静时，我总是会思念起远方的故乡。"
-        ],
-        "addedAt": "2026-09-21T09:12:56.087Z",
-        "source": "custom_book:book_1788657632966"
-      },
-      {
-        "id": 431,
-        "word": "时节",
-        "meaning": "季节；时令；时候",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "春天正是播种的好时节，农民伯伯都在田里忙碌。"
-        ],
-        "addedAt": "2026-09-21T09:12:56.087Z",
-        "source": "custom_book:book_1788657632966"
-      },
-      {
-        "id": 432,
-        "word": "欣赏",
-        "meaning": "以喜爱的心情来玩赏；也指喜爱、赏识",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "我们一起去美术馆欣赏了这些美丽的画作。"
-        ],
-        "addedAt": "2026-09-21T09:12:56.087Z",
-        "source": "custom_book:book_1788657632966"
-      },
-      {
-        "id": 433,
-        "word": "糕饼",
-        "meaning": "糕点，泛指一切糕和饼",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "节日的餐桌上，各式各样的糕饼让人眼花缭乱。"
-        ],
-        "addedAt": "2026-09-21T09:12:56.087Z",
-        "source": "custom_book:book_1788657632966"
-      },
-      {
-        "id": 434,
-        "word": "成熟",
-        "meaning": "植物成长到开花、结果的阶段；也指事物发展到完善的程度",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "秋天到了，田里的稻谷成熟了，金灿灿的一片。"
-        ],
-        "addedAt": "2026-09-21T09:12:56.087Z",
-        "source": "custom_book:book_1788657632966"
-      },
-      {
-        "id": 435,
-        "word": "完整",
-        "meaning": "具有或保持着应有的部分，没有损坏或残缺",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "这套书是完整的，一本都不缺。"
-        ],
-        "addedAt": "2026-09-21T09:12:56.087Z",
-        "source": "custom_book:book_1788657632966"
-      },
-      {
-        "id": 436,
-        "word": "茶叶",
-        "meaning": "经过加工的茶树嫩叶，可以做成饮料",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "我用新买的茶杯泡了一杯龙井茶叶，清香扑鼻。"
-        ],
-        "addedAt": "2026-09-21T09:12:56.087Z",
-        "source": "custom_book:book_1788657632966"
-      },
-      {
-        "id": 437,
-        "word": "播种",
-        "meaning": "播撒种子；也比喻开始做某件事",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "春天播种，秋天就能收获果实。"
-        ],
-        "addedAt": "2026-09-21T09:12:56.087Z",
-        "source": "custom_book:book_1788657632966"
-      },
-      {
-        "id": 438,
-        "word": "收获",
-        "meaning": "收割农作物；也指取得的成果",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "努力学习就会有收获，期末我取得了好成绩。"
-        ],
-        "addedAt": "2026-09-21T09:12:56.087Z",
-        "source": "custom_book:book_1788657632966"
-      },
-      {
-        "id": 439,
-        "word": "食品",
-        "meaning": "可以供人食用的东西",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "超市里的食品种类很多，妈妈买了我最爱吃的饼干。"
-        ],
-        "addedAt": "2026-09-21T09:12:56.087Z",
-        "source": "custom_book:book_1788657632966"
-      },
-      {
-        "id": 440,
-        "word": "吩咐",
-        "meaning": "口头指派或叮嘱；交代",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "妈妈吩咐我放学后先把作业写完。"
-        ],
-        "addedAt": "2026-09-21T09:12:56.087Z",
-        "source": "custom_book:book_1788657632966"
-      },
-      {
-        "id": 441,
-        "word": "价钱",
-        "meaning": "物品的价格",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "这件文具的价钱不贵，我买得起。"
-        ],
-        "addedAt": "2026-09-21T09:12:56.087Z",
-        "source": "custom_book:book_1788657632966"
-      },
-      {
-        "id": 442,
-        "word": "可贵",
-        "meaning": "值得珍视；宝贵",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "他这种乐于助人的精神十分可贵。"
-        ],
-        "addedAt": "2026-09-21T09:12:56.087Z",
-        "source": "custom_book:book_1788657632966"
-      },
-      {
-        "id": 443,
-        "word": "果实",
-        "meaning": "植物花受精后子房长大而成的部分；也比喻经过努力得到的收获",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "秋天的果园里，果实挂满枝头，诱人极了。"
-        ],
-        "addedAt": "2026-09-21T09:12:56.087Z",
-        "source": "custom_book:book_1788657632966"
-      },
-      {
-        "id": 444,
-        "word": "体面",
-        "meaning": "① 面子；身份 ② 光彩；光荣 ③ 相貌或样子好看；漂亮",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "他穿了一身干净的衣服，显得很体面。"
-        ],
-        "addedAt": "2026-09-21T09:12:56.087Z",
-        "source": "custom_book:book_1788657632966"
-      },
-      {
-        "id": 445,
-        "word": "卧虎藏龙",
-        "meaning": "指隐藏着未被发现的人才，也指隐藏不露的人才",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "这个小镇虽然不起眼，但卧虎藏龙，隐藏着许多有才华的人。"
-        ],
-        "addedAt": "2026-09-21T09:12:56.087Z",
-        "source": "custom_book:book_1788657632966"
-      },
-      {
-        "id": 446,
-        "word": "龙马精神",
-        "meaning": "像龙马那样的精神，指旺盛的、奋发向上的精神",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "新年到了，祝爷爷龙马精神，身体健康。"
-        ],
-        "addedAt": "2026-09-21T09:12:56.087Z",
-        "source": "custom_book:book_1788657632966"
-      },
-      {
-        "id": 447,
-        "word": "龙飞凤舞",
-        "meaning": "形容山势蜿蜒雄壮；也形容书法笔势有力，灵活舒展",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "小明为了赶作业，字写得龙飞凤舞，老师都看不懂了。"
-        ],
-        "addedAt": "2026-09-21T09:12:56.087Z",
-        "source": "custom_book:book_1788657632966"
-      },
-      {
-        "id": 448,
-        "word": "凤毛麟角",
-        "meaning": "凤凰的羽毛，麒麟的角。比喻珍贵而稀少的人或物",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "能在比赛中获奖的人很少，可以说是凤毛麟角。"
-        ],
-        "addedAt": "2026-09-21T09:12:56.087Z",
-        "source": "custom_book:book_1788657632966"
-      },
-      {
-        "id": 449,
-        "word": "如虎添翼",
-        "meaning": "猛虎生出翅膀。比喻强有力的人又增添新的助力，变得更强",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "学校篮球队加入了一位国手级队员，真是如虎添翼。"
-        ],
-        "addedAt": "2026-09-21T09:12:56.087Z",
-        "source": "custom_book:book_1788657632966"
-      },
-      {
-        "id": 450,
-        "word": "如鱼得水",
-        "meaning": "好像鱼得到水一样。比喻得到跟自己很投合的人或很适合的环境",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "他来到这个新班级后如鱼得水，很快就交到了好朋友。"
-        ],
-        "addedAt": "2026-09-21T09:12:56.087Z",
-        "source": "custom_book:book_1788657632966"
-      },
-      {
-        "id": 451,
-        "word": "鹤立鸡群",
-        "meaning": "像仙鹤立在鸡群之中。比喻人的仪表或才能出众",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "在众多参赛者中，他的才华犹如鹤立鸡群，格外引人注目。"
-        ],
-        "addedAt": "2026-09-21T09:12:56.087Z",
-        "source": "custom_book:book_1788657632966"
-      },
-      {
-        "id": 452,
-        "word": "一马当先",
-        "meaning": "形容领先，也比喻工作走在群众前面，积极带头",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "大扫除时，班长一马当先，干得最起劲。"
-        ],
-        "addedAt": "2026-09-21T09:12:56.087Z",
-        "source": "custom_book:book_1788657632966"
-      },
-      {
-        "id": 453,
-        "word": "鼠目寸光",
-        "meaning": "眼光短浅，没有远见",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "做事情不能鼠目寸光，只看到眼前的一点利益。"
-        ],
-        "addedAt": "2026-09-21T09:12:56.087Z",
-        "source": "custom_book:book_1788657632966"
-      },
-      {
-        "id": 454,
-        "word": "抱头鼠窜",
-        "meaning": "抱着头像老鼠一样惊慌逃跑。形容狼狈逃跑的样子",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "我方援军一到，对方立即抱头鼠窜，落荒而逃。"
-        ],
-        "addedAt": "2026-09-21T09:12:56.087Z",
-        "source": "custom_book:book_1788657632966"
-      },
-      {
-        "id": 455,
-        "word": "狼心狗肺",
-        "meaning": "形容心肠像狼和狗一样凶狠恶毒，毫无良心",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "他居然欺骗帮助过自己的朋友，真是狼心狗肺。"
-        ],
-        "addedAt": "2026-09-21T09:12:56.087Z",
-        "source": "custom_book:book_1788657632966"
-      },
-      {
-        "id": 456,
-        "word": "狼狈为奸",
-        "meaning": "狼和狈一同出外伤害牲畜。比喻互相勾结干坏事",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "他们两个人狼狈为奸，一起欺负班里的同学。"
-        ],
-        "addedAt": "2026-09-21T09:12:56.087Z",
-        "source": "custom_book:book_1788657632966"
-      },
-      {
-        "id": 457,
-        "word": "狡兔三窟",
-        "meaning": "狡猾的兔子有三个窝。比喻藏身的地方多，便于逃避灾祸",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "他做事总是留有余地，像狡兔三窟一样，从不把自己逼入绝境。"
-        ],
-        "addedAt": "2026-09-21T09:12:56.087Z",
-        "source": "custom_book:book_1788657632966"
-      },
-      {
-        "id": 458,
-        "word": "呆若木鸡",
-        "meaning": "原指训练好的鸡沉着镇定，像木头雕的鸡一样。后形容因恐惧或惊讶而发愣的样子",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "小艾被老师突然叫起来回答问题，他呆若木鸡地站在那里，半天说不出话。"
-        ],
-        "addedAt": "2026-09-21T09:12:56.087Z",
-        "source": "custom_book:book_1788657632966"
-      },
-      {
-        "id": 459,
-        "word": "虾兵蟹将",
-        "meaning": "神话传说中龙王的兵将。比喻不中用的兵将或手下",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "敌人带着一群虾兵蟹将前来挑衅，很快就被我们打跑了。"
-        ],
-        "addedAt": "2026-09-21T09:12:56.087Z",
-        "source": "custom_book:book_1788657632966"
-      },
-      {
-        "id": 460,
-        "word": "黔驴技穷",
-        "meaning": "比喻有限的一点本领也已经用完了",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "他想了半天也想不出办法，真是黔驴技穷了。"
-        ],
-        "addedAt": "2026-09-21T09:12:56.087Z",
-        "source": "custom_book:book_1788657632966"
-      },
-      {
-        "id": 1,
-        "word": "地道",
-        "meaning": "真正的、正宗的；也指地下通道",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "这家小店的牛肉面很地道，吸引了很多人来吃。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.481Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 2,
-        "word": "平原",
-        "meaning": "起伏很小、海拔较低的广大平地",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "我们驱车穿越了一望无际的平原，四周的景色如同画卷般展开。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.481Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 3,
-        "word": "扫荡",
-        "meaning": "用武力或其他手段彻底清除",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "洪水扫荡过的土地，不久之后又长出了新绿。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.481Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 4,
-        "word": "封锁",
-        "meaning": "用强制力量使与外界断绝联系",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "军队已经封锁了所有通往城市的道路。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.481Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 5,
-        "word": "武装",
-        "meaning": "用武器加以装备；也指军事装备",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "这是一支用现代化装备武装起来的人民军队。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.481Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 6,
-        "word": "粉碎",
-        "meaning": "碎裂成极小的块；也指击破、打破",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "我军粉碎了敌人的进攻计划。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.481Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 7,
-        "word": "简直",
-        "meaning": "几乎、实在，用于加强语气",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "他跑得太快了，简直像一阵风。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.481Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 8,
-        "word": "广阔",
-        "meaning": "广大宽阔",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "眼前是一片广阔的田野，一眼望不到边。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.481Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 9,
-        "word": "不计其数",
-        "meaning": "形容数目众多，无法估算",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "天上的星星多得不计其数。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.481Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 10,
-        "word": "游击",
-        "meaning": "对敌人进行分散的出没无常的袭击",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "我们已经在敌人后方打了两个多月的游击。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.481Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 11,
-        "word": "战争",
-        "meaning": "两个以上拥有军队的团体以武力冲突解决对立",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "战争年代中长大的人更懂得和平的可贵。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.481Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 12,
-        "word": "妨碍",
-        "meaning": "使事情不能顺利进行",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "在图书馆大声喧哗会妨碍别人看书。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.481Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 13,
-        "word": "距离",
-        "meaning": "时间或空间上的间隔",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "从这儿到车站，距离大约二千公尺。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.481Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 14,
-        "word": "武器",
-        "meaning": "直接用于杀伤敌人、破坏敌方设施的器械",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "现代的武器具有强大的杀伤力。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.481Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 15,
-        "word": "拐弯",
-        "meaning": "沿着曲线走或改变方向；也指转弯的地方",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "到了一个岔路口，她说：“往右边拐弯。”"
-        ],
-        "addedAt": "2026-09-21T12:25:38.481Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 16,
-        "word": "想方设法",
-        "meaning": "想尽各种办法",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "他想方设法也要办到这件事。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.481Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 17,
-        "word": "转移",
-        "meaning": "从一方移到另一方；改变",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "部队趁着夜色向后方转移。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.481Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 18,
-        "word": "无穷无尽",
-        "meaning": "没有止境，没有穷尽",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "闰土的心里有无穷无尽的稀奇的事。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.481Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 19,
-        "word": "无价之宝",
-        "meaning": "无法估量其价值的宝物，形容极为珍贵",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "这本祖传的医书是爷爷眼中的无价之宝。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.481Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 20,
-        "word": "召集",
-        "meaning": "通知人们聚集起来",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "村长召集村民开会，布置春耕生产。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.481Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 21,
-        "word": "大臣",
-        "meaning": "君主制国家的高级官员",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "国王召集大臣们商议国家大事。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.481Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 22,
-        "word": "商议",
-        "meaning": "商量讨论",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "大家商议了很久，终于想出了一个好办法。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.481Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 23,
-        "word": "理亏",
-        "meaning": "行为违背常理，道理上有所亏欠",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "他自知理亏，便不再争辩了。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.481Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 24,
-        "word": "交付",
-        "meaning": "交给；交代、嘱咐",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "他把信件交付给信使，再三叮嘱要送到。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.481Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 25,
-        "word": "允诺",
-        "meaning": "答应、同意",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "对于小明提出的要求，爸爸欣然允诺。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.481Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 26,
-        "word": "隆重",
-        "meaning": "盛大而郑重",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "学校为毕业生举行了隆重的典礼。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.481Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 27,
-        "word": "典礼",
-        "meaning": "郑重举行的仪式",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "他们的结婚典礼在美丽的花园里举行。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.481Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 28,
-        "word": "约定",
-        "meaning": "商量并确定",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "我们约定明天早上八点在校门口见面。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.481Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 29,
-        "word": "思量",
-        "meaning": "衡量、考虑",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "这个问题错综复杂，令人费尽思量。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.481Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 30,
-        "word": "承诺",
-        "meaning": "答应照办；应允的话",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "只要承诺了，就应该去兑现。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 31,
-        "word": "国君",
-        "meaning": "君主制国家的最高统治者",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "在古代，国君的话就是圣旨。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 32,
-        "word": "推辞",
-        "meaning": "表示拒绝（任命、邀请等）",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "他推辞了朋友的邀请，因为实在太忙了。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 33,
-        "word": "记录",
-        "meaning": "把听到的话或发生的事写下来",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "班长把老师布置的作业认真记录在本子上。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 34,
-        "word": "拒绝",
-        "meaning": "不接受，不同意",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "他拒绝了不合理的要求，坚持自己的原则。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 35,
-        "word": "同心协力",
-        "meaning": "团结一致，共同努力",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "只要大家同心协力，就一定能完成任务。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 36,
-        "word": "速度",
-        "meaning": "运动物体在单位时间内通过的距离",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "猎豹奔跑的速度非常快。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 37,
-        "word": "赛跑",
-        "meaning": "比赛跑步速度",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "运动会上，他参加了百米赛跑。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 38,
-        "word": "冠军",
-        "meaning": "比赛中的第一名",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "她刻苦训练，终于获得了冠军。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 39,
-        "word": "陆地",
-        "meaning": "地球表面未被水淹没的部分",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "鲸虽然生活在海里，但它不是鱼，而是用肺呼吸的陆地哺乳动物。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 40,
-        "word": "俯冲",
-        "meaning": "飞机等以高速度和大角度向下飞",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "老鹰从高空俯冲下来，抓住了地上的猎物。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 41,
-        "word": "超过",
-        "meaning": "高出…之上；越过",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "他的成绩超过了全班大多数同学。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 42,
-        "word": "高度",
-        "meaning": "高低的程度；也指程度很高",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "这座山的高度大约是三千米。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 43,
-        "word": "火箭",
-        "meaning": "靠发动机喷射气体产生反作用力而向前推进的飞行器",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "火箭腾空而起，飞向太空。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 44,
-        "word": "摆脱",
-        "meaning": "脱离（牵制、束缚、困难等）",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "他终于摆脱了困境，重新振作起来。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 45,
-        "word": "赤道",
-        "meaning": "环绕地球表面、与南北两极距离相等的圆周线",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "赤道附近的气候非常炎热。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 46,
-        "word": "照例",
-        "meaning": "按照惯例；照样",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "每到春节，家家户户照例要贴春联。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 47,
-        "word": "航线",
-        "meaning": "飞机或船只航行的路线",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "这条航线连接了上海和东京。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 48,
-        "word": "弥漫",
-        "meaning": "布满；到处都是",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "清晨的山谷里弥漫着薄薄的雾气。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 49,
-        "word": "小心翼翼",
-        "meaning": "形容举动十分谨慎，丝毫不敢疏忽",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "他小心翼翼地捧着那盆花，生怕摔坏了。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 50,
-        "word": "海峡",
-        "meaning": "两块陆地之间连接两个海或洋的狭窄水道",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "台湾海峡是中国最大的海峡。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 51,
-        "word": "容量",
-        "meaning": "容纳的数量",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "这个杯子的容量是三百毫升。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 52,
-        "word": "凌晨",
-        "meaning": "天快亮的时候",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "他凌晨四点就起床开始工作了。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 53,
-        "word": "隐约",
-        "meaning": "看起来或听起来不很清楚；感觉不很明显",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "远处隐约传来一阵歌声。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 54,
-        "word": "震荡",
-        "meaning": "震动；动荡",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "巨大的响声震荡着整个山谷。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 55,
-        "word": "惊恐万状",
-        "meaning": "形容害怕到了极点",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "看到大火，人们惊恐万状，四处奔逃。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 56,
-        "word": "混乱",
-        "meaning": "没有秩序；没有条理",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "现场一片混乱，大家都在找出口。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 57,
-        "word": "势不可当",
-        "meaning": "来势迅猛，不可抵挡",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "洪水势不可当地冲向下游。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 58,
-        "word": "威严",
-        "meaning": "有威力而又严肃的样子",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "将军威严地站在队伍前面，目光坚定。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 59,
-        "word": "违抗",
-        "meaning": "违背和抗拒",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "违抗命令是要受到处罚的。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 60,
-        "word": "悲壮",
-        "meaning": "悲哀而壮烈",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "这是一个悲壮的故事，让人听了忍不住流泪。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 61,
-        "word": "岗位",
-        "meaning": "职位；也指执行任务的地方",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "他坚守在自己的岗位上，一刻也不离开。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 62,
-        "word": "惊慌失措",
-        "meaning": "吓得慌了手脚，不知该怎么办",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "遇到突发情况，不要惊慌失措，要冷静。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 63,
-        "word": "犹如",
-        "meaning": "好像；如同",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "节日的广场犹如一片欢乐的海洋。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 64,
-        "word": "纹丝不动",
-        "meaning": "一点儿也不动",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "他站在那里纹丝不动，像一尊雕像。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 65,
-        "word": "相提并论",
-        "meaning": "把不同的人或事不加区别地放在一起谈论",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "这两件事性质不同，不能相提并论。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 66,
-        "word": "忠于职守",
-        "meaning": "忠诚地对待自己的工作岗位",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "保安叔叔忠于职守，不管刮风下雨都认真巡逻。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      },
-      {
-        "id": 67,
-        "word": "壮举",
-        "meaning": "伟大的举动；壮烈的行为",
-        "pronunciation": "",
-        "partOfSpeech": "",
-        "examples": [
-          "航天员飞上太空，是人类探索宇宙的壮举。"
-        ],
-        "addedAt": "2026-09-21T12:25:38.482Z",
-        "source": "custom_book:book_1788657685996"
-      }
-    ],
+    "words": [],
     "errors": {},
     "customBooks": {
       "root": {
@@ -18573,17 +16982,21 @@
         "words": [
           {
             "word": "武装",
-            "meaning": "",
+            "meaning": "用武器加以装备；也指军事装备",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [
+              "这是一支用现代化装备武装起来的人民军队。"
+            ]
           },
           {
             "word": "拐弯",
-            "meaning": "",
+            "meaning": "沿着曲线走或改变方向；也指转弯的地方",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [
+              "到了一个岔路口，她说：“往右边拐弯。”"
+            ]
           },
           {
             "word": "零钱",
@@ -18608,10 +17021,12 @@
           },
           {
             "word": "妨碍",
-            "meaning": "",
+            "meaning": "使事情不能顺利进行",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [
+              "在图书馆大声喧哗会妨碍别人看书。"
+            ]
           },
           {
             "word": "试卷",
@@ -18636,10 +17051,12 @@
           },
           {
             "word": "召集",
-            "meaning": "",
+            "meaning": "通知人们聚集起来",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [
+              "村长召集村民开会，布置春耕生产。"
+            ]
           },
           {
             "word": "罢工",
@@ -18694,7 +17111,107 @@
         "createdAt": "2026-09-17T13:51:33.552Z"
       }
     },
-    "deletedWords": {},
+    "deletedWords": {
+      "桂花": "2026-09-23T02:55:01.172Z",
+      "故乡": "2026-09-23T02:55:01.172Z",
+      "时节": "2026-09-23T02:55:01.172Z",
+      "欣赏": "2026-09-23T02:55:01.172Z",
+      "糕饼": "2026-09-23T02:55:01.172Z",
+      "成熟": "2026-09-23T02:55:01.172Z",
+      "完整": "2026-09-23T02:55:01.172Z",
+      "茶叶": "2026-09-23T02:55:01.172Z",
+      "播种": "2026-09-23T02:55:01.172Z",
+      "收获": "2026-09-23T02:55:01.172Z",
+      "食品": "2026-09-23T02:55:01.172Z",
+      "吩咐": "2026-09-23T02:55:01.172Z",
+      "价钱": "2026-09-23T02:55:01.172Z",
+      "可贵": "2026-09-23T02:55:01.172Z",
+      "果实": "2026-09-23T02:55:01.172Z",
+      "体面": "2026-09-23T02:55:01.172Z",
+      "卧虎藏龙": "2026-09-23T02:55:01.172Z",
+      "龙马精神": "2026-09-23T02:55:01.172Z",
+      "龙飞凤舞": "2026-09-23T02:55:01.172Z",
+      "凤毛麟角": "2026-09-23T02:55:01.172Z",
+      "如虎添翼": "2026-09-23T02:55:01.172Z",
+      "如鱼得水": "2026-09-23T02:55:01.172Z",
+      "鹤立鸡群": "2026-09-23T02:55:01.172Z",
+      "一马当先": "2026-09-23T02:55:01.172Z",
+      "鼠目寸光": "2026-09-23T02:55:01.172Z",
+      "抱头鼠窜": "2026-09-23T02:55:01.172Z",
+      "狼心狗肺": "2026-09-23T02:55:01.172Z",
+      "狼狈为奸": "2026-09-23T02:55:01.172Z",
+      "狡兔三窟": "2026-09-23T02:55:01.172Z",
+      "呆若木鸡": "2026-09-23T02:55:01.172Z",
+      "虾兵蟹将": "2026-09-23T02:55:01.172Z",
+      "黔驴技穷": "2026-09-23T02:55:01.172Z",
+      "地道": "2026-09-23T02:55:01.172Z",
+      "平原": "2026-09-23T02:55:01.172Z",
+      "扫荡": "2026-09-23T02:55:01.172Z",
+      "封锁": "2026-09-23T02:55:01.172Z",
+      "武装": "2026-09-23T02:55:01.172Z",
+      "粉碎": "2026-09-23T02:55:01.172Z",
+      "简直": "2026-09-23T02:55:01.172Z",
+      "广阔": "2026-09-23T02:55:01.172Z",
+      "不计其数": "2026-09-23T02:55:01.172Z",
+      "游击": "2026-09-23T02:55:01.172Z",
+      "战争": "2026-09-23T02:55:01.172Z",
+      "妨碍": "2026-09-23T02:55:01.172Z",
+      "距离": "2026-09-23T02:55:01.172Z",
+      "武器": "2026-09-23T02:55:01.172Z",
+      "拐弯": "2026-09-23T02:55:01.172Z",
+      "想方设法": "2026-09-23T02:55:01.172Z",
+      "转移": "2026-09-23T02:55:01.172Z",
+      "无穷无尽": "2026-09-23T02:55:01.172Z",
+      "无价之宝": "2026-09-23T02:55:01.172Z",
+      "召集": "2026-09-23T02:55:01.172Z",
+      "大臣": "2026-09-23T02:55:01.172Z",
+      "商议": "2026-09-23T02:55:01.172Z",
+      "理亏": "2026-09-23T02:55:01.172Z",
+      "交付": "2026-09-23T02:55:01.172Z",
+      "允诺": "2026-09-23T02:55:01.172Z",
+      "隆重": "2026-09-23T02:55:01.172Z",
+      "典礼": "2026-09-23T02:55:01.172Z",
+      "约定": "2026-09-23T02:55:01.172Z",
+      "思量": "2026-09-23T02:55:01.172Z",
+      "承诺": "2026-09-23T02:55:01.172Z",
+      "国君": "2026-09-23T02:55:01.172Z",
+      "推辞": "2026-09-23T02:55:01.172Z",
+      "记录": "2026-09-23T02:55:01.172Z",
+      "拒绝": "2026-09-23T02:55:01.172Z",
+      "同心协力": "2026-09-23T02:55:01.172Z",
+      "速度": "2026-09-23T02:55:01.172Z",
+      "赛跑": "2026-09-23T02:55:01.172Z",
+      "冠军": "2026-09-23T02:55:01.172Z",
+      "陆地": "2026-09-23T02:55:01.172Z",
+      "俯冲": "2026-09-23T02:55:01.172Z",
+      "超过": "2026-09-23T02:55:01.172Z",
+      "高度": "2026-09-23T02:55:01.172Z",
+      "火箭": "2026-09-23T02:55:01.172Z",
+      "摆脱": "2026-09-23T02:55:01.172Z",
+      "赤道": "2026-09-23T02:55:01.172Z",
+      "照例": "2026-09-23T02:55:01.172Z",
+      "航线": "2026-09-23T02:55:01.172Z",
+      "弥漫": "2026-09-23T02:55:01.172Z",
+      "小心翼翼": "2026-09-23T02:55:01.172Z",
+      "海峡": "2026-09-23T02:55:01.172Z",
+      "容量": "2026-09-23T02:55:01.172Z",
+      "凌晨": "2026-09-23T02:55:01.172Z",
+      "隐约": "2026-09-23T02:55:01.172Z",
+      "震荡": "2026-09-23T02:55:01.172Z",
+      "惊恐万状": "2026-09-23T02:55:01.172Z",
+      "混乱": "2026-09-23T02:55:01.172Z",
+      "势不可当": "2026-09-23T02:55:01.172Z",
+      "威严": "2026-09-23T02:55:01.172Z",
+      "违抗": "2026-09-23T02:55:01.172Z",
+      "悲壮": "2026-09-23T02:55:01.172Z",
+      "岗位": "2026-09-23T02:55:01.172Z",
+      "惊慌失措": "2026-09-23T02:55:01.172Z",
+      "犹如": "2026-09-23T02:55:01.172Z",
+      "纹丝不动": "2026-09-23T02:55:01.172Z",
+      "相提并论": "2026-09-23T02:55:01.172Z",
+      "忠于职守": "2026-09-23T02:55:01.172Z",
+      "壮举": "2026-09-23T02:55:01.172Z"
+    },
     "deletedErrors": {}
   }
 }
