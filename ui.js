@@ -1014,11 +1014,13 @@ function doImportWithMode(merge) {
         englishCustomBooks: App.englishCustomBooks,
         englishDeletedWords: App.englishDeletedWords,
         englishDeletedErrors: App.englishDeletedErrors,
+        englishDeletedBooks: App.englishDeletedBooks,
         chineseWords: App.chineseWords,
         chineseErrors: App.chineseErrors,
         chineseCustomBooks: App.chineseCustomBooks,
         chineseDeletedWords: App.chineseDeletedWords,
-        chineseDeletedErrors: App.chineseDeletedErrors
+        chineseDeletedErrors: App.chineseDeletedErrors,
+        chineseDeletedBooks: App.chineseDeletedBooks
     };
 
     const result = DataManager.backupImport(backupData, existingData, options);
@@ -1029,11 +1031,13 @@ function doImportWithMode(merge) {
     App.englishCustomBooks = result.englishCustomBooks || {};
     App.englishDeletedWords = result.englishDeletedWords || {};
     App.englishDeletedErrors = result.englishDeletedErrors || {};
+    App.englishDeletedBooks = result.englishDeletedBooks || {};
     App.chineseWords = result.chineseWords || [];
     App.chineseErrors = result.chineseErrors || {};
     App.chineseCustomBooks = result.chineseCustomBooks || {};
     App.chineseDeletedWords = result.chineseDeletedWords || {};
     App.chineseDeletedErrors = result.chineseDeletedErrors || {};
+    App.chineseDeletedBooks = result.chineseDeletedBooks || {};
 
     // 修正 id 计数器：导入后词条 id 可能变大，否则后续新导入的词会撞 id
     App.nextId = DataManager.maxWordId(App.englishWords, App.chineseWords) + 1;

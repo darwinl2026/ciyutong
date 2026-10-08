@@ -2369,6 +2369,16 @@
                                 未配置。点「同步设置」填入 GitHub 仓库和 Token 后，各设备打开本工具会自动同步。
                             </p>
                         </div>
+                        <div style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed #dee2e6;">
+                            <p style="color: #6c757d; font-size: 0.9rem; margin-bottom: 10px;">🧹 词库整理</p>
+                            <div class="data-tabs">
+                                <button class="data-tab-btn" onclick="cleanEmptyBooks()">🧹 清理空词库</button>
+                                <button class="data-tab-btn" onclick="cleanDuplicateBooks()">🧹 清理重复小词库</button>
+                            </div>
+                            <p style="color: #6c757d; font-size: 0.75rem; margin-top: 8px; line-height: 1.6;">
+                                清理后会在本机记录删除，其他设备同步时会一并删除（不会再被云端「搬回来」）。
+                            </p>
+                        </div>
                         </div><!-- end card-collapsible -->
                     </div>
                 </div>

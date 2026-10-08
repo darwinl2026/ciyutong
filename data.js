@@ -480,6 +480,9 @@ const DataManager = {
         localStorage.setItem('dictation_chinese_deleted_words', JSON.stringify(t.chineseDeletedWords || {}));
         localStorage.setItem('dictation_english_deleted_errors', JSON.stringify(t.englishDeletedErrors || {}));
         localStorage.setItem('dictation_chinese_deleted_errors', JSON.stringify(t.chineseDeletedErrors || {}));
+        // 小词库删除记录（按名称路径）
+        localStorage.setItem('dictation_english_deleted_books', JSON.stringify(t.englishDeletedBooks || {}));
+        localStorage.setItem('dictation_chinese_deleted_books', JSON.stringify(t.chineseDeletedBooks || {}));
     },
 
     load() {
@@ -509,7 +512,10 @@ const DataManager = {
             englishDeletedWords: JSON.parse(localStorage.getItem('dictation_english_deleted_words') || '{}'),
             chineseDeletedWords: JSON.parse(localStorage.getItem('dictation_chinese_deleted_words') || '{}'),
             englishDeletedErrors: JSON.parse(localStorage.getItem('dictation_english_deleted_errors') || '{}'),
-            chineseDeletedErrors: JSON.parse(localStorage.getItem('dictation_chinese_deleted_errors') || '{}')
+            chineseDeletedErrors: JSON.parse(localStorage.getItem('dictation_chinese_deleted_errors') || '{}'),
+            // 小词库删除记录（墓碑，按名称路径）
+            englishDeletedBooks: JSON.parse(localStorage.getItem('dictation_english_deleted_books') || '{}'),
+            chineseDeletedBooks: JSON.parse(localStorage.getItem('dictation_chinese_deleted_books') || '{}')
         };
     },
     
@@ -728,7 +734,77 @@ const DataManager = {
         return { errors: out, tombstones: tomb, stats: { removed: removed } };
     },
 
-    /** 建立「名称路径 -> 节点 id」索引，用于跨设备识别同一本小词库 */
+    /** 用 parent 链计算节点名称路径（与写墓碑时的口径一致，比 children 链更可靠） */
+    bookPathOf(books, nodeId) {
+        const parts = [];
+        let cur = nodeId;
+        let guard = 0;
+        while (cur && cur !== 'root' && guard++ < 200) {
+            const n = books[cur];
+            if (!n) break;
+            parts.unshift(String(n.name || ''));
+            cur = n.parent;
+        }
+        return parts.join('/');
+    },
+
+    /**
+     * 判定节点类型。type 字段优先；缺失时按「结构」判定 —— 修复早期无 type 节点被误建成空书的问题。
+     * @returns 'root' | 'book' | 'folder' | 'empty'
+     */
+    kindOf(node) {
+        if (!node) return 'unknown';
+        if (node.type === 'root') return 'root';
+        if (node.type === 'folder') return 'folder';
+        if (node.type === 'book') return 'book';
+        const hasWords = Array.isArray(node.words) && node.words.length > 0;
+        const hasChildren = Array.isArray(node.children) && node.children.length > 0;
+        if (hasWords && !hasChildren) return 'book';
+        if (hasChildren && !hasWords) return 'folder';
+        if (hasWords && hasChildren) return 'folder';   // 两者都有：按容器处理，避免子节点被丢
+        return 'empty';                                  // 既无词也无子节点 = 真空壳，不新建
+    },
+
+    /** 节点创建时间（毫秒）：优先 createdAt，其次从 'book_/folder_ + 时间戳' 形式的 id 解析 */
+    nodeCreatedAt(node) {
+        if (!node) return 0;
+        if (node.createdAt) {
+            const t = Date.parse(node.createdAt);
+            if (!isNaN(t)) return t;
+        }
+        const m = /^[a-z]+_(\d{10,})$/i.exec(String(node.id || ''));
+        return m ? parseInt(m[1], 10) : 0;
+    },
+
+    /**
+     * 级联删除节点及其子树。
+     * 会同时从「所有节点」的 children 里摘除待删 id，因此不会留下悬空引用。
+     * @returns 实际删除的节点数
+     */
+    removeNodeCascade(books, nodeId) {
+        if (!books || !nodeId || nodeId === 'root' || !books[nodeId]) return 0;
+        const subtree = new Set();
+        const stack = [nodeId];
+        while (stack.length) {
+            const id = stack.pop();
+            if (subtree.has(id) || !books[id]) continue;
+            subtree.add(id);
+            (Array.isArray(books[id].children) ? books[id].children : []).forEach(c => {
+                if (!subtree.has(c)) stack.push(c);
+            });
+        }
+        Object.keys(books).forEach(pid => {
+            const n = books[pid];
+            if (n && Array.isArray(n.children)) {
+                n.children = n.children.filter(c => !subtree.has(c));
+            }
+        });
+        let removed = 0;
+        subtree.forEach(id => { delete books[id]; removed++; });
+        return removed;
+    },
+
+    /** 建立「名称路径#类型 -> 节点 id」索引，用于跨设备识别同一本小词库（同名异类型不再互相串门） */
     buildPathIndex(books) {
         const index = new Map();
         if (!books || typeof books !== 'object') return index;
@@ -737,7 +813,7 @@ const DataManager = {
             if (!node) return;
             const name = node.type === 'root' ? '' : String(node.name || '');
             const path = prefix ? (prefix + '/' + name) : name;
-            if (id !== 'root') index.set(path, id);
+            if (id !== 'root') index.set(path + '#' + this.kindOf(node), id);
             (Array.isArray(node.children) ? node.children : []).forEach(cid => walk(cid, path));
         };
         walk('root', '');
@@ -745,35 +821,73 @@ const DataManager = {
     },
 
     /**
-     * 合并小词库树：按「名称路径」识别同一本词库（不按 id，两台设备各自新建的同名词库也算同一本）。
+     * 合并小词库树：按「名称路径 + 类型」识别同一本词库（不按 id，两台设备各自新建的同名词库也算同一本）。
+     *  - 类型按结构判定（kindOf）：早期缺 type 的节点不会被误建成空书，其词条也能正确装载
+     *  - 真空壳（既无词也无子节点）不新建
+     *  - 支持按路径的删除记录（墓碑）：云端明确删掉的小词库不会在本地复活
      * 保留本地节点的 id 与结构，云端独有节点会被新建进来。
      */
-    mergeCustomBooks(localBooks, remoteBooks, allocNodeId) {
+    mergeCustomBooks(localBooks, remoteBooks, allocNodeId, localTomb, remoteTomb) {
         const result = JSON.parse(JSON.stringify(localBooks || {}));
         if (!result.root) {
             result.root = { id: 'root', type: 'root', name: '我的词库', children: [] };
         } else if (!Array.isArray(result.root.children)) {
             result.root.children = [];
         }
-        const stats = { nodes: 0, addedWords: 0, updatedWords: 0 };
+        const stats = { nodes: 0, addedWords: 0, updatedWords: 0, deletedNodes: 0 };
+        const tomb = this.mergeTombstones(localTomb, remoteTomb);
+        // 重建容差（毫秒）：节点 id 的时间戳带「同批递增偏移」，可能略超真实创建时间。
+        // 只有比墓碑晚 5 秒以上才认为「删除后重新创建」，避免把「删除」误判成「重建」而漏删。
+        const REBUILD_TOL = 5000;
         if (!remoteBooks || typeof remoteBooks !== 'object') {
-            return { books: result, stats: stats };
+            return { books: result, tombstones: tomb, stats: stats };
         }
 
+        // ── 1) 先按墓碑删除本地对应节点（云端明确删除 → 本地也跟着删）──
+        // 路径口径必须与「写墓碑」一致：都走 parent 链（bookPathOf），
+        // 否则 parent / children 不一致的畸形数据会漏删。
+        const deletedPaths = new Set();
+        Object.keys(tomb).forEach(path => {
+            const delT = Date.parse(tomb[path]);
+            if (isNaN(delT)) return;
+            const matches = [];
+            Object.keys(result).forEach(id => {
+                if (id === 'root' || !result[id]) return;
+                if (this.bookPathOf(result, id) !== path) return;
+                if (this.nodeCreatedAt(result[id]) > delT + REBUILD_TOL) return;   // 比墓碑晚很多 → 视为重建，保留
+                matches.push(id);
+            });
+            matches.forEach(id => {
+                const n = this.removeNodeCascade(result, id);
+                if (n > 0) stats.deletedNodes += n;
+            });
+            if (matches.length) deletedPaths.add(path);
+        });
+
+        // ── 2) 合并云端节点 ──
         const mergeNode = (remoteId, parentPath) => {
             const rNode = remoteBooks[remoteId];
             if (!rNode) return;
             const name = String(rNode.name || '');
             const path = parentPath ? (parentPath + '/' + name) : name;
+            const kind = this.kindOf(rNode);
 
             const index = this.buildPathIndex(result);
-            let localId = index.get(path);
+            let localId = index.get(path + '#' + kind);
 
             if (!localId) {
-                const parentLocalId = parentPath ? (index.get(parentPath) || 'root') : 'root';
+                // 三种情况不新建：该路径已被墓碑删除 / 云端节点比墓碑旧 / 云端是真空壳
+                if (deletedPaths.has(path)) return;
+                const delT = tomb[path] ? Date.parse(tomb[path]) : 0;
+                if (delT && delT > this.nodeCreatedAt(rNode) + REBUILD_TOL) return;
+                if (kind === 'empty') return;
+
+                const parentLocalId = parentPath
+                    ? (index.get(parentPath + '#folder') || index.get(parentPath + '#book') || 'root')
+                    : 'root';
                 const parent = result[parentLocalId] || result.root;
-                localId = allocNodeId(rNode.type);
-                result[localId] = rNode.type === 'folder'
+                localId = allocNodeId(kind === 'folder' ? 'folder' : 'book');
+                result[localId] = kind === 'folder'
                     ? { id: localId, type: 'folder', name: rNode.name, parent: parentLocalId, children: [] }
                     : { id: localId, type: 'book', name: rNode.name, parent: parentLocalId, words: [] };
                 if (!Array.isArray(parent.children)) parent.children = [];
@@ -783,7 +897,8 @@ const DataManager = {
 
             const localNode = result[localId];
 
-            if (rNode.type === 'book' && Array.isArray(rNode.words)) {
+            // 词条：按结构判定的 book 才装载（缺 type 的老节点因此可正确装载）
+            if (kind === 'book' && Array.isArray(rNode.words)) {
                 if (!Array.isArray(localNode.words)) localNode.words = [];
                 rNode.words.forEach(rw => {
                     if (!rw || typeof rw.word !== 'string' || !rw.word.trim()) return;
@@ -809,7 +924,19 @@ const DataManager = {
             rRoot.children.forEach(cid => mergeNode(cid, ''));
         }
 
-        return { books: result, stats: stats };
+        // ── 3) 清理失效墓碑：路径下已存在比墓碑更新的节点 → 墓碑作废（避免无限增长）──
+        const finalIndex = this.buildPathIndex(result);
+        const liveTomb = {};
+        Object.keys(tomb).forEach(path => {
+            const delT = Date.parse(tomb[path]);
+            const bid = finalIndex.get(path + '#book');
+            const fid = finalIndex.get(path + '#folder');
+            const alive = [bid, fid].filter(Boolean).some(id => this.nodeCreatedAt(result[id]) > delT + REBUILD_TOL);
+            if (alive) return;
+            liveTomb[path] = tomb[path];
+        });
+
+        return { books: result, tombstones: liveTomb, stats: stats };
     },
 
     // 备份导出（v2.0：附带删除记录，供跨设备同步使用）
@@ -822,14 +949,16 @@ const DataManager = {
                 errors: data.englishErrors || {},
                 customBooks: data.englishCustomBooks || {},
                 deletedWords: data.englishDeletedWords || {},
-                deletedErrors: data.englishDeletedErrors || {}
+                deletedErrors: data.englishDeletedErrors || {},
+                deletedBooks: data.englishDeletedBooks || {}
             },
             chinese: {
                 words: data.chineseWords || [],
                 errors: data.chineseErrors || {},
                 customBooks: data.chineseCustomBooks || {},
                 deletedWords: data.chineseDeletedWords || {},
-                deletedErrors: data.chineseDeletedErrors || {}
+                deletedErrors: data.chineseDeletedErrors || {},
+                deletedBooks: data.chineseDeletedBooks || {}
             }
         }, null, 2);
     },
@@ -908,11 +1037,17 @@ const DataManager = {
 
         if (opt.englishCustomBooks) {
             if (opt.merge) {
-                const r = this.mergeCustomBooks(result.englishCustomBooks || {}, en.customBooks || {}, makeNodeId);
+                const r = this.mergeCustomBooks(
+                    result.englishCustomBooks || {}, en.customBooks || {}, makeNodeId,
+                    result.englishDeletedBooks || {}, en.deletedBooks || {}
+                );
                 result.englishCustomBooks = r.books;
+                result.englishDeletedBooks = r.tombstones;
                 stats.nodes += r.stats.nodes;
+                stats.nodesDeleted = (stats.nodesDeleted || 0) + (r.stats.deletedNodes || 0);
             } else {
                 result.englishCustomBooks = JSON.parse(JSON.stringify(en.customBooks || {}));
+                result.englishDeletedBooks = Object.assign({}, en.deletedBooks || {});
             }
         }
 
@@ -947,11 +1082,17 @@ const DataManager = {
 
         if (opt.chineseCustomBooks) {
             if (opt.merge) {
-                const r = this.mergeCustomBooks(result.chineseCustomBooks || {}, ch.customBooks || {}, makeNodeId);
+                const r = this.mergeCustomBooks(
+                    result.chineseCustomBooks || {}, ch.customBooks || {}, makeNodeId,
+                    result.chineseDeletedBooks || {}, ch.deletedBooks || {}
+                );
                 result.chineseCustomBooks = r.books;
+                result.chineseDeletedBooks = r.tombstones;
                 stats.nodes += r.stats.nodes;
+                stats.nodesDeleted = (stats.nodesDeleted || 0) + (r.stats.deletedNodes || 0);
             } else {
                 result.chineseCustomBooks = JSON.parse(JSON.stringify(ch.customBooks || {}));
+                result.chineseDeletedBooks = Object.assign({}, ch.deletedBooks || {});
             }
         }
 

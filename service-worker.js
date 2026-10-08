@@ -3,7 +3,7 @@
  * 提供离线支持
  */
 
-const CACHE_NAME = 'dictation-tool-v65';
+const CACHE_NAME = 'dictation-tool-v66';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',

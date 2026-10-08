@@ -24,11 +24,13 @@ const App = {
     englishCustomBooks: {},
     chineseCustomBooks: {},
 
-    // 删除记录（墓碑）：记录"某个词/某条错词被删除"的时间，供跨设备同步识别删除
+    // 删除记录（墓碑）：记录"某个词/某条错词/某本小词库被删除"的时间，供跨设备同步识别删除
     englishDeletedWords: {},
     chineseDeletedWords: {},
     englishDeletedErrors: {},
     chineseDeletedErrors: {},
+    englishDeletedBooks: {},     // 小词库墓碑：键为「名称路径」（如 四下资料/四下词组）
+    chineseDeletedBooks: {},
     
     // 展开状态（用于树形UI）
     expandedFolders: {
@@ -116,6 +118,10 @@ Object.defineProperty(App, 'deletedErrors', {
     get() { return App.currentMode === 'english' ? App.englishDeletedErrors : App.chineseDeletedErrors; }
 });
 
+Object.defineProperty(App, 'deletedBooks', {
+    get() { return App.currentMode === 'english' ? App.englishDeletedBooks : App.chineseDeletedBooks; }
+});
+
 // ==================== 数据持久化 ====================
 
 function saveData() {
@@ -128,7 +134,9 @@ function saveData() {
             englishDeletedWords: App.englishDeletedWords,
             chineseDeletedWords: App.chineseDeletedWords,
             englishDeletedErrors: App.englishDeletedErrors,
-            chineseDeletedErrors: App.chineseDeletedErrors
+            chineseDeletedErrors: App.chineseDeletedErrors,
+            englishDeletedBooks: App.englishDeletedBooks,
+            chineseDeletedBooks: App.chineseDeletedBooks
         }
     );
 }
@@ -147,6 +155,8 @@ function loadData() {
     App.chineseDeletedWords = data.chineseDeletedWords || {};
     App.englishDeletedErrors = data.englishDeletedErrors || {};
     App.chineseDeletedErrors = data.chineseDeletedErrors || {};
+    App.englishDeletedBooks = data.englishDeletedBooks || {};
+    App.chineseDeletedBooks = data.chineseDeletedBooks || {};
 
     // 修正 id 计数器：否则刷新页面后 nextId 归 1，新导入的词会与已有词撞 id
     App.nextId = DataManager.maxWordId(App.englishWords, App.chineseWords) + 1;
@@ -176,11 +186,13 @@ function collectLocalData() {
         englishCustomBooks: App.englishCustomBooks,
         englishDeletedWords: App.englishDeletedWords,
         englishDeletedErrors: App.englishDeletedErrors,
+        englishDeletedBooks: App.englishDeletedBooks,
         chineseWords: App.chineseWords,
         chineseErrors: App.chineseErrors,
         chineseCustomBooks: App.chineseCustomBooks,
         chineseDeletedWords: App.chineseDeletedWords,
-        chineseDeletedErrors: App.chineseDeletedErrors
+        chineseDeletedErrors: App.chineseDeletedErrors,
+        chineseDeletedBooks: App.chineseDeletedBooks
     };
 }
 
@@ -239,12 +251,14 @@ function applySyncResult(result) {
     App.englishCustomBooks = result.englishCustomBooks || {};
     App.englishDeletedWords = result.englishDeletedWords || {};
     App.englishDeletedErrors = result.englishDeletedErrors || {};
+    App.englishDeletedBooks = result.englishDeletedBooks || {};
 
     App.chineseWords = result.chineseWords || [];
     App.chineseErrors = result.chineseErrors || {};
     App.chineseCustomBooks = result.chineseCustomBooks || {};
     App.chineseDeletedWords = result.chineseDeletedWords || {};
     App.chineseDeletedErrors = result.chineseDeletedErrors || {};
+    App.chineseDeletedBooks = result.chineseDeletedBooks || {};
 
     App.nextId = DataManager.maxWordId(App.englishWords, App.chineseWords) + 1;
 
@@ -374,7 +388,8 @@ function undoLastSync() {
         englishWords: [], englishErrors: {}, englishCustomBooks: {},
         chineseWords: [], chineseErrors: {}, chineseCustomBooks: {},
         englishDeletedWords: {}, chineseDeletedWords: {},
-        englishDeletedErrors: {}, chineseDeletedErrors: {}
+        englishDeletedErrors: {}, chineseDeletedErrors: {},
+        englishDeletedBooks: {}, chineseDeletedBooks: {}
     };
     const result = DataManager.backupImport(data, empty, { merge: false });
 
@@ -2173,6 +2188,17 @@ function importCustomWordBook(bookId) {
 function migrateToTreeStructure(oldBooks) {
     // 如果已经包含 root 节点，说明已是新格式
     if (oldBooks.root && oldBooks.root.type === 'root') {
+        // 补全缺失的 type 字段（早期节点没有 type，会被同步逻辑误判成「空书」并把词丢掉）
+        // 判定优先保词：有词 → book；无词有子节点 → folder；都空 → book（空书，交给「清理空词库」处理）
+        Object.values(oldBooks).forEach(item => {
+            if (!item || item.type !== undefined) return;
+            if (item.id === 'root') { item.type = 'root'; return; }
+            const hasWords = Array.isArray(item.words) && item.words.length > 0;
+            const hasChildren = Array.isArray(item.children) && item.children.length > 0;
+            if (hasWords) item.type = 'book';
+            else if (hasChildren) item.type = 'folder';
+            else item.type = 'book';
+        });
         // 清理 orphaned children（children 数组中引用了不存在的节点）
         Object.values(oldBooks).forEach(item => {
             if (item.children && Array.isArray(item.children)) {
@@ -2307,6 +2333,19 @@ function createFolder(name, parentId = 'root') {
     return true;
 }
 
+// 计算节点在「我的词库」中的名称路径（如 四下资料/四下词组）—— 跨设备用它标识同一本词库
+function bookNamePath(books, nodeId) {
+    return DataManager.bookPathOf(books, nodeId);
+}
+
+// 记录某本小词库被删除（墓碑）：供云同步识别「已删除」，避免下次同步又被云端搬回来
+function recordBookDeletion(path, mode) {
+    if (!path) return;
+    const m = mode || App.currentMode;
+    const tomb = (m === 'english') ? App.englishDeletedBooks : App.chineseDeletedBooks;
+    tomb[path] = new Date().toISOString();
+}
+
 // 删除文件夹（递归删除所有子节点）
 function deleteFolder(folderId) {
     const customBooks = getCurrentCustomBooks();
@@ -2334,6 +2373,9 @@ function deleteFolder(folderId) {
     if (!confirm(confirmMsg)) {
         return false;
     }
+    
+    // 写删除记录（墓碑）—— 必须在真正删除之前算路径，否则结构已断
+    toDelete.forEach(id => recordBookDeletion(bookNamePath(customBooks, id)));
     
     // 从父节点移除
     if (folder.parent && customBooks[folder.parent]) {
@@ -2366,6 +2408,9 @@ function deleteCustomWordBook(bookId) {
         return;
     }
 
+    // 写删除记录（墓碑）
+    recordBookDeletion(bookNamePath(customBooks, bookId));
+
     // 从父节点移除
     if (book.parent && customBooks[book.parent]) {
         const parent = customBooks[book.parent];
@@ -2376,6 +2421,143 @@ function deleteCustomWordBook(bookId) {
     saveData();
     renderCustomWordBooks();
     showNotification('词库已删除', 'info');
+}
+
+// ==================== 清理空词库 / 重复小词库 ====================
+
+/** 收集空词库：words 为空的书（含"自己是书、0 词但下面挂着文件夹"的畸形节点） */
+function collectEmptyBooks(books) {
+    const list = [];
+    Object.keys(books || {}).forEach(id => {
+        if (id === 'root') return;
+        const node = books[id];
+        if (!node || node.type !== 'book') return;
+        if (Array.isArray(node.words) && node.words.length > 0) return;
+        list.push({
+            id: id,
+            name: String(node.name || ''),
+            path: bookNamePath(books, id),
+            childCount: Array.isArray(node.children) ? node.children.length : 0
+        });
+    });
+    return list;
+}
+
+/** 收集重复小词库：词集合完全相同的书（按词文本排序后比对，忽略顺序） */
+function collectDuplicateBooks(books) {
+    const groups = {};
+    Object.keys(books || {}).forEach(id => {
+        if (id === 'root') return;
+        const node = books[id];
+        if (!node || node.type !== 'book') return;
+        if (!Array.isArray(node.words) || node.words.length === 0) return;
+        const sig = node.words
+            .map(w => String((w && w.word) || '').trim().toLowerCase())
+            .filter(Boolean).sort().join('\u0001');
+        if (!sig) return;
+        (groups[sig] = groups[sig] || []).push({
+            id: id,
+            name: String(node.name || ''),
+            path: bookNamePath(books, id),
+            count: node.words.length
+        });
+    });
+    return Object.keys(groups).map(k => groups[k]).filter(g => g.length > 1);
+}
+
+/** 清理空词库（英语 + 语文一起处理；删除会写墓碑，避免同步时又被云端搬回来） */
+function cleanEmptyBooks() {
+    const targets = [];
+    [['english', App.englishCustomBooks, '英语'], ['chinese', App.chineseCustomBooks, '语文']].forEach(t => {
+        const items = collectEmptyBooks(t[1]);
+        if (items.length) targets.push({ mode: t[0], label: t[2], books: t[1], items: items });
+    });
+    if (targets.length === 0) {
+        showNotification('没有发现空词库', 'info');
+        return;
+    }
+
+    let total = 0, lines = '';
+    targets.forEach(t => {
+        lines += `【${t.label}】\n`;
+        t.items.forEach((b, i) => {
+            total++;
+            const tail = b.childCount > 0 ? `（含 ${b.childCount} 个下级，一并删除）` : '';
+            lines += `  ${i + 1}. ${b.name}${tail}\n`;
+        });
+    });
+    if (!confirm(`发现 ${total} 个空词库：\n\n${lines}\n全部删除？（删除记录会同步到其他设备）`)) return;
+
+    let removed = 0;
+    targets.forEach(t => {
+        t.items.forEach(b => {
+            if (!t.books[b.id]) return;                      // 可能已被前面的删除带走
+            const n = DataManager.removeNodeCascade(t.books, b.id);
+            if (n > 0) { recordBookDeletion(b.path, t.mode); removed++; }
+        });
+    });
+
+    saveData();
+    renderCustomWordBooks();
+    showNotification(`已清理 ${removed} 个空词库`, 'success', 4000);
+}
+
+/** 清理重复小词库（内容完全相同的一组，每组保留一个、删其余；英语 + 语文一起处理） */
+function cleanDuplicateBooks() {
+    const targets = [];
+    [['english', App.englishCustomBooks, '英语'], ['chinese', App.chineseCustomBooks, '语文']].forEach(t => {
+        const groups = collectDuplicateBooks(t[1]);
+        if (groups.length) targets.push({ mode: t[0], label: t[2], books: t[1], groups: groups });
+    });
+    if (targets.length === 0) {
+        showNotification('没有发现重复的小词库', 'info');
+        return;
+    }
+
+    // 每组默认保留「层级最浅」的那个（根目录直属优先），用户可在弹窗里改选
+    targets.forEach(t => t.groups.forEach(g => g.sort((a, b) => {
+        const ad = (a.path.match(/\//g) || []).length;
+        const bd = (b.path.match(/\//g) || []).length;
+        return ad - bd;
+    })));
+
+    let html = '<p style="margin:4px 0 10px;color:#555;font-size:0.85rem;">以下词库内容完全相同。每组选一个<b>保留</b>，未选中的将被删除：</p>';
+    let idx = 0;
+    targets.forEach(t => {
+        html += `<div style="margin:10px 0 4px;font-size:0.85rem;"><b>【${t.label}】</b></div>`;
+        t.groups.forEach((g, gi) => {
+            let opts = '';
+            g.forEach((b, bi) => {
+                opts += `<option value="${b.id}"${bi === 0 ? ' selected' : ''}>${escapeHtml(b.path || b.name)}（${b.count} 词）</option>`;
+            });
+            html += '<div style="margin:6px 0;padding:8px;background:#f8f9fa;border-radius:6px;font-size:0.82rem;">';
+            html += `第 ${gi + 1} 组 · 共 ${g.length} 个相同 → 保留：`;
+            html += `<select id="dupSel_${idx}" style="width:100%;margin-top:4px;padding:5px;border:1px solid #ddd;border-radius:5px;">${opts}</select>`;
+            html += '</div>';
+            idx++;
+        });
+    });
+
+    showCustomPrompt('🧹 清理重复小词库', html, function () {
+        let removed = 0, sel = 0;
+        targets.forEach(t => {
+            t.groups.forEach(g => {
+                const el = document.getElementById('dupSel_' + sel);
+                const keepId = (el && el.value) ? el.value : (g[0] && g[0].id);
+                sel++;
+                g.forEach(b => {
+                    if (b.id === keepId) return;
+                    if (!t.books[b.id]) return;
+                    const n = DataManager.removeNodeCascade(t.books, b.id);
+                    if (n > 0) { recordBookDeletion(b.path, t.mode); removed++; }
+                });
+            });
+        });
+        saveData();
+        renderCustomWordBooks();
+        showNotification(`已清理 ${removed} 个重复词库`, 'success', 4000);
+        return true;
+    });
 }
 
 // 弹出创建文件夹对话框
