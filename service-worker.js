@@ -3,7 +3,7 @@
  * 提供离线支持
  */
 
-const CACHE_NAME = 'dictation-tool-v64';
+const CACHE_NAME = 'dictation-tool-v65';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
@@ -12,7 +12,6 @@ const ASSETS_TO_CACHE = [
   '/data.js',
   '/ui.js',
   '/phonics.js',
-  '/presets.js',
   '/pinyin-pro.js',
   '/manifest.json',
   'https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;500;600;700&display=swap'

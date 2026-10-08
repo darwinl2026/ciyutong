@@ -2124,25 +2124,8 @@
                                 <span class="presets-arrow" id="englishPresetsArrow">▼</span>
                             </label>
                             <div id="englishPresetsContent" class="presets-collapsible">
-                                <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
-                                    <span style="font-weight:600;font-size:13px;color:#555;cursor:pointer;" onclick="togglePresetSection('englishPresetBtns', 'englishPresetArrow')">📖 预设词库 <span id="englishPresetArrow">▼</span></span>
-                                </div>
-                                <div id="englishPresetBtns">
-                                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
-                                        <button class="btn btn-small btn-primary" onclick="importPreset('unit1')">📖 第一单元</button>
-                                        <button class="btn btn-small btn-primary" onclick="importPreset('unit2')">📖 第二单元</button>
-                                        <button class="btn btn-small btn-primary" onclick="importPreset('unit3')">📖 第三单元</button>
-                                        <button class="btn btn-small btn-primary" onclick="importPreset('unit4')">📖 第四单元</button>
-                                        <button class="btn btn-small btn-primary" onclick="importPreset('unit5')">📖 第五单元</button>
-                                    </div>
-                                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
-                                        <button class="btn btn-small btn-success" onclick="importPreset('months')">📅 月份词汇</button>
-                                        <button class="btn btn-small btn-success" onclick="importPreset('seasons')">🌸 季节词汇</button>
-                                        <button class="btn btn-small btn-success" onclick="importPreset('weeks')">📅 星期词汇</button>
-                                    </div>
-                                </div>
                                 <!-- 自定义词库管理区域 -->
-                                <div style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e0e0e0;">
+                                <div style="padding-top: 5px;">
                                     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
                                         <span style="font-weight: 600; font-size: 13px; color: #555;">📚 我的词库</span>
                                         <button onclick="promptCreateFolder()" title="新建文件夹" style="height:26px;padding:0 8px;border-radius:6px;border:0.5px solid #ccc;background:#fff;color:#555;font-size:12px;cursor:pointer;">+</button>
@@ -2498,7 +2481,6 @@
 
     <!-- 脚本引入顺序很重要 -->
     <script src="pinyin-pro.js"></script>
-    <script src="presets.js"></script>
     <script src="data.js"></script>
     <script src="audio.js"></script>
     <script src="ui.js"></script>

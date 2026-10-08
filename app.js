@@ -395,9 +395,6 @@ function initApp() {
     updateModeUI(App.currentMode, App.settings);
     renderWordList(App.words, App.selectedWords, App.errors, App.currentMode);
     renderCustomWordBooks();
-    
-    // 初始化预设词库折叠状态（默认折叠）
-    initPresetSectionCollapse();
 
     renderErrorList(App.errors, App.selectedErrorWords, App.words);
     updateCounts(App.words, App.selectedWords);
@@ -2600,50 +2597,6 @@ function moveItemDown(itemId) {
     renderCustomWordBooks();
 }
 
-// ==================== 预设词库 ====================
-
-function importPreset(presetKey) {
-    if (typeof AllPresets === 'undefined') {
-        showNotification('预设词库未加载，请刷新页面重试', 'error');
-        return;
-    }
-    
-    const preset = AllPresets[presetKey];
-    if (!preset) {
-        showNotification('未找到该预设词库', 'error');
-        return;
-    }
-    
-    const existingWords = new Set(App.words.map(w => w.word.toLowerCase()));
-    const newWords = preset.words.filter(w => !existingWords.has(w.word.toLowerCase()));
-    
-    if (newWords.length === 0) {
-        showNotification('该词库的所有单词都已存在', 'info');
-        return;
-    }
-    
-    const wordsToAdd = newWords.map((wordData, index) => ({
-        id: Date.now() + index,
-        word: wordData.word,
-        meaning: wordData.meaning || '',
-        pronunciation: wordData.pronunciation || '',
-        partOfSpeech: wordData.partOfSpeech || '',
-        addedAt: new Date().toISOString(),
-        source: `preset:${presetKey}`
-    }));
-    
-    App.words.push(...wordsToAdd);
-    saveData();
-    renderWordList(App.words, App.selectedWords, App.errors, App.currentMode);
-    updateCounts(App.words, App.selectedWords);
-    
-    showNotification(`成功导入 ${wordsToAdd.length} 个单词（${preset.name}）`, 'success');
-    
-    setTimeout(() => {
-        showNotification(`${preset.name} 已添加到词库`, 'info', 3000);
-    }, 1000);
-}
-
 // ==================== 工具函数 ====================
 
 
@@ -2654,23 +2607,6 @@ function shuffleArray(array) {
         [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
     return shuffled;
-}
-
-// 预设词库折叠面板
-function togglePresetSection(contentId, arrowId) {
-    const content = document.getElementById(contentId);
-    const arrow = document.getElementById(arrowId);
-    if (content) {
-        content.style.display = content.style.display === 'none' ? '' : 'none';
-    }
-    if (arrow) {
-        arrow.textContent = content.style.display === 'none' ? '▶' : '▼';
-    }
-}
-
-// 初始化预设词库折叠状态（默认折叠）
-function initPresetSectionCollapse() {
-    togglePresetSection('englishPresetBtns', 'englishPresetArrow');
 }
 
 // 初始化应用
