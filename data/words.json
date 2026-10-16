@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "backupDate": "2026-10-12T16:09:57.655Z",
+  "backupDate": "2026-10-16T16:03:47.636Z",
   "english": {
     "words": [],
     "errors": {},
@@ -441,7 +441,8 @@
             "meaning": "一月",
             "pronunciation": "",
             "partOfSpeech": "n.",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "culture",
@@ -455,7 +456,8 @@
             "meaning": "二月",
             "pronunciation": "",
             "partOfSpeech": "n.",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "School Open Day",
@@ -469,7 +471,8 @@
             "meaning": "三月",
             "pronunciation": "",
             "partOfSpeech": "n.",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "plant",
@@ -497,7 +500,8 @@
             "meaning": "四月",
             "pronunciation": "",
             "partOfSpeech": "n.",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "sport",
@@ -518,7 +522,8 @@
             "meaning": "五月",
             "pronunciation": "",
             "partOfSpeech": "n.",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "museum",
@@ -532,7 +537,8 @@
             "meaning": "六月",
             "pronunciation": "",
             "partOfSpeech": "n.",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "Children's Day",
@@ -546,7 +552,8 @@
             "meaning": "什么时候",
             "pronunciation": "",
             "partOfSpeech": "adv.",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "fly",
@@ -595,7 +602,8 @@
             "meaning": "七月",
             "pronunciation": "",
             "partOfSpeech": "n.",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "photo",
@@ -609,14 +617,16 @@
             "meaning": "八月",
             "pronunciation": "",
             "partOfSpeech": "n.",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "September",
             "meaning": "九月",
             "pronunciation": "",
             "partOfSpeech": "n.",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "meal",
@@ -630,7 +640,8 @@
             "meaning": "十月",
             "pronunciation": "",
             "partOfSpeech": "n.",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "trip",
@@ -644,14 +655,16 @@
             "meaning": "十一月",
             "pronunciation": "",
             "partOfSpeech": "n.",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "December",
             "meaning": "十二月",
             "pronunciation": "",
             "partOfSpeech": "n.",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "card",
@@ -1255,84 +1268,96 @@
             "meaning": "一月",
             "pronunciation": "",
             "partOfSpeech": "n.",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "February",
             "meaning": "二月",
             "pronunciation": "",
             "partOfSpeech": "n.",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "March",
             "meaning": "三月",
             "pronunciation": "",
             "partOfSpeech": "n.",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "April",
             "meaning": "四月",
             "pronunciation": "",
             "partOfSpeech": "n.",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "May",
             "meaning": "五月",
             "pronunciation": "",
             "partOfSpeech": "n.",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "June",
             "meaning": "六月",
             "pronunciation": "",
             "partOfSpeech": "n.",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "July",
             "meaning": "七月",
             "pronunciation": "",
             "partOfSpeech": "n.",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "August",
             "meaning": "八月",
             "pronunciation": "",
             "partOfSpeech": "n.",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "September",
             "meaning": "九月",
             "pronunciation": "",
             "partOfSpeech": "n.",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "October",
             "meaning": "十月",
             "pronunciation": "",
             "partOfSpeech": "n.",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "November",
             "meaning": "十一月",
             "pronunciation": "",
             "partOfSpeech": "n.",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "December",
             "meaning": "十二月",
             "pronunciation": "",
             "partOfSpeech": "n.",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           }
         ],
         "createdAt": "2026-05-07T07:10:27.769Z"
@@ -1476,7 +1501,8 @@
             "meaning": "一月",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "It is summer in Sydney.",
@@ -4979,14 +5005,16 @@
             "meaning": "什么时候",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "why",
             "meaning": "为什么",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "how",
@@ -5140,7 +5168,8 @@
             "meaning": "因为",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "be",
@@ -6066,7 +6095,8 @@
             "meaning": "在农场",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:07.496Z"
           },
           {
             "word": "on the river",
@@ -6227,21 +6257,24 @@
             "meaning": "在早上",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:00:58.108Z"
           },
           {
             "word": "in the afternoon",
             "meaning": "在下午",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:00:58.108Z"
           },
           {
             "word": "in the evening",
             "meaning": "在晚上",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:00:58.108Z"
           },
           {
             "word": "by the lake",
@@ -6534,7 +6567,8 @@
             "meaning": "科学家",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:00:58.108Z"
           },
           {
             "word": "learn",
@@ -6597,7 +6631,8 @@
             "meaning": "明天",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "leave",
@@ -7837,7 +7872,8 @@
             "meaning": "打扫房子",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:07.496Z"
           },
           {
             "word": "put away",
@@ -8803,7 +8839,8 @@
             "meaning": "科学",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:00:58.108Z"
           },
           {
             "word": "hurt",
@@ -9351,7 +9388,8 @@
             "meaning": "科学",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:00:58.108Z"
           },
           {
             "word": "hurt （",
@@ -9640,7 +9678,10 @@
         "children": [
           "book_1791478157418",
           "book_1791478157419",
-          "book_1791478157420"
+          "book_1791478157420",
+          "book_1792166477700",
+          "book_1792166545375",
+          "book_1792166573097"
         ]
       },
       "book_1791478157418": {
@@ -10151,17 +10192,19 @@
           },
           {
             "word": "because",
-            "meaning": "因为（连词）：表示原因",
+            "meaning": "因为",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "when",
-            "meaning": "当……时（连词/疑问副词）：引导时间状语从句或表时间疑问",
+            "meaning": "什么时候",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "than",
@@ -10508,10 +10551,11 @@
           },
           {
             "word": "may",
-            "meaning": "可以（情态动词）：表允许或可能性",
+            "meaning": "五月",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "might",
@@ -10585,10 +10629,11 @@
           },
           {
             "word": "why",
-            "meaning": "为什么（疑问副词）：询问原因",
+            "meaning": "为什么",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-16T16:02:38.133Z"
           },
           {
             "word": "how",
@@ -10717,6 +10762,351 @@
             "examples": []
           }
         ]
+      },
+      "book_1792166477700": {
+        "id": "book_1792166477700",
+        "type": "book",
+        "name": "U2L1",
+        "parent": "folder_1791478157418",
+        "children": [],
+        "words": [
+          {
+            "word": "lunch time",
+            "meaning": "午饭时间",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "club time",
+            "meaning": "社团活动时间",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "on Mondays",
+            "meaning": "在周一",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "from...to...",
+            "meaning": "从…到…",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "labor",
+            "meaning": "劳动",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "morality",
+            "meaning": "道德",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "a.m.",
+            "meaning": "早上",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "p.m.",
+            "meaning": "下午",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "at+时间点",
+            "meaning": "在几点",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "want to be a/an",
+            "meaning": "想要成为…",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "after-school clubs",
+            "meaning": "课后社团",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "an art club",
+            "meaning": "一个美术社团",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "make friends with",
+            "meaning": "和…交朋友",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "learn a lot",
+            "meaning": "学到很多",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "paint pictures",
+            "meaning": "画画",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "What a/an+形容词+名词!",
+            "meaning": "多么…",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-16T16:01:17.700Z"
+      },
+      "book_1792166545375": {
+        "id": "book_1792166545375",
+        "type": "book",
+        "name": "U2L2",
+        "parent": "folder_1791478157418",
+        "children": [],
+        "words": [
+          {
+            "word": "at weekends",
+            "meaning": "在周末",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "this weekend",
+            "meaning": "这个周末",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "play chess",
+            "meaning": "下棋",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "have a reading party",
+            "meaning": "进行阅读派对",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "visit my grandma",
+            "meaning": "探望我的奶奶",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "feed the animals",
+            "meaning": "喂动物",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "live in",
+            "meaning": "居住在…",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "family",
+            "meaning": "家庭；家人",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "cousin",
+            "meaning": "堂/表兄弟姐妹",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "aunt",
+            "meaning": "阿姨",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "uncle",
+            "meaning": "叔叔",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "sister",
+            "meaning": "姐妹",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "parents(father+mother)",
+            "meaning": "父母",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "grandparents",
+            "meaning": "外/祖父母",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-16T16:02:25.375Z"
+      },
+      "book_1792166573097": {
+        "id": "book_1792166573097",
+        "type": "book",
+        "name": "U2L3",
+        "parent": "folder_1791478157418",
+        "children": [],
+        "words": [
+          {
+            "word": "this...",
+            "meaning": "这个...",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "next...",
+            "meaning": "下一个...",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "this morning",
+            "meaning": "今天早上",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "this afternoon",
+            "meaning": "今天下午",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "this evening",
+            "meaning": "今天晚上",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "tonight",
+            "meaning": "今晚",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "the day after tomorrow",
+            "meaning": "后天",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "on Sunday",
+            "meaning": "在周日",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "on+星期",
+            "meaning": "在星期几",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "for +时间段",
+            "meaning": "持续...",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "need +名词",
+            "meaning": "需要某物",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "need to+V原",
+            "meaning": "需要做某事",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "which one",
+            "meaning": "哪一个",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "... and I + V原",
+            "meaning": "我和...",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I + V原 + with...",
+            "meaning": "一起做某事",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-16T16:02:53.097Z"
       }
     },
     "deletedWords": {
@@ -10987,7 +11377,52 @@
       "now": "2026-10-08T17:30:37.605Z",
       "just": "2026-10-08T17:30:37.605Z",
       "only": "2026-10-08T17:30:37.605Z",
-      "also": "2026-10-08T17:30:37.605Z"
+      "also": "2026-10-08T17:30:37.605Z",
+      "lunch time": "2026-10-16T16:01:21.403Z",
+      "club time": "2026-10-16T16:01:21.403Z",
+      "on mondays": "2026-10-16T16:01:21.403Z",
+      "from...to...": "2026-10-16T16:01:21.403Z",
+      "labor": "2026-10-16T16:01:21.403Z",
+      "morality": "2026-10-16T16:01:21.403Z",
+      "a.m.": "2026-10-16T16:01:21.403Z",
+      "p.m.": "2026-10-16T16:01:21.403Z",
+      "at+时间点": "2026-10-16T16:01:21.403Z",
+      "want to be a/an": "2026-10-16T16:01:21.403Z",
+      "after-school clubs": "2026-10-16T16:01:21.403Z",
+      "an art club": "2026-10-16T16:01:21.403Z",
+      "make friends with": "2026-10-16T16:01:21.403Z",
+      "learn a lot": "2026-10-16T16:01:21.403Z",
+      "paint pictures": "2026-10-16T16:01:21.403Z",
+      "what a/an+形容词+名词!": "2026-10-16T16:01:21.403Z",
+      "at weekends": "2026-10-16T16:02:28.939Z",
+      "this weekend": "2026-10-16T16:02:28.939Z",
+      "play chess": "2026-10-16T16:02:28.939Z",
+      "have a reading party": "2026-10-16T16:02:28.939Z",
+      "visit my grandma": "2026-10-16T16:02:28.939Z",
+      "feed the animals": "2026-10-16T16:02:28.939Z",
+      "live in": "2026-10-16T16:02:28.939Z",
+      "family": "2026-10-16T16:02:28.939Z",
+      "cousin": "2026-10-16T16:02:28.939Z",
+      "aunt": "2026-10-16T16:02:28.939Z",
+      "uncle": "2026-10-16T16:02:28.939Z",
+      "sister": "2026-10-16T16:02:28.939Z",
+      "parents(father+mother)": "2026-10-16T16:02:28.939Z",
+      "grandparents": "2026-10-16T16:02:28.939Z",
+      "this...": "2026-10-16T16:03:06.243Z",
+      "next...": "2026-10-16T16:03:06.243Z",
+      "this morning": "2026-10-16T16:03:06.243Z",
+      "this afternoon": "2026-10-16T16:03:06.243Z",
+      "this evening": "2026-10-16T16:03:06.243Z",
+      "tonight": "2026-10-16T16:03:06.243Z",
+      "the day after tomorrow": "2026-10-16T16:03:06.243Z",
+      "on sunday": "2026-10-16T16:03:06.243Z",
+      "on+星期": "2026-10-16T16:03:06.243Z",
+      "for +时间段": "2026-10-16T16:03:06.243Z",
+      "need +名词": "2026-10-16T16:03:06.243Z",
+      "need to+v原": "2026-10-16T16:03:06.243Z",
+      "which one": "2026-10-16T16:03:06.243Z",
+      "... and i + v原": "2026-10-16T16:03:06.243Z",
+      "i + v原 + with...": "2026-10-16T16:03:06.243Z"
     },
     "deletedErrors": {
       "idea": "2026-09-23T02:54:46.802Z",
