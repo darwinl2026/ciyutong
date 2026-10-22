@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "backupDate": "2026-10-22T18:12:44.649Z",
+  "backupDate": "2026-10-22T18:29:19.504Z",
   "english": {
     "words": [],
     "errors": {
@@ -5857,7 +5857,8 @@
             "meaning": "玩游戏",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-22T18:21:27.152Z"
           },
           {
             "word": "have a picnic",
@@ -7600,21 +7601,24 @@
             "meaning": "互相帮助",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-22T18:21:27.152Z"
           },
           {
             "word": "share things",
             "meaning": "分享东西",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-22T18:21:27.152Z"
           },
           {
             "word": "play games",
             "meaning": "玩游戏",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-22T18:21:27.152Z"
           },
           {
             "word": "do puzzles",
@@ -9024,7 +9028,8 @@
             "meaning": "做运动",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-22T18:21:27.152Z"
           },
           {
             "word": "be good at +V-ing",
@@ -9820,7 +9825,8 @@
             "meaning": "做运动",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-22T18:21:27.152Z"
           },
           {
             "word": "be good at +V-ing",
@@ -11136,7 +11142,14 @@
         "children": [
           "book_1792692507414",
           "book_1792692579552",
-          "book_1792692653941"
+          "book_1792692653941",
+          "book_1792693315688",
+          "book_1792693386105",
+          "book_1792693438549",
+          "book_1792693487569",
+          "book_1792693546382",
+          "book_1792693604288",
+          "book_1792693655339"
         ]
       },
       "book_1792692507414": {
@@ -11350,6 +11363,587 @@
           }
         ],
         "createdAt": "2026-10-22T18:10:53.941Z"
+      },
+      "book_1792693315688": {
+        "id": "book_1792693315688",
+        "type": "book",
+        "name": "(P5) U1L2 Listen and say",
+        "parent": "folder_1792692461673",
+        "children": [],
+        "words": [
+          {
+            "word": "Hello, my name is Wu Chenlin.",
+            "meaning": "大家好，我叫吴晨琳。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I often have fun with my friends.",
+            "meaning": "我经常和朋友们玩得很开心。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "At school, we always help each other and also share things.",
+            "meaning": "在学校里，我们总是互相帮助，还会分享东西。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "After school, we usually do sports.",
+            "meaning": "放学后，我们常常一起做运动。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Sometimes we play games together.",
+            "meaning": "有时我们一起玩游戏。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-22T18:21:55.688Z"
+      },
+      "book_1792693386105": {
+        "id": "book_1792693386105",
+        "type": "book",
+        "name": "(P6) U1L2 Listen, read and talk",
+        "parent": "folder_1792692461673",
+        "children": [],
+        "words": [
+          {
+            "word": "Hello, Taotao. What are you doing here?",
+            "meaning": "你好，淘淘。你在这里做什么？",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I am warming up for basketball training.",
+            "meaning": "我正在为篮球训练做准备活动。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Oh! You are in the Basketball Club.",
+            "meaning": "哦！你加入了篮球俱乐部。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Do you often train?",
+            "meaning": "你们经常训练吗？",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Yes, we do.",
+            "meaning": "是的，我们经常训练。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "We sometimes have basketball games with other schools.",
+            "meaning": "我们有时会和其他学校一起进行篮球赛。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "So cool!",
+            "meaning": "太酷了！",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "What do you often do with your friends after class?",
+            "meaning": "下课后你经常和朋友们一起做什么？",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "We often do puzzles.",
+            "meaning": "我们经常玩拼图。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Oh, it's time for your training. Goodbye.",
+            "meaning": "哦，到你训练的时间了。再见。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Bye.",
+            "meaning": "再见。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-22T18:23:06.105Z"
+      },
+      "book_1792693438549": {
+        "id": "book_1792693438549",
+        "type": "book",
+        "name": "(P8) U1L2 Watch, read and say",
+        "parent": "folder_1792692461673",
+        "children": [],
+        "words": [
+          {
+            "word": "Jiale, Amber and I are good friends.",
+            "meaning": "家乐、安珀和我是好朋友。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Jiale is a clever boy.",
+            "meaning": "家乐是一个聪明的男孩。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "He likes making robots.",
+            "meaning": "他喜欢制作机器人。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Amber is quiet and kind.",
+            "meaning": "安珀很文静，也很善良。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "She likes drawing pictures on the computer.",
+            "meaning": "她喜欢在电脑上画画。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I like making models.",
+            "meaning": "我喜欢做模型。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "We are a team in the Science Club.",
+            "meaning": "我们是科学俱乐部的一个团队。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "On school days, we go to school together.",
+            "meaning": "上学的日子，我们一起去上学。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "We make models.",
+            "meaning": "我们制作模型。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "After school, we often go to the library and read books.",
+            "meaning": "放学后，我们经常去图书馆看书。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "We sometimes visit the Science Museum.",
+            "meaning": "我们有时会去参观科学博物馆。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I like my friends.",
+            "meaning": "我喜欢我的朋友们。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-22T18:23:58.549Z"
+      },
+      "book_1792693487569": {
+        "id": "book_1792693487569",
+        "type": "book",
+        "name": "(P9) U1L3 Listen and say",
+        "parent": "folder_1792692461673",
+        "children": [],
+        "words": [
+          {
+            "word": "Good friends are kind to each other.",
+            "meaning": "好朋友会善待彼此。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Good friends make each other happy.",
+            "meaning": "好朋友使彼此感到快乐。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Good friends listen to each other.",
+            "meaning": "好朋友互相倾听。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Good friends help each other.",
+            "meaning": "好朋友互相帮助。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-22T18:24:47.569Z"
+      },
+      "book_1792693546382": {
+        "id": "book_1792693546382",
+        "type": "book",
+        "name": "(P10) U1L3 Listen, read and talk",
+        "parent": "folder_1792692461673",
+        "children": [],
+        "words": [
+          {
+            "word": "Taotao can't come to school today.",
+            "meaning": "淘淘今天不能来上学。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "He hurts his foot in a basketball game.",
+            "meaning": "他在一场篮球比赛中伤了脚。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "He is in hospital now.",
+            "meaning": "他现在住院了。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "What can we do for him?",
+            "meaning": "我们能力他做什么？",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I can take notes for him in class.",
+            "meaning": "我可以在课堂上帮他记笔记。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Great.",
+            "meaning": "太棒了。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I can help him with his homework.",
+            "meaning": "我可以辅导他做作业。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I can bring him some interesting books.",
+            "meaning": "我可以给他带些有趣的书。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Taotao likes reading science books.",
+            "meaning": "淘淘喜欢读科普类书籍。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "That's a good idea.",
+            "meaning": "这是个好主意。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "We can write him a get-well card.",
+            "meaning": "我们可以给他写一张祝愿康复卡。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "You are so nice.",
+            "meaning": "你们都很贴心。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Let's go and visit him.",
+            "meaning": "我们去看望他吧。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-22T18:25:46.382Z"
+      },
+      "book_1792693604288": {
+        "id": "book_1792693604288",
+        "type": "book",
+        "name": "(P12) U1L3 Listen, read and say",
+        "parent": "folder_1792692461673",
+        "children": [],
+        "words": [
+          {
+            "word": "\"Children, here is a thank-you note from Taotao.\"",
+            "meaning": "“同学们，这是淘淘的感谢信。”",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Dear all,",
+            "meaning": "亲爱的大家，",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I'm writing to thank my good friends,",
+            "meaning": "我写信是想感谢我的好朋友们，",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Chenlin, Jiale, Amber, Betty and Tony.",
+            "meaning": "晨琳、家乐、安珀、贝蒂和托尼。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "They are kind.",
+            "meaning": "他们很善良。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "They often help me.",
+            "meaning": "他们经常帮助我。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "They always make me laugh.",
+            "meaning": "他们总能逗得我大笑。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "They are clever.",
+            "meaning": "他们很聪明。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "They often share good ideas with me.",
+            "meaning": "他们经常和我分享好主意。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I hurt my foot in a basketball game.",
+            "meaning": "我在一场篮球比赛中弄伤了脚。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "They all come to visit me in the hospital.",
+            "meaning": "他们都来医院看望我。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "They bring me some interesting books.",
+            "meaning": "他们给我带来了一些有趣的书。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-22T18:26:44.288Z"
+      },
+      "book_1792693655339": {
+        "id": "book_1792693655339",
+        "type": "book",
+        "name": "(P14) U1 Project",
+        "parent": "folder_1792692461673",
+        "children": [],
+        "words": [
+          {
+            "word": "They help me with my studies.",
+            "meaning": "他们辅导我学习。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "They give me a nice card.",
+            "meaning": "他们给了我一张漂亮的卡片。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I am happy to have my friends.",
+            "meaning": "能拥有这群朋友，我很开心。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "A friend in need is a friend indeed.",
+            "meaning": "患难见真情。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Taotao",
+            "meaning": "淘淘",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Make a poster about your friends",
+            "meaning": "制作一张关于你朋友的海报",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Best friends",
+            "meaning": "最好的朋友",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Friends are your family.",
+            "meaning": "朋友就是你的家人。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "STEP 1 Take a photo.",
+            "meaning": "第一步：拍一张照片。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "STEP 2 Make a poster.",
+            "meaning": "第二步：制作一张海报。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "What do you and your friends look like?",
+            "meaning": "你和你的朋友长什么样？",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "What do you and your friends like doing?",
+            "meaning": "你和你的朋友喜欢做什么？",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "What do you often do together?",
+            "meaning": "你们经常一起做什么？",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Why do you like them?",
+            "meaning": "你为什么喜欢他们？",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "STEP 3 Present your work in class.",
+            "meaning": "第三步：在课堂上展示你的作品。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "STEP 4 Think and share what you learn in this project.",
+            "meaning": "第四步：思考并分享你在这个项目中学到的东西。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-22T18:27:35.339Z"
       }
     },
     "deletedWords": {
@@ -11706,7 +12300,80 @@
       "she has long hair and green eyes.": "2026-10-22T18:12:41.244Z",
       "she doesn't like the high jump.": "2026-10-22T18:12:41.244Z",
       "i have short hair and black eyes.": "2026-10-22T18:12:41.244Z",
-      "i like reading, but i don't like swimming.": "2026-10-22T18:12:41.244Z"
+      "i like reading, but i don't like swimming.": "2026-10-22T18:12:41.244Z",
+      "hello, my name is wu chenlin.": "2026-10-22T18:21:57.563Z",
+      "i often have fun with my friends.": "2026-10-22T18:21:57.563Z",
+      "at school, we always help each other and also share things.": "2026-10-22T18:21:57.563Z",
+      "after school, we usually do sports.": "2026-10-22T18:21:57.563Z",
+      "sometimes we play games together.": "2026-10-22T18:21:57.563Z",
+      "hello, taotao. what are you doing here?": "2026-10-22T18:23:08.699Z",
+      "i am warming up for basketball training.": "2026-10-22T18:23:08.699Z",
+      "oh! you are in the basketball club.": "2026-10-22T18:23:08.699Z",
+      "do you often train?": "2026-10-22T18:23:08.699Z",
+      "yes, we do.": "2026-10-22T18:23:08.699Z",
+      "we sometimes have basketball games with other schools.": "2026-10-22T18:23:08.699Z",
+      "so cool!": "2026-10-22T18:23:08.699Z",
+      "what do you often do with your friends after class?": "2026-10-22T18:23:08.699Z",
+      "we often do puzzles.": "2026-10-22T18:23:08.699Z",
+      "oh, it's time for your training. goodbye.": "2026-10-22T18:23:08.699Z",
+      "bye.": "2026-10-22T18:23:08.699Z",
+      "jiale, amber and i are good friends.": "2026-10-22T18:24:32.975Z",
+      "jiale is a clever boy.": "2026-10-22T18:24:32.975Z",
+      "he likes making robots.": "2026-10-22T18:24:32.975Z",
+      "amber is quiet and kind.": "2026-10-22T18:24:32.975Z",
+      "she likes drawing pictures on the computer.": "2026-10-22T18:24:32.975Z",
+      "i like making models.": "2026-10-22T18:24:32.975Z",
+      "we are a team in the science club.": "2026-10-22T18:24:32.975Z",
+      "on school days, we go to school together.": "2026-10-22T18:24:32.975Z",
+      "we make models.": "2026-10-22T18:24:32.975Z",
+      "after school, we often go to the library and read books.": "2026-10-22T18:24:32.975Z",
+      "we sometimes visit the science museum.": "2026-10-22T18:24:32.975Z",
+      "i like my friends.": "2026-10-22T18:24:32.975Z",
+      "good friends are kind to each other.": "2026-10-22T18:24:49.925Z",
+      "good friends make each other happy.": "2026-10-22T18:24:49.925Z",
+      "good friends listen to each other.": "2026-10-22T18:24:49.925Z",
+      "good friends help each other.": "2026-10-22T18:24:49.925Z",
+      "taotao can't come to school today.": "2026-10-22T18:25:48.617Z",
+      "he hurts his foot in a basketball game.": "2026-10-22T18:25:48.617Z",
+      "he is in hospital now.": "2026-10-22T18:25:48.617Z",
+      "what can we do for him?": "2026-10-22T18:25:48.617Z",
+      "i can take notes for him in class.": "2026-10-22T18:25:48.617Z",
+      "great.": "2026-10-22T18:25:48.617Z",
+      "i can help him with his homework.": "2026-10-22T18:25:48.617Z",
+      "i can bring him some interesting books.": "2026-10-22T18:25:48.617Z",
+      "taotao likes reading science books.": "2026-10-22T18:25:48.617Z",
+      "that's a good idea.": "2026-10-22T18:25:48.617Z",
+      "we can write him a get-well card.": "2026-10-22T18:25:48.617Z",
+      "you are so nice.": "2026-10-22T18:25:48.617Z",
+      "let's go and visit him.": "2026-10-22T18:25:48.617Z",
+      "\"children, here is a thank-you note from taotao.\"": "2026-10-22T18:26:46.777Z",
+      "dear all,": "2026-10-22T18:26:46.777Z",
+      "i'm writing to thank my good friends,": "2026-10-22T18:26:46.777Z",
+      "chenlin, jiale, amber, betty and tony.": "2026-10-22T18:26:46.777Z",
+      "they are kind.": "2026-10-22T18:26:46.777Z",
+      "they often help me.": "2026-10-22T18:26:46.777Z",
+      "they always make me laugh.": "2026-10-22T18:26:46.777Z",
+      "they are clever.": "2026-10-22T18:26:46.777Z",
+      "they often share good ideas with me.": "2026-10-22T18:26:46.777Z",
+      "i hurt my foot in a basketball game.": "2026-10-22T18:26:46.777Z",
+      "they all come to visit me in the hospital.": "2026-10-22T18:26:46.777Z",
+      "they bring me some interesting books.": "2026-10-22T18:26:46.777Z",
+      "they help me with my studies.": "2026-10-22T18:27:37.754Z",
+      "they give me a nice card.": "2026-10-22T18:27:37.754Z",
+      "i am happy to have my friends.": "2026-10-22T18:27:37.754Z",
+      "a friend in need is a friend indeed.": "2026-10-22T18:27:37.754Z",
+      "taotao": "2026-10-22T18:27:37.754Z",
+      "make a poster about your friends": "2026-10-22T18:27:37.754Z",
+      "best friends": "2026-10-22T18:27:37.754Z",
+      "friends are your family.": "2026-10-22T18:27:37.754Z",
+      "step 1 take a photo.": "2026-10-22T18:27:37.754Z",
+      "step 2 make a poster.": "2026-10-22T18:27:37.754Z",
+      "what do you and your friends look like?": "2026-10-22T18:27:37.754Z",
+      "what do you and your friends like doing?": "2026-10-22T18:27:37.754Z",
+      "what do you often do together?": "2026-10-22T18:27:37.754Z",
+      "why do you like them?": "2026-10-22T18:27:37.754Z",
+      "step 3 present your work in class.": "2026-10-22T18:27:37.754Z",
+      "step 4 think and share what you learn in this project.": "2026-10-22T18:27:37.754Z"
     },
     "deletedErrors": {
       "idea": "2026-09-23T02:54:46.802Z",
