@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "backupDate": "2026-10-22T18:05:24.664Z",
+  "backupDate": "2026-10-22T18:12:44.649Z",
   "english": {
     "words": [],
     "errors": {
@@ -6487,6 +6487,7 @@
           "folder_1783923387660",
           "folder_1785485962009",
           "folder_1791478157418",
+          "folder_1792692461673",
           "book_1785486405296",
           "book_1791478157421"
         ]
@@ -7985,10 +7986,11 @@
           },
           {
             "word": "He is a strong boy.",
-            "meaning": "他是一个强壮的男孩。",
+            "meaning": "他是一个身强体壮的男孩。",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-22T18:07:03.269Z"
           },
           {
             "word": "She is a tall girl.",
@@ -8013,10 +8015,11 @@
           },
           {
             "word": "She likes dancing.",
-            "meaning": "他喜欢跳舞。",
+            "meaning": "她喜欢跳舞。",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-22T18:10:34.104Z"
           },
           {
             "word": "He doesn't like the high jump.",
@@ -8027,10 +8030,11 @@
           },
           {
             "word": "We both like singing and playing games.",
-            "meaning": "我们俩都喜欢唱歌和玩游戏。",
+            "meaning": "我们都喜欢唱歌、玩游戏。",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-22T18:10:34.104Z"
           },
           {
             "word": "We always help each other and share things.",
@@ -8048,17 +8052,19 @@
           },
           {
             "word": "What does he like doing?",
-            "meaning": "他喜欢做什么？",
+            "meaning": "他喜欢做什么?",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-22T18:09:20.992Z"
           },
           {
             "word": "He is good at it.",
-            "meaning": "他擅长这个（这件事）。",
+            "meaning": "他很擅长这项运动。",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-22T18:09:20.992Z"
           }
         ],
         "createdAt": "2026-08-05T07:48:05.831Z"
@@ -11121,6 +11127,229 @@
           }
         ],
         "createdAt": "2026-10-16T16:02:53.097Z"
+      },
+      "folder_1792692461673": {
+        "id": "folder_1792692461673",
+        "type": "folder",
+        "name": "五上课文",
+        "parent": "folder_1783923255818",
+        "children": [
+          "book_1792692507414",
+          "book_1792692579552",
+          "book_1792692653941"
+        ]
+      },
+      "book_1792692507414": {
+        "id": "book_1792692507414",
+        "type": "book",
+        "name": "(P2) U1L1 Listen and say",
+        "parent": "folder_1792692461673",
+        "children": [],
+        "words": [
+          {
+            "word": "My name is Xu Na.",
+            "meaning": "我的名字叫徐娜。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I'm in Class 3, Grade 5.",
+            "meaning": "我在五年级三班。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "My friend Chenlin is in Class 1.",
+            "meaning": "我的朋友晨琳在一班。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "She is a tall girl with short hair.",
+            "meaning": "她是一个留着短发的高个子女孩。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "She has a lovely nose and black eyes.",
+            "meaning": "她有一个可爱的鼻子和一双黑眼睛。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "She likes playing ping-pong.",
+            "meaning": "她喜欢打乒乓球。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "This is my friend Jiale.",
+            "meaning": "这是我的朋友家乐。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "We're both in Class 1.",
+            "meaning": "我们两个都在一班。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "He has short hair and big eyes.",
+            "meaning": "他有一头短发和一双大眼睛。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "He likes playing basketball and doing kung fu.",
+            "meaning": "他喜欢打篮球和练功夫。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-22T18:08:27.414Z"
+      },
+      "book_1792692579552": {
+        "id": "book_1792692579552",
+        "type": "book",
+        "name": "(P3) U1L1 Listen, read and talk",
+        "parent": "folder_1792692461673",
+        "children": [],
+        "words": [
+          {
+            "word": "Jiale, who is your best friend?",
+            "meaning": "家乐, 谁是你最好的朋友?",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Taotao and Tony are my best friends.",
+            "meaning": "淘淘和托尼是我最好的朋友。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Oh, I know Tony. He comes from the USA.",
+            "meaning": "哦, 我认识托尼。他来自美国。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "What does Taotao look like?",
+            "meaning": "淘淘长什么样?",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Taotao is tall and strong.",
+            "meaning": "淘淘又高又壮。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "He has black hair and big eyes.",
+            "meaning": "他有一头黑发和一双大眼睛。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "He is a fan of sports.",
+            "meaning": "他是个体育迷。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Does he like kung fu?",
+            "meaning": "他喜欢功夫吗?",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "No, he doesn't.",
+            "meaning": "不, 他不喜欢。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "He likes playing basketball.",
+            "meaning": "他喜欢打篮球。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-22T18:09:39.552Z"
+      },
+      "book_1792692653941": {
+        "id": "book_1792692653941",
+        "type": "book",
+        "name": "(P4) U1L1 Listen, read and say",
+        "parent": "folder_1792692461673",
+        "children": [],
+        "words": [
+          {
+            "word": "Amber and I are best friends.",
+            "meaning": "安珀和我是最好的朋友。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Amber is a lovely girl.",
+            "meaning": "安珀是一个可爱的女孩。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "She has long hair and green eyes.",
+            "meaning": "她有一头长发和一双绿眼睛。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "She doesn't like the high jump.",
+            "meaning": "她不喜欢跳高。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I have short hair and black eyes.",
+            "meaning": "我有一头短发和一双黑眼睛。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I like reading, but I don't like swimming.",
+            "meaning": "我喜欢读书，但我不喜欢游泳。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-22T18:10:53.941Z"
       }
     },
     "deletedWords": {
@@ -11451,7 +11680,33 @@
       "i am going to play chess.": "2026-10-20T12:14:14.361Z",
       "i am going to help mum clean the house.": "2026-10-20T12:14:14.361Z",
       "what are you going to do this weekend?": "2026-10-20T12:14:14.361Z",
-      "i am going to make a poster and write a book report.": "2026-10-20T12:14:14.361Z"
+      "i am going to make a poster and write a book report.": "2026-10-20T12:14:14.361Z",
+      "my name is xu na.": "2026-10-22T18:08:38.071Z",
+      "i'm in class 3, grade 5.": "2026-10-22T18:08:38.071Z",
+      "my friend chenlin is in class 1.": "2026-10-22T18:08:38.071Z",
+      "she is a tall girl with short hair.": "2026-10-22T18:08:38.071Z",
+      "she has a lovely nose and black eyes.": "2026-10-22T18:08:38.071Z",
+      "she likes playing ping-pong.": "2026-10-22T18:08:38.071Z",
+      "this is my friend jiale.": "2026-10-22T18:08:38.071Z",
+      "we're both in class 1.": "2026-10-22T18:08:38.071Z",
+      "he has short hair and big eyes.": "2026-10-22T18:08:38.071Z",
+      "he likes playing basketball and doing kung fu.": "2026-10-22T18:08:38.071Z",
+      "jiale, who is your best friend?": "2026-10-22T18:09:42.417Z",
+      "taotao and tony are my best friends.": "2026-10-22T18:09:42.417Z",
+      "oh, i know tony. he comes from the usa.": "2026-10-22T18:09:42.417Z",
+      "what does taotao look like?": "2026-10-22T18:09:42.417Z",
+      "taotao is tall and strong.": "2026-10-22T18:09:42.417Z",
+      "he has black hair and big eyes.": "2026-10-22T18:09:42.417Z",
+      "he is a fan of sports.": "2026-10-22T18:09:42.417Z",
+      "does he like kung fu?": "2026-10-22T18:09:42.417Z",
+      "no, he doesn't.": "2026-10-22T18:09:42.417Z",
+      "he likes playing basketball.": "2026-10-22T18:09:42.417Z",
+      "amber and i are best friends.": "2026-10-22T18:12:41.244Z",
+      "amber is a lovely girl.": "2026-10-22T18:12:41.244Z",
+      "she has long hair and green eyes.": "2026-10-22T18:12:41.244Z",
+      "she doesn't like the high jump.": "2026-10-22T18:12:41.244Z",
+      "i have short hair and black eyes.": "2026-10-22T18:12:41.244Z",
+      "i like reading, but i don't like swimming.": "2026-10-22T18:12:41.244Z"
     },
     "deletedErrors": {
       "idea": "2026-09-23T02:54:46.802Z",
