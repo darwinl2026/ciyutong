@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "backupDate": "2026-10-23T07:05:35.728Z",
+  "backupDate": "2026-10-23T14:02:43.964Z",
   "english": {
     "words": [],
     "errors": {
@@ -2130,7 +2130,8 @@
             "meaning": "晨琳",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-23T13:26:33.787Z"
           },
           {
             "word": "Four seasons in Beijing",
@@ -6402,7 +6403,8 @@
             "meaning": "放学后",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-23T13:34:49.071Z"
           },
           {
             "word": "come on",
@@ -6781,10 +6783,11 @@
           },
           {
             "word": "make the bed",
-            "meaning": "叠被子",
+            "meaning": "整理床铺",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-23T13:34:49.071Z"
           },
           {
             "word": "dish",
@@ -6805,7 +6808,8 @@
             "meaning": "洗衣服",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-23T13:34:49.071Z"
           },
           {
             "word": "helper",
@@ -6927,21 +6931,24 @@
             "meaning": "茶",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-23T13:52:13.792Z"
           },
           {
             "word": "hot pot",
             "meaning": "火锅",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-23T13:52:13.792Z"
           },
           {
             "word": "fish and chips",
             "meaning": "炸鱼薯条",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-23T13:52:13.792Z"
           },
           {
             "word": "hot dog",
@@ -6983,7 +6990,8 @@
             "meaning": "东坡肉",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-23T13:52:13.792Z"
           },
           {
             "word": "dish",
@@ -7018,14 +7026,16 @@
             "meaning": "菜单",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-23T13:52:13.792Z"
           },
           {
             "word": "fried rice",
             "meaning": "炒饭",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-23T13:52:13.792Z"
           },
           {
             "word": "think",
@@ -7039,7 +7049,8 @@
             "meaning": "可乐",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-23T13:52:13.792Z"
           },
           {
             "word": "glass",
@@ -7235,52 +7246,59 @@
           },
           {
             "word": "make the bed",
-            "meaning": "叠被子",
+            "meaning": "整理床铺",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-23T13:34:49.071Z"
           },
           {
             "word": "set the table",
-            "meaning": "摆放餐具",
+            "meaning": "摆放餐桌餐具",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-23T13:34:49.071Z"
           },
           {
             "word": "wash dishes",
             "meaning": "洗碗",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-23T13:34:49.071Z"
           },
           {
             "word": "do the washing",
             "meaning": "洗衣服",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-23T13:34:49.071Z"
           },
           {
             "word": "take out the rubbish",
-            "meaning": "倒垃圾",
+            "meaning": "把垃圾倒出去",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-23T13:19:08.818Z"
           },
           {
             "word": "sweep the floor",
             "meaning": "扫地",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-23T13:19:08.819Z"
           },
           {
             "word": "clean the blackboard",
             "meaning": "擦黑板",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-23T13:19:08.819Z"
           },
           {
             "word": "tidy up",
@@ -7850,14 +7868,16 @@
             "meaning": "做早餐",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-23T13:34:49.071Z"
           },
           {
             "word": "cook dinner",
             "meaning": "做晚饭",
             "pronunciation": "",
             "partOfSpeech": "",
-            "examples": []
+            "examples": [],
+            "updatedAt": "2026-10-23T13:34:49.071Z"
           },
           {
             "word": "walk the dog",
@@ -10562,7 +10582,29 @@
           "book_1792738281602",
           "book_1792738631175",
           "book_1792738710921",
-          "book_1792738840911"
+          "book_1792738840911",
+          "book_1792761634770",
+          "book_1792761704060",
+          "book_1792761773275",
+          "book_1792762500740",
+          "book_1792761950416",
+          "book_1792762105568",
+          "book_1792762151803",
+          "book_1792762199299",
+          "book_1792762251016",
+          "book_1792762321101",
+          "book_1792762371183",
+          "book_1792763088548",
+          "book_1792763371329",
+          "book_1792763499833",
+          "book_1792763609860",
+          "book_1792763681169",
+          "book_1792763717536",
+          "book_1792763807301",
+          "book_1792763852713",
+          "book_1792763895198",
+          "book_1792764112048",
+          "book_1792764140165"
         ]
       },
       "book_1792693315688": {
@@ -11202,19 +11244,19 @@
           },
           {
             "word": "STEP 3 Present your work in class.",
-            "meaning": "第三步：在课堂上展示你的作品。",
+            "meaning": "步骤3在课堂上展示你的作品。",
             "pronunciation": "",
             "partOfSpeech": "",
             "examples": [],
-            "updatedAt": "2026-10-23T06:29:35.388Z"
+            "updatedAt": "2026-10-23T14:01:06.684Z"
           },
           {
             "word": "STEP 4 Think and share what you learn in this project.",
-            "meaning": "第四步：思考并分享你在这个项目中学到的东西。",
+            "meaning": "步骤4思考并分享你在这个项目中学到的东西。",
             "pronunciation": "",
             "partOfSpeech": "",
             "examples": [],
-            "updatedAt": "2026-10-23T06:29:35.388Z"
+            "updatedAt": "2026-10-23T14:01:06.684Z"
           }
         ],
         "createdAt": "2026-10-22T18:27:35.339Z"
@@ -12416,6 +12458,1742 @@
           }
         ],
         "createdAt": "2026-10-23T07:00:40.911Z"
+      },
+      "book_1792761634770": {
+        "id": "book_1792761634770",
+        "type": "book",
+        "name": "(P33) U3L1 Listen and say",
+        "parent": "folder_1792692461673",
+        "children": [],
+        "words": [
+          {
+            "word": "After class, we share school duties.",
+            "meaning": "下课后，我们分担班级值日工作。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "We clean the blackboard and sweep the floor.",
+            "meaning": "我们擦黑板，扫地。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "We tidy up the desks and chairs, and take out the rubbish.",
+            "meaning": "我们整理桌椅，把垃圾倒出去。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "clean the blackboard-",
+            "meaning": "擦黑板",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "sweep the floor-",
+            "meaning": "扫地",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "tidy up the desks and chairs",
+            "meaning": "整理桌椅",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "take out the rubbish-",
+            "meaning": "把垃圾倒出去",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-23T13:20:34.770Z"
+      },
+      "book_1792761704060": {
+        "id": "book_1792761704060",
+        "type": "book",
+        "name": "(P34) U3L1 Listen, read and talk",
+        "parent": "folder_1792692461673",
+        "children": [],
+        "words": [
+          {
+            "word": "Children, what school duties do you do?",
+            "meaning": "孩子们，你们值日都会做哪些事？",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I usually sweep the floor. Tuesday is my duty day.",
+            "meaning": "我通常扫地。星期二是我的值日时间。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I usually tidy up the desks and chairs on Thursdays.",
+            "meaning": "我通常在星期四整理桌椅。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Thursday is my duty day.",
+            "meaning": "星期四是我的值日时间。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Wednesday is my duty day. I usually sweep the floor.",
+            "meaning": "星期三是我的值日时间。我通常扫地。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Today is my duty day.",
+            "meaning": "今天是我的值日时间。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I will clean the blackboard and take out the rubbish after school.",
+            "meaning": "放学后我会擦黑板，把垃圾倒出去。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Lino, what duties will you do?",
+            "meaning": "利诺，你要完成哪些值日任务？",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Well ... I will clean all the windows tomorrow.",
+            "meaning": "嗯……我明天会把所有的窗户都擦干净。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "You are helpful, Lino.",
+            "meaning": "你真能干，利诺。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-23T13:21:44.060Z"
+      },
+      "book_1792761773275": {
+        "id": "book_1792761773275",
+        "type": "book",
+        "name": "(P36) U3L1 Listen, read and say",
+        "parent": "folder_1792692461673",
+        "children": [],
+        "words": [
+          {
+            "word": "Next Friday is our school open day.",
+            "meaning": "下周五是我们学校的开放日。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "We will help teachers for that day.",
+            "meaning": "我们将在那一天帮助老师。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Some students will set the tables in the dining hall.",
+            "meaning": "一些学生会在食堂摆放餐桌。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Some will help in the library.",
+            "meaning": "一些学生会在图书馆帮忙。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Some will pick up litter and water plants.",
+            "meaning": "一些学生会捡垃圾，给植物浇水。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I will help my teacher in the art room.",
+            "meaning": "我会在美术室帮助我的老师。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-23T13:22:53.275Z"
+      },
+      "book_1792761950416": {
+        "id": "book_1792761950416",
+        "type": "book",
+        "name": "(P40) U3L2 Listen, read and talk",
+        "parent": "folder_1792692461673",
+        "children": [],
+        "words": [
+          {
+            "word": "What will you do after school, Jiale?",
+            "meaning": "家乐，放学后你会做什么？",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I will help Mum with dinner.",
+            "meaning": "我会帮妈妈做晚饭。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "How will you help?",
+            "meaning": "你会帮忙做些什么？",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I will wash the vegetables. Do you often help at home?",
+            "meaning": "我会洗菜。你经常在家帮忙吗？",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Yes. I often help my parents with chores after school.",
+            "meaning": "是的。我放学后经常帮爸爸妈妈做家务。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "What will you do this evening?",
+            "meaning": "今晚你要做什么？",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I will sweep the floor and take the rubbish out.",
+            "meaning": "我要扫地，再把垃圾倒掉。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "You're a good helper.",
+            "meaning": "你是个好帮手。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "We both like helping at home.",
+            "meaning": "我们都喜欢在家帮忙。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-23T13:25:50.416Z"
+      },
+      "book_1792762105568": {
+        "id": "book_1792762105568",
+        "type": "book",
+        "name": "(P42) U3L2 Listen, read and say",
+        "parent": "folder_1792692461673",
+        "children": [],
+        "words": [
+          {
+            "word": "Dear Mum and Dad,",
+            "meaning": "亲爱的爸爸妈妈，",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Today is your special day.",
+            "meaning": "今天是你们的特殊日子。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Brother and I want you to have a good rest.",
+            "meaning": "哥哥和我希望你们好好休息。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "We will do all the chores today. Here is our plan.",
+            "meaning": "我们今天要做所有的家务。这是我们的安排。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "First, I'll water the flowers and sweep the floor.",
+            "meaning": "首先，我要浇花，扫地。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Brother will clean the table and do the dishes.",
+            "meaning": "哥哥会擦桌子和洗碗。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Then, we will put away all the books in the study.",
+            "meaning": "然后，我们会把书房里所有的书都收起来。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "We will cook some noodles for lunch at noon.",
+            "meaning": "中午我们会煮一些面条当午餐。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Next, we will do the washing in the afternoon.",
+            "meaning": "接下来，我们会在下午洗衣服。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "After that, we will take out the rubbish.",
+            "meaning": "之后，我们会把垃圾倒出去。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "At last, we will walk the dog.",
+            "meaning": "最后，我们会遛狗。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Enjoy your day,",
+            "meaning": "祝你们愉快地度过这一天，",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Chenlin-",
+            "meaning": "晨琳",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-23T13:28:25.568Z"
+      },
+      "book_1792762151803": {
+        "id": "book_1792762151803",
+        "type": "book",
+        "name": "(P44) U3L3 Listen and say",
+        "parent": "folder_1792692461673",
+        "children": [],
+        "words": [
+          {
+            "word": "I enjoy helping my parents do chores. They are proud of me.",
+            "meaning": "我喜欢帮父母做家务。他们为我感到骄傲。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I enjoy cooking. I like sharing food with my friends.",
+            "meaning": "我喜欢做饭。我喜欢和朋友分享食物。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I enjoy tidying up the house. A clean house makes me happy.",
+            "meaning": "我喜欢整理房子。干净的房子让我快乐。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-23T13:29:11.803Z"
+      },
+      "book_1792762199299": {
+        "id": "book_1792762199299",
+        "type": "book",
+        "name": "(P45) U3L3 Listen, read and talk",
+        "parent": "folder_1792692461673",
+        "children": [],
+        "words": [
+          {
+            "word": "Do you like doing chores?",
+            "meaning": "你喜欢做家务吗？",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Yes. I enjoy tidying up the house.",
+            "meaning": "是的。我喜欢整理房子。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "A clean house makes me happy.",
+            "meaning": "干净的房子让我快乐。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "What chores do you enjoy?",
+            "meaning": "你喜欢做什么家务？",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I enjoy cooking.",
+            "meaning": "我喜欢做饭。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I like sharing food with my family and friends.",
+            "meaning": "我喜欢与家人和朋友分享食物。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "What about you, Taotao?",
+            "meaning": "淘淘，你呢？",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I love my cat. I enjoy taking care of him.",
+            "meaning": "我喜欢我的猫。我喜欢照顾他。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "But I find some chores are boring.",
+            "meaning": "但我发现有些家务活很无聊。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Maybe you can try different chores.",
+            "meaning": "也许你可以尝试不同的家务。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "OK. I have a pet too.",
+            "meaning": "好的。我也有一只宠物。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I can learn to take care of him every day.",
+            "meaning": "我可以学着每天照顾他。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Good idea!",
+            "meaning": "好主意！",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-23T13:29:59.299Z"
+      },
+      "book_1792762251016": {
+        "id": "book_1792762251016",
+        "type": "book",
+        "name": "(P46) U3L3 Watch, read and say",
+        "parent": "folder_1792692461673",
+        "children": [],
+        "words": [
+          {
+            "word": "On duty days, I do a lot of things with my classmates.",
+            "meaning": "在值日当天，我和同学们一起做了很多事情。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "We sweep the floor, clean the blackboard,",
+            "meaning": "我们扫地，擦黑板，",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "water the plants, and tidy up the desks and chairs.",
+            "meaning": "给植物浇水，整理桌椅。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "We help each other",
+            "meaning": "我们互相帮助",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "and we are happy to have a clean classroom.",
+            "meaning": "我们很开心拥有一个干净的教室。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I also enjoy doing chores at home.",
+            "meaning": "我也喜欢在家做家务。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "My parents are busy.",
+            "meaning": "我父母很忙。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I try my best to help them.",
+            "meaning": "我尽力帮助他们。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I feed and walk the dog.",
+            "meaning": "我喂狗，遛狗。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I help do the washing every day.",
+            "meaning": "我每天都会帮忙洗衣服。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "My brother and I do chores together at weekends.",
+            "meaning": "我哥哥和我周末一起做家务。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "We are happy to have a clean and tidy home.",
+            "meaning": "我们很高兴拥有一个干净整洁的家。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-23T13:30:51.016Z"
+      },
+      "book_1792762321101": {
+        "id": "book_1792762321101",
+        "type": "book",
+        "name": "(P48) U3 Project",
+        "parent": "folder_1792692461673",
+        "children": [],
+        "words": [
+          {
+            "word": "Let's be \"Good helpers\"",
+            "meaning": "让我们成为“好帮手”",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "STEP 1 Apply to be a good helper.",
+            "meaning": "步骤1申请成为一名好帮手。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Write a chore list at school and at home.",
+            "meaning": "列出在校值日和在家的任务清单。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Write the chores you are good at and enjoy.",
+            "meaning": "写下你擅长、喜欢做的。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Tell others how to do them.",
+            "meaning": "告诉别人怎么做。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Write down the reasons.",
+            "meaning": "写下原因。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "STEP 2 Present your work in class.",
+            "meaning": "步骤2在课堂上展示你的作品。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "STEP 3 Think and share what you learn in this project.",
+            "meaning": "步骤3思考并分享你在这个项目中学到的东西。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-23T13:32:01.101Z"
+      },
+      "book_1792762371183": {
+        "id": "book_1792762371183",
+        "type": "book",
+        "name": "(P49) U3 Phonics_1 Try to read",
+        "parent": "folder_1792692461673",
+        "children": [],
+        "words": [
+          {
+            "word": "The bear enjoys tidying up things and cooking.",
+            "meaning": "这只小熊喜欢收拾东西、做饭。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "The beautiful girl is washing the dishes. She is very helpful.",
+            "meaning": "这个漂亮的女孩正在洗碗。她非常乐于助人。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-23T13:32:51.183Z"
+      },
+      "book_1792762500740": {
+        "id": "book_1792762500740",
+        "type": "book",
+        "name": "(P38) U3L2 Listen and say",
+        "parent": "folder_1792692461673",
+        "children": [],
+        "words": [
+          {
+            "word": "There are many chores at home.",
+            "meaning": "家里有很多家务。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Before school, I make the bed. Mum makes breakfast.",
+            "meaning": "上学前，我整理床铺。妈妈做早餐。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "After school, I set the table. Mum and Dad cook dinner.",
+            "meaning": "放学后，我摆放餐桌。妈妈和爸爸做饭。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "After dinner, Dad washes dishes. Mum does the washing.",
+            "meaning": "晚饭后，爸爸洗碗。妈妈洗衣服。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "A chore list",
+            "meaning": "家务清单",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Before school",
+            "meaning": "上学前",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "After dinner",
+            "meaning": "晚饭后",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-23T13:35:00.740Z"
+      },
+      "book_1792763088548": {
+        "id": "book_1792763088548",
+        "type": "book",
+        "name": "(P51) U4L1 Listen and say",
+        "parent": "folder_1792692461673",
+        "children": [],
+        "words": [
+          {
+            "word": "Delicious foods",
+            "meaning": "美味的食物",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "There are so many delicious foods in the world.",
+            "meaning": "世界上有许多美味的食物。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "People love to share them.",
+            "meaning": "人们喜欢分享它们。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Dim sum comes from Guangdong.",
+            "meaning": "点心来自广东。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": [],
+            "updatedAt": "2026-10-23T13:49:56.846Z"
+          },
+          {
+            "word": "It tastes good.",
+            "meaning": "它味道很好。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": [],
+            "updatedAt": "2026-10-23T13:48:36.193Z"
+          },
+          {
+            "word": "People like to have it with tea.",
+            "meaning": "人们喜欢搭配茶水享用。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Hot pot is from Sichuan.",
+            "meaning": "火锅来自四川。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": [],
+            "updatedAt": "2026-10-23T13:51:03.862Z"
+          },
+          {
+            "word": "People put different foods in it.",
+            "meaning": "人们往锅里放入各种各样的食材。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Many people like hot pot.",
+            "meaning": "许多人喜欢火锅。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Fish and chips come from England.",
+            "meaning": "炸鱼薯条来自英国。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "They taste delicious.",
+            "meaning": "它们尝起来很美味。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "They are many people's favourite food.",
+            "meaning": "它们是许多人最喜欢的食物。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Hot dogs and hamburgers are fast foods in America.",
+            "meaning": "热狗和汉堡包是美国的快餐。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "They are yummy.",
+            "meaning": "它们很好吃。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "People can eat them on the go.",
+            "meaning": "人们可以边走边吃。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-23T13:44:48.548Z"
+      },
+      "book_1792763371329": {
+        "id": "book_1792763371329",
+        "type": "book",
+        "name": "(P52) U4L1 Listen, read and talk",
+        "parent": "folder_1792692461673",
+        "children": [],
+        "words": [
+          {
+            "word": "Wow, there are so many foods today!",
+            "meaning": "哇，今天有这么多食物！",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "What would you like to have, Tony?",
+            "meaning": "托尼，你想吃点什么？",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I'd like to try dim sum first.",
+            "meaning": "我想先尝尝点心。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "It tastes good.-",
+            "meaning": "它味道很好。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "People usually have dim sum with tea.",
+            "meaning": "人们通常喝茶吃点心。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Where is it from?",
+            "meaning": "它来自哪里？",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "It is from Guangdong.",
+            "meaning": "它来自广东。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Yummy!",
+            "meaning": "太美味了！",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I am going to share it with my friends.",
+            "meaning": "我要和我的朋友们一起分享。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Would you like to try this hamburger, Taotao?",
+            "meaning": "淘淘，你想尝尝这个汉堡吗？",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Wow, it smells good.",
+            "meaning": "哇，闻起来好香。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "What's in it?",
+            "meaning": "里面有什么？",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "There are vegetables and meat between the bread.",
+            "meaning": "面包中间夹着蔬菜和肉。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Is it your favourite food?",
+            "meaning": "这是你最喜欢的食物吗？",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Yes.",
+            "meaning": "是的。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": [],
+            "updatedAt": "2026-10-23T13:54:06.467Z"
+          },
+          {
+            "word": "In my country, people always eat it on the go.",
+            "meaning": "在我的国家，人们总是边走边吃。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-23T13:49:31.329Z"
+      },
+      "book_1792763499833": {
+        "id": "book_1792763499833",
+        "type": "book",
+        "name": "(P54) U4L1 Watch, read and say",
+        "parent": "folder_1792692461673",
+        "children": [],
+        "words": [
+          {
+            "word": "Today we are going to have a world food party.",
+            "meaning": "今天我们将要举办一场世界美食派对。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "We will enjoy foods around the world.",
+            "meaning": "我们将品尝世界各地的美食。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "In China, we have many foods.",
+            "meaning": "在中国，我们有很多种食物。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "They are from different places.",
+            "meaning": "它们来自不同的地方。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Hot pot is from Sichuan.-",
+            "meaning": "火锅来自四川。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Dongpo pork is a popular dish in Zhejiang.",
+            "meaning": "东坡肉是浙江很受欢迎的一道菜肴。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Dim sum comes from Guangdong.-",
+            "meaning": "点心来自广东。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "People in Guangdong often have it with tea.",
+            "meaning": "广东人经常搭配茶水享用心点。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "There are also many delicious foods in the West.",
+            "meaning": "西方也有很多美味的食物。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Hamburgers and hot dogs are fast foods.",
+            "meaning": "汉堡包和热狗是快餐。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "People often eat them on the go.",
+            "meaning": "人们经常边走边吃。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "People also like pizza and salad.",
+            "meaning": "人们也喜欢比萨饼和沙拉。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "It's fun to try different foods from all over the world.",
+            "meaning": "品尝来自世界各地的不同食物很有趣。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-23T13:51:39.833Z"
+      },
+      "book_1792763609860": {
+        "id": "book_1792763609860",
+        "type": "book",
+        "name": "(P56) U4L2 Listen and say",
+        "parent": "folder_1792692461673",
+        "children": [],
+        "words": [
+          {
+            "word": "There are so many foods on the menu.",
+            "meaning": "菜单上有这么多食物。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I want to have them all.",
+            "meaning": "每一样我都想尝尝。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Today, I would like to have Dongpo pork.",
+            "meaning": "今天，我想吃东坡肉。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I like meat.",
+            "meaning": "我喜欢吃肉。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "And I'd like to have fried rice because it tastes good.",
+            "meaning": "我想吃炒饭，因为它味道很好。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "For drinks, let me think ...",
+            "meaning": "饮品的话，让我想想……",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I don't want cola or tea.",
+            "meaning": "我不想要可乐或茶。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I'd like to have a glass of orange juice.",
+            "meaning": "我想喝一杯橙汁。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I am going to have a big lunch!",
+            "meaning": "我准备享用一顿丰盛的午餐！",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Vegetables",
+            "meaning": "蔬菜",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Fried eggs with tomatoes",
+            "meaning": "西红柿炒蛋",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Orange juice",
+            "meaning": "橙汁",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-23T13:53:29.860Z"
+      },
+      "book_1792763681169": {
+        "id": "book_1792763681169",
+        "type": "book",
+        "name": "(P57) U4L2 Listen, read and talk",
+        "parent": "folder_1792692461673",
+        "children": [],
+        "words": [
+          {
+            "word": "Hello! Would you like to order now?",
+            "meaning": "你们好！你们现在要点餐吗？",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Yes.-",
+            "meaning": "是的。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "We'd like to have vegetables, fried eggs with tomatoes,",
+            "meaning": "我们想要蔬菜，西红柿炒蛋，",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "chicken and fried rice.",
+            "meaning": "鸡肉还有炒饭。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Anything else?",
+            "meaning": "还需要别的吗？",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I'd like hot pot.",
+            "meaning": "我想吃火锅。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Hot pot is delicious,",
+            "meaning": "火锅味道很不错，",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "but maybe it's too much for you three.",
+            "meaning": "但这些可能对你们三个来说太多了。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "That's right.",
+            "meaning": "说得没错。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Let's have it next time.",
+            "meaning": "我们下次再来吃火锅吧。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "What would you like to drink?",
+            "meaning": "请问你们想喝点什么？",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Dad and I would like two cups of tea.",
+            "meaning": "我和爸爸想要两杯茶。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "How about you?",
+            "meaning": "你呢？",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I'd like a glass of orange juice, please.",
+            "meaning": "请给我一杯橙汁。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "OK.",
+            "meaning": "好的。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-23T13:54:41.169Z"
+      },
+      "book_1792763717536": {
+        "id": "book_1792763717536",
+        "type": "book",
+        "name": "(P58) U4L2 Listen, read and say",
+        "parent": "folder_1792692461673",
+        "children": [],
+        "words": [
+          {
+            "word": "\"Look,",
+            "meaning": "“看，",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "there is a lot of fried rice and chicken on the table.",
+            "meaning": "桌子上有很多炒饭和鸡肉。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "We order too much.",
+            "meaning": "我们点得太多了。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "What shall we do?\"",
+            "meaning": "我们该怎么办？”",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "How to save food?",
+            "meaning": "如何节约粮食？",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Do you order too much?",
+            "meaning": "你点的菜太多了吗？",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Do you know how to save food?",
+            "meaning": "你知道如何节约粮食吗？",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Here are some ways.",
+            "meaning": "这里有一些方法。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Think well before ordering.",
+            "meaning": "点餐前先仔细想想。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Don't order too much.",
+            "meaning": "不要点太多。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Clear your plate.",
+            "meaning": "光盘行动。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Put the leftovers in boxes",
+            "meaning": "把剩菜装进餐盒，",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "and take them back home.",
+            "meaning": "打包带回家。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Keep the leftovers in the fridge.",
+            "meaning": "把剩菜放进冰箱里。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-23T13:55:17.536Z"
+      },
+      "book_1792763807301": {
+        "id": "book_1792763807301",
+        "type": "book",
+        "name": "(P59) U4L3 Listen and say",
+        "parent": "folder_1792692461673",
+        "children": [],
+        "words": [
+          {
+            "word": "I like meat and rice.",
+            "meaning": "我喜欢肉和米饭。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Now I am eating a hamburger for lunch.",
+            "meaning": "现在我午餐吃汉堡包。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I have eggs and milk for breakfast.",
+            "meaning": "我早餐吃鸡蛋和牛奶。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "But now I want to have vegetables and chicken.",
+            "meaning": "但现在我想吃蔬菜和鸡肉。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "For dinner, I will have fish and rice.",
+            "meaning": "晚饭，我打算吃鱼和米饭。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-23T13:56:47.301Z"
+      },
+      "book_1792763852713": {
+        "id": "book_1792763852713",
+        "type": "book",
+        "name": "(P60) U4L3 Listen, read and talk",
+        "parent": "folder_1792692461673",
+        "children": [],
+        "words": [
+          {
+            "word": "Lino is scanning Taotao's plate",
+            "meaning": "利诺正在扫描淘淘的餐盘",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Taotao, the food on your plate looks delicious.",
+            "meaning": "淘淘，你盘子里的食物看起来很好吃。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "But it's not healthy.",
+            "meaning": "但是不太健康。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Oh, no! Why?",
+            "meaning": "哦，不！为什么？",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "You take too much fried food.",
+            "meaning": "你油炸食品拿得太多了。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "I think you should eat more vegetables.",
+            "meaning": "我认为你应该多吃蔬菜。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Lino is scanning Chenlin's plate",
+            "meaning": "利诺正在扫描晨琳的餐盘",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Chenlin, you take rice, vegetables, chicken,",
+            "meaning": "晨琳，你取了米饭、蔬菜、鸡肉、",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "eggs and apple.",
+            "meaning": "鸡蛋和苹果。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "They are very healthy.",
+            "meaning": "它们非常健康。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Good for you!",
+            "meaning": "很棒！",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Can I have a glass of orange juice?",
+            "meaning": "我能喝杯橙汁吗？",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Yes, you can have some but not too much.",
+            "meaning": "可以，你可以喝一点，但不要太多。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "And you need to eat different groups of food every day.",
+            "meaning": "你需要每天吃不同种类的食物。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Thank you very much, Lino.",
+            "meaning": "非常感谢，利诺。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-23T13:57:32.713Z"
+      },
+      "book_1792763895198": {
+        "id": "book_1792763895198",
+        "type": "book",
+        "name": "(P62) U4L3 Listen, read and say",
+        "parent": "folder_1792692461673",
+        "children": [],
+        "words": [
+          {
+            "word": "I'm Ms Hu, the school doctor.",
+            "meaning": "我是校医胡老师。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Today I want to talk about food and health.",
+            "meaning": "今天我想聊聊饮食和健康。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "To be healthy, you need to",
+            "meaning": "想要身体健康，你需要",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "eat three meals on time.",
+            "meaning": "按时吃三餐。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "eat different groups of food.",
+            "meaning": "吃不同种类的食物。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "You should",
+            "meaning": "你应该",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "have enough rice or bread.",
+            "meaning": "吃足够的米饭或面包。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "have plenty of vegetables and fruit.",
+            "meaning": "多吃蔬菜和水果。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "have enough meat and eggs.",
+            "meaning": "吃足够的肉类和蛋类。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "drink enough water and milk.",
+            "meaning": "喝足够的水和牛奶。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "You shouldn't",
+            "meaning": "你不应该",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "eat too much fast food.",
+            "meaning": "吃太多快餐。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "have too much ice cream.",
+            "meaning": "吃太多冰淇淋。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "have too many soft drinks, like cola.",
+            "meaning": "喝太多软饮料，比如可乐。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "Eating healthy makes you strong.",
+            "meaning": "健康饮食使你强壮。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-23T13:58:15.198Z"
+      },
+      "book_1792764112048": {
+        "id": "book_1792764112048",
+        "type": "book",
+        "name": "(P64) U4 Project",
+        "parent": "folder_1792692461673",
+        "children": [],
+        "words": [
+          {
+            "word": "STEP 1 Discuss and make a weekday lunch plan for your class.",
+            "meaning": "步骤1 讨论并为你的班级制定一份工作日午餐计划。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "STEP 2 Talk about why you make this plan.",
+            "meaning": "步骤2谈谈你为什么制定这份计划。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "STEP 3 Present your work in class.-",
+            "meaning": "步骤3在课堂上展示你的作品。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "STEP 4 Think and share what you learn in this project.-",
+            "meaning": "步骤4思考并分享你在这个项目中学到的东西。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-23T14:01:52.048Z"
+      },
+      "book_1792764140165": {
+        "id": "book_1792764140165",
+        "type": "book",
+        "name": "(P65) U4 Phonics_1 Try to read",
+        "parent": "folder_1792692461673",
+        "children": [],
+        "words": [
+          {
+            "word": "The mice like rice and ice cream.",
+            "meaning": "老鼠喜欢米饭和冰淇淋。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          },
+          {
+            "word": "The girl rides a bicycle to do exercise in the city.",
+            "meaning": "这个女孩在城市里骑自行车锻炼身体。",
+            "pronunciation": "",
+            "partOfSpeech": "",
+            "examples": []
+          }
+        ],
+        "createdAt": "2026-10-23T14:02:20.165Z"
       }
     },
     "deletedWords": {
@@ -12965,7 +14743,223 @@
       "think and share what you learn in this project.": "2026-10-23T06:58:46.815Z",
       "may waits for the train on sunday.": "2026-10-23T07:00:43.784Z",
       "--which one do you like?": "2026-10-23T07:00:43.784Z",
-      "--i like the white one.": "2026-10-23T07:00:43.784Z"
+      "--i like the white one.": "2026-10-23T07:00:43.784Z",
+      "after class, we share school duties.": "2026-10-23T13:21:00.869Z",
+      "we clean the blackboard and sweep the floor.": "2026-10-23T13:21:00.869Z",
+      "we tidy up the desks and chairs, and take out the rubbish.": "2026-10-23T13:21:00.869Z",
+      "tidy up the desks and chairs": "2026-10-23T13:21:00.869Z",
+      "clean the blackboard-": "2026-10-23T13:21:00.869Z",
+      "sweep the floor-": "2026-10-23T13:21:00.869Z",
+      "take out the rubbish-": "2026-10-23T13:21:00.869Z",
+      "children, what school duties do you do?": "2026-10-23T13:21:46.220Z",
+      "i usually sweep the floor. tuesday is my duty day.": "2026-10-23T13:21:46.220Z",
+      "i usually tidy up the desks and chairs on thursdays.": "2026-10-23T13:21:46.220Z",
+      "thursday is my duty day.": "2026-10-23T13:21:46.220Z",
+      "wednesday is my duty day. i usually sweep the floor.": "2026-10-23T13:21:46.220Z",
+      "today is my duty day.": "2026-10-23T13:21:46.220Z",
+      "i will clean the blackboard and take out the rubbish after school.": "2026-10-23T13:21:46.220Z",
+      "lino, what duties will you do?": "2026-10-23T13:21:46.220Z",
+      "well ... i will clean all the windows tomorrow.": "2026-10-23T13:21:46.220Z",
+      "you are helpful, lino.": "2026-10-23T13:21:46.220Z",
+      "next friday is our school open day.": "2026-10-23T13:23:10.906Z",
+      "we will help teachers for that day.": "2026-10-23T13:23:10.906Z",
+      "some students will set the tables in the dining hall.": "2026-10-23T13:23:10.906Z",
+      "some will help in the library.": "2026-10-23T13:23:10.906Z",
+      "some will pick up litter and water plants.": "2026-10-23T13:23:10.906Z",
+      "i will help my teacher in the art room.": "2026-10-23T13:23:10.906Z",
+      "what will you do after school, jiale?": "2026-10-23T13:25:52.868Z",
+      "i will help mum with dinner.": "2026-10-23T13:25:52.868Z",
+      "how will you help?": "2026-10-23T13:25:52.868Z",
+      "i will wash the vegetables. do you often help at home?": "2026-10-23T13:25:52.868Z",
+      "yes. i often help my parents with chores after school.": "2026-10-23T13:25:52.868Z",
+      "what will you do this evening?": "2026-10-23T13:25:52.868Z",
+      "i will sweep the floor and take the rubbish out.": "2026-10-23T13:25:52.868Z",
+      "you're a good helper.": "2026-10-23T13:25:52.868Z",
+      "we both like helping at home.": "2026-10-23T13:25:52.868Z",
+      "dear mum and dad,": "2026-10-23T13:28:57.779Z",
+      "today is your special day.": "2026-10-23T13:28:57.779Z",
+      "brother and i want you to have a good rest.": "2026-10-23T13:28:57.779Z",
+      "we will do all the chores today. here is our plan.": "2026-10-23T13:28:57.779Z",
+      "first, i'll water the flowers and sweep the floor.": "2026-10-23T13:28:57.779Z",
+      "brother will clean the table and do the dishes.": "2026-10-23T13:28:57.779Z",
+      "then, we will put away all the books in the study.": "2026-10-23T13:28:57.779Z",
+      "we will cook some noodles for lunch at noon.": "2026-10-23T13:28:57.779Z",
+      "next, we will do the washing in the afternoon.": "2026-10-23T13:28:57.779Z",
+      "after that, we will take out the rubbish.": "2026-10-23T13:28:57.779Z",
+      "at last, we will walk the dog.": "2026-10-23T13:28:57.779Z",
+      "enjoy your day,": "2026-10-23T13:28:57.779Z",
+      "chenlin-": "2026-10-23T13:28:57.779Z",
+      "i enjoy helping my parents do chores. they are proud of me.": "2026-10-23T13:29:23.526Z",
+      "i enjoy cooking. i like sharing food with my friends.": "2026-10-23T13:29:23.526Z",
+      "i enjoy tidying up the house. a clean house makes me happy.": "2026-10-23T13:29:23.526Z",
+      "do you like doing chores?": "2026-10-23T13:30:04.512Z",
+      "yes. i enjoy tidying up the house.": "2026-10-23T13:30:04.512Z",
+      "a clean house makes me happy.": "2026-10-23T13:30:04.512Z",
+      "what chores do you enjoy?": "2026-10-23T13:30:04.512Z",
+      "i enjoy cooking.": "2026-10-23T13:30:04.512Z",
+      "i like sharing food with my family and friends.": "2026-10-23T13:30:04.512Z",
+      "what about you, taotao?": "2026-10-23T13:30:04.512Z",
+      "i love my cat. i enjoy taking care of him.": "2026-10-23T13:30:04.512Z",
+      "but i find some chores are boring.": "2026-10-23T13:30:04.512Z",
+      "maybe you can try different chores.": "2026-10-23T13:30:04.512Z",
+      "ok. i have a pet too.": "2026-10-23T13:30:04.512Z",
+      "i can learn to take care of him every day.": "2026-10-23T13:30:04.512Z",
+      "good idea!": "2026-10-23T13:30:04.512Z",
+      "on duty days, i do a lot of things with my classmates.": "2026-10-23T13:31:30.052Z",
+      "we sweep the floor, clean the blackboard,": "2026-10-23T13:31:30.052Z",
+      "water the plants, and tidy up the desks and chairs.": "2026-10-23T13:31:30.052Z",
+      "we help each other": "2026-10-23T13:31:30.052Z",
+      "and we are happy to have a clean classroom.": "2026-10-23T13:31:30.052Z",
+      "i also enjoy doing chores at home.": "2026-10-23T13:31:30.052Z",
+      "my parents are busy.": "2026-10-23T13:31:30.052Z",
+      "i try my best to help them.": "2026-10-23T13:31:30.052Z",
+      "i feed and walk the dog.": "2026-10-23T13:31:30.052Z",
+      "i help do the washing every day.": "2026-10-23T13:31:30.052Z",
+      "my brother and i do chores together at weekends.": "2026-10-23T13:31:30.052Z",
+      "we are happy to have a clean and tidy home.": "2026-10-23T13:31:30.052Z",
+      "let's be \"good helpers\"": "2026-10-23T13:32:08.503Z",
+      "step 1 apply to be a good helper.": "2026-10-23T13:32:08.503Z",
+      "write a chore list at school and at home.": "2026-10-23T13:32:08.503Z",
+      "write the chores you are good at and enjoy.": "2026-10-23T13:32:08.503Z",
+      "tell others how to do them.": "2026-10-23T13:32:08.503Z",
+      "write down the reasons.": "2026-10-23T13:32:08.503Z",
+      "step 2 present your work in class.": "2026-10-23T13:32:08.503Z",
+      "step 3 think and share what you learn in this project.": "2026-10-23T13:32:08.503Z",
+      "the bear enjoys tidying up things and cooking.": "2026-10-23T13:32:54.228Z",
+      "the beautiful girl is washing the dishes. she is very helpful.": "2026-10-23T13:32:54.228Z",
+      "there are many chores at home.": "2026-10-23T13:35:22.526Z",
+      "before school, i make the bed. mum makes breakfast.": "2026-10-23T13:35:22.526Z",
+      "after school, i set the table. mum and dad cook dinner.": "2026-10-23T13:35:22.526Z",
+      "after dinner, dad washes dishes. mum does the washing.": "2026-10-23T13:35:22.526Z",
+      "a chore list": "2026-10-23T13:35:22.526Z",
+      "before school": "2026-10-23T13:35:22.526Z",
+      "after dinner": "2026-10-23T13:35:22.526Z",
+      "delicious foods": "2026-10-23T13:48:10.430Z",
+      "there are so many delicious foods in the world.": "2026-10-23T13:48:10.430Z",
+      "people love to share them.": "2026-10-23T13:48:10.430Z",
+      "dim sum comes from guangdong.": "2026-10-23T13:48:10.430Z",
+      "it tastes good.": "2026-10-23T13:48:10.430Z",
+      "people like to have it with tea.": "2026-10-23T13:48:10.430Z",
+      "hot pot is from sichuan.": "2026-10-23T13:48:10.430Z",
+      "people put different foods in it.": "2026-10-23T13:48:10.430Z",
+      "many people like hot pot.": "2026-10-23T13:48:10.430Z",
+      "fish and chips come from england.": "2026-10-23T13:48:10.430Z",
+      "they taste delicious.": "2026-10-23T13:48:10.430Z",
+      "they are many people's favourite food.": "2026-10-23T13:48:10.430Z",
+      "hot dogs and hamburgers are fast foods in america.": "2026-10-23T13:48:10.430Z",
+      "they are yummy.": "2026-10-23T13:48:10.430Z",
+      "people can eat them on the go.": "2026-10-23T13:48:10.430Z",
+      "wow, there are so many foods today!": "2026-10-23T13:49:54.331Z",
+      "what would you like to have, tony?": "2026-10-23T13:49:54.331Z",
+      "i'd like to try dim sum first.": "2026-10-23T13:49:54.331Z",
+      "people usually have dim sum with tea.": "2026-10-23T13:49:54.331Z",
+      "where is it from?": "2026-10-23T13:49:54.331Z",
+      "it is from guangdong.": "2026-10-23T13:49:54.331Z",
+      "yummy!": "2026-10-23T13:49:54.331Z",
+      "i am going to share it with my friends.": "2026-10-23T13:49:54.331Z",
+      "would you like to try this hamburger, taotao?": "2026-10-23T13:49:54.331Z",
+      "wow, it smells good.": "2026-10-23T13:49:54.331Z",
+      "what's in it?": "2026-10-23T13:49:54.331Z",
+      "there are vegetables and meat between the bread.": "2026-10-23T13:49:54.331Z",
+      "is it your favourite food?": "2026-10-23T13:49:54.331Z",
+      "yes.": "2026-10-23T13:49:54.331Z",
+      "in my country, people always eat it on the go.": "2026-10-23T13:49:54.331Z",
+      "it tastes good.-": "2026-10-23T13:49:54.331Z",
+      "today we are going to have a world food party.": "2026-10-23T13:51:42.292Z",
+      "we will enjoy foods around the world.": "2026-10-23T13:51:42.292Z",
+      "in china, we have many foods.": "2026-10-23T13:51:42.292Z",
+      "they are from different places.": "2026-10-23T13:51:42.292Z",
+      "dongpo pork is a popular dish in zhejiang.": "2026-10-23T13:51:42.292Z",
+      "people in guangdong often have it with tea.": "2026-10-23T13:51:42.292Z",
+      "there are also many delicious foods in the west.": "2026-10-23T13:51:42.292Z",
+      "hamburgers and hot dogs are fast foods.": "2026-10-23T13:51:42.292Z",
+      "people often eat them on the go.": "2026-10-23T13:51:42.292Z",
+      "people also like pizza and salad.": "2026-10-23T13:51:42.292Z",
+      "it's fun to try different foods from all over the world.": "2026-10-23T13:51:42.292Z",
+      "dim sum comes from guangdong.-": "2026-10-23T13:51:42.292Z",
+      "hot pot is from sichuan.-": "2026-10-23T13:51:42.292Z",
+      "there are so many foods on the menu.": "2026-10-23T13:54:04.022Z",
+      "i want to have them all.": "2026-10-23T13:54:04.022Z",
+      "today, i would like to have dongpo pork.": "2026-10-23T13:54:04.022Z",
+      "i like meat.": "2026-10-23T13:54:04.022Z",
+      "and i'd like to have fried rice because it tastes good.": "2026-10-23T13:54:04.022Z",
+      "for drinks, let me think ...": "2026-10-23T13:54:04.022Z",
+      "i don't want cola or tea.": "2026-10-23T13:54:04.022Z",
+      "i'd like to have a glass of orange juice.": "2026-10-23T13:54:04.022Z",
+      "i am going to have a big lunch!": "2026-10-23T13:54:04.022Z",
+      "vegetables": "2026-10-23T13:54:04.022Z",
+      "fried eggs with tomatoes": "2026-10-23T13:54:04.022Z",
+      "orange juice": "2026-10-23T13:54:04.022Z",
+      "hello! would you like to order now?": "2026-10-23T13:54:58.255Z",
+      "we'd like to have vegetables, fried eggs with tomatoes,": "2026-10-23T13:54:58.255Z",
+      "chicken and fried rice.": "2026-10-23T13:54:58.255Z",
+      "anything else?": "2026-10-23T13:54:58.255Z",
+      "i'd like hot pot.": "2026-10-23T13:54:58.255Z",
+      "hot pot is delicious,": "2026-10-23T13:54:58.255Z",
+      "but maybe it's too much for you three.": "2026-10-23T13:54:58.255Z",
+      "that's right.": "2026-10-23T13:54:58.255Z",
+      "let's have it next time.": "2026-10-23T13:54:58.255Z",
+      "what would you like to drink?": "2026-10-23T13:54:58.255Z",
+      "dad and i would like two cups of tea.": "2026-10-23T13:54:58.255Z",
+      "how about you?": "2026-10-23T13:54:58.255Z",
+      "i'd like a glass of orange juice, please.": "2026-10-23T13:54:58.255Z",
+      "ok.": "2026-10-23T13:54:58.255Z",
+      "yes.-": "2026-10-23T13:54:58.255Z",
+      "\"look,": "2026-10-23T13:55:20.828Z",
+      "there is a lot of fried rice and chicken on the table.": "2026-10-23T13:55:20.828Z",
+      "we order too much.": "2026-10-23T13:55:20.828Z",
+      "what shall we do?\"": "2026-10-23T13:55:20.828Z",
+      "how to save food?": "2026-10-23T13:55:20.828Z",
+      "do you order too much?": "2026-10-23T13:55:20.828Z",
+      "do you know how to save food?": "2026-10-23T13:55:20.828Z",
+      "here are some ways.": "2026-10-23T13:55:20.828Z",
+      "think well before ordering.": "2026-10-23T13:55:20.828Z",
+      "don't order too much.": "2026-10-23T13:55:20.828Z",
+      "clear your plate.": "2026-10-23T13:55:20.828Z",
+      "put the leftovers in boxes": "2026-10-23T13:55:20.828Z",
+      "and take them back home.": "2026-10-23T13:55:20.828Z",
+      "keep the leftovers in the fridge.": "2026-10-23T13:55:20.828Z",
+      "i like meat and rice.": "2026-10-23T13:57:12.717Z",
+      "now i am eating a hamburger for lunch.": "2026-10-23T13:57:12.718Z",
+      "i have eggs and milk for breakfast.": "2026-10-23T13:57:12.718Z",
+      "but now i want to have vegetables and chicken.": "2026-10-23T13:57:12.718Z",
+      "for dinner, i will have fish and rice.": "2026-10-23T13:57:12.718Z",
+      "lino is scanning taotao's plate": "2026-10-23T13:57:52.826Z",
+      "taotao, the food on your plate looks delicious.": "2026-10-23T13:57:52.826Z",
+      "but it's not healthy.": "2026-10-23T13:57:52.826Z",
+      "oh, no! why?": "2026-10-23T13:57:52.826Z",
+      "you take too much fried food.": "2026-10-23T13:57:52.826Z",
+      "i think you should eat more vegetables.": "2026-10-23T13:57:52.826Z",
+      "lino is scanning chenlin's plate": "2026-10-23T13:57:52.826Z",
+      "chenlin, you take rice, vegetables, chicken,": "2026-10-23T13:57:52.826Z",
+      "eggs and apple.": "2026-10-23T13:57:52.826Z",
+      "they are very healthy.": "2026-10-23T13:57:52.826Z",
+      "good for you!": "2026-10-23T13:57:52.826Z",
+      "can i have a glass of orange juice?": "2026-10-23T13:57:52.826Z",
+      "yes, you can have some but not too much.": "2026-10-23T13:57:52.826Z",
+      "and you need to eat different groups of food every day.": "2026-10-23T13:57:52.826Z",
+      "thank you very much, lino.": "2026-10-23T13:57:52.826Z",
+      "i'm ms hu, the school doctor.": "2026-10-23T13:58:19.514Z",
+      "today i want to talk about food and health.": "2026-10-23T13:58:19.514Z",
+      "to be healthy, you need to": "2026-10-23T13:58:19.514Z",
+      "eat three meals on time.": "2026-10-23T13:58:19.514Z",
+      "eat different groups of food.": "2026-10-23T13:58:19.514Z",
+      "you should": "2026-10-23T13:58:19.514Z",
+      "have enough rice or bread.": "2026-10-23T13:58:19.514Z",
+      "have plenty of vegetables and fruit.": "2026-10-23T13:58:19.514Z",
+      "have enough meat and eggs.": "2026-10-23T13:58:19.514Z",
+      "drink enough water and milk.": "2026-10-23T13:58:19.514Z",
+      "you shouldn't": "2026-10-23T13:58:19.514Z",
+      "eat too much fast food.": "2026-10-23T13:58:19.514Z",
+      "have too much ice cream.": "2026-10-23T13:58:19.514Z",
+      "have too many soft drinks, like cola.": "2026-10-23T13:58:19.514Z",
+      "eating healthy makes you strong.": "2026-10-23T13:58:19.514Z",
+      "step 1 discuss and make a weekday lunch plan for your class.": "2026-10-23T14:01:53.962Z",
+      "step 2 talk about why you make this plan.": "2026-10-23T14:01:53.962Z",
+      "step 3 present your work in class.-": "2026-10-23T14:01:53.962Z",
+      "step 4 think and share what you learn in this project.-": "2026-10-23T14:01:53.962Z",
+      "the mice like rice and ice cream.": "2026-10-23T14:02:27.262Z",
+      "the girl rides a bicycle to do exercise in the city.": "2026-10-23T14:02:27.263Z"
     },
     "deletedErrors": {
       "idea": "2026-09-23T02:54:46.802Z",
